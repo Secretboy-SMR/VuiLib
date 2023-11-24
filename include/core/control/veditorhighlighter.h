@@ -3,16 +3,13 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-enum class VBuiltInHightlighterTheme
-{
+namespace Core {
+enum class VBuiltInHightlighterTheme {
 	OneDarkPro,
 	FleetDark
 };
 
-struct VHightlighterTheme
-{
+struct VHightlighterTheme {
 	Core::VColor SymbolColor;
 	Core::VColor BackgroundColor;
 	Core::VColor SelectBackgroundColor;
@@ -47,35 +44,28 @@ struct VHightlighterTheme
 	~VHightlighterTheme();
 };
 
-class VBasicHightlighter
-{
+class VBasicHightlighter {
 protected:
 	VEditor *Editor;
 
 public:
 	VBasicHightlighter();
 
-	virtual void CheckInputChar(const wchar_t &NewChar, bool *AllowEditFlag)
-	{
+	virtual void CheckInputChar(const wchar_t &NewChar, bool *AllowEditFlag) {
 	}
-	virtual void NewCharacter(const wchar_t &NewChar)
-	{
+	virtual void NewCharacter(const wchar_t &NewChar) {
 	}
-	virtual void BeforeChange(const VString &PlainText)
-	{
+	virtual void BeforeChange(const VString &PlainText) {
 	}
-	virtual void RenderColor(const VString &PlainText)
-	{
+	virtual void RenderColor(const VString &PlainText) {
 	}
-	virtual void MouseClicked(const int &TextPosition)
-	{
+	virtual void MouseClicked(const int &TextPosition) {
 	}
 
 	virtual void BindEditor(VEditor *TargetEditor);
 };
 
-class VVMLHighlighter : public VBasicHightlighter
-{
+class VVMLHighlighter : public VBasicHightlighter {
 private:
 	VHightlighterTheme HighlightTheme;
 
@@ -98,8 +88,7 @@ private:
 private:
 	VBasicTimer DoubleClickTimer;
 };
-class VVSSHighlighter : public VBasicHightlighter
-{
+class VVSSHighlighter : public VBasicHightlighter {
 private:
 	VHightlighterTheme HighlightTheme;
 

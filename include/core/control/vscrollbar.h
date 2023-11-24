@@ -7,17 +7,14 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum class VDragTowardsMode
-{
+enum class VDragTowardsMode {
 	Vertical,
 	Horizontal
 };
 
-class VCircleScrollBarButton : public VDragControlBaseOnPushButton
-{
+class VCircleScrollBarButton : public VDragControlBaseOnPushButton {
 private:
 	VRect			 DraggedRange;
 	VDragTowardsMode DragTowardsMode;
@@ -47,8 +44,7 @@ public:
 	void OnMessage(VMessage *Message) override;
 };
 
-class VSliderHorizontal : public VUIObject
-{
+class VSliderHorizontal : public VUIObject {
 private:
 	VSliderTheme *Theme;
 
@@ -98,8 +94,7 @@ public:
 public:
 	VSliderTheme *GetTheme();
 };
-class VSliderVertical : public VUIObject
-{
+class VSliderVertical : public VUIObject {
 private:
 	VSliderTheme *Theme;
 

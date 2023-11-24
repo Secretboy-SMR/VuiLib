@@ -4,54 +4,45 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 VCanvasPainter::VCanvasPainter(const int &Width, const int &Height, const VRenderHandle &RenderHandle)
-	: TargetDevice(RenderHandle.Allocator)
-{
+	: TargetDevice(RenderHandle.Allocator) {
 	RenderHandle._IRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(Width, Height), &TargetDevice.Object);
 }
-VCanvasPainter::~VCanvasPainter()
-{
+VCanvasPainter::~VCanvasPainter() {
 	TargetDevice.Object->Release();
 	TargetDevice.Object = NULL;
 }
-void VCanvasPainter::Clear(const VColor &Color)
-{
+void VCanvasPainter::Clear(const VColor &Color) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->Clear(Color.GetDxObject());
 #endif
 }
-void VCanvasPainter::BeginDraw()
-{
+void VCanvasPainter::BeginDraw() {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->BeginDraw();
 #endif
 }
-void VCanvasPainter::EndDraw()
-{
+void VCanvasPainter::EndDraw() {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->EndDraw();
 #endif
 }
-void VCanvasPainter::DrawLine(const VPoint &StartPoint, const VPoint &EndPoint, VPenBrush *PenBrush)
-{
+void VCanvasPainter::DrawLine(const VPoint &StartPoint, const VPoint &EndPoint, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawLine(D2D1::Point2F(static_cast<FLOAT>(StartPoint.X), static_cast<FLOAT>(StartPoint.Y)),
 						   D2D1::Point2F(static_cast<FLOAT>(EndPoint.X), static_cast<FLOAT>(EndPoint.Y)),
 						   PenBrush->GetDxBrush(), PenBrush->GetThickness(), PenBrush->GetStrokeStyle());
 #endif
 }
-void VCanvasPainter::DrawRectangle(const VRect &Rectangle, VPenBrush *PenBrush)
-{
+void VCanvasPainter::DrawRectangle(const VRect &Rectangle, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawRectangle(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
 											static_cast<FLOAT>(Rectangle.Right), static_cast<FLOAT>(Rectangle.Bottom)),
 								PenBrush->GetDxBrush(), PenBrush->GetThickness(), PenBrush->GetStrokeStyle());
 #endif
 }
-void VCanvasPainter::DrawEllipse(const VRect &EllipseRectangle, VPenBrush *PenBrush)
-{
+void VCanvasPainter::DrawEllipse(const VRect &EllipseRectangle, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	int RadiusX = EllipseRectangle.GetWidth() / 2;
 	int RadiusY = EllipseRectangle.GetHeight() / 2;
@@ -63,8 +54,7 @@ void VCanvasPainter::DrawEllipse(const VRect &EllipseRectangle, VPenBrush *PenBr
 							  PenBrush->GetDxBrush(), PenBrush->GetThickness(), PenBrush->GetStrokeStyle());
 #endif
 }
-void VCanvasPainter::DrawRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VPenBrush *PenBrush)
-{
+void VCanvasPainter::DrawRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawRoundedRectangle(
 		D2D1::RoundedRect(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
@@ -74,16 +64,14 @@ void VCanvasPainter::DrawRoundedRectangle(const VRect &Rectangle, const VPoint &
 #endif
 }
 
-void VCanvasPainter::SolidRectangle(const VRect &Rectangle, VSolidBrush *PenBrush)
-{
+void VCanvasPainter::SolidRectangle(const VRect &Rectangle, VSolidBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRectangle(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
 											static_cast<FLOAT>(Rectangle.Right), static_cast<FLOAT>(Rectangle.Bottom)),
 								PenBrush->GetDxBrush());
 #endif
 }
-void VCanvasPainter::SolidEllipse(const VRect &EllipseRectangle, VSolidBrush *PenBrush)
-{
+void VCanvasPainter::SolidEllipse(const VRect &EllipseRectangle, VSolidBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	int RadiusX = EllipseRectangle.GetWidth() / 2;
 	int RadiusY = EllipseRectangle.GetHeight() / 2;
@@ -95,8 +83,7 @@ void VCanvasPainter::SolidEllipse(const VRect &EllipseRectangle, VSolidBrush *Pe
 							  PenBrush->GetDxBrush());
 #endif
 }
-void VCanvasPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VSolidBrush *PenBrush)
-{
+void VCanvasPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VSolidBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRoundedRectangle(
 		D2D1::RoundedRect(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
@@ -106,16 +93,14 @@ void VCanvasPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint 
 #endif
 }
 
-void VCanvasPainter::SolidRectangle(const VRect &Rectangle, VBitmapBrush *PenBrush)
-{
+void VCanvasPainter::SolidRectangle(const VRect &Rectangle, VBitmapBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRectangle(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
 											static_cast<FLOAT>(Rectangle.Right), static_cast<FLOAT>(Rectangle.Bottom)),
 								PenBrush->GetDxBrush());
 #endif
 }
-void VCanvasPainter::SolidEllipse(const VRect &EllipseRectangle, VBitmapBrush *PenBrush)
-{
+void VCanvasPainter::SolidEllipse(const VRect &EllipseRectangle, VBitmapBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	int RadiusX = EllipseRectangle.GetWidth() / 2;
 	int RadiusY = EllipseRectangle.GetHeight() / 2;
@@ -127,8 +112,7 @@ void VCanvasPainter::SolidEllipse(const VRect &EllipseRectangle, VBitmapBrush *P
 							  PenBrush->GetDxBrush());
 #endif
 }
-void VCanvasPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VBitmapBrush *PenBrush)
-{
+void VCanvasPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VBitmapBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRoundedRectangle(
 		D2D1::RoundedRect(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
@@ -138,23 +122,20 @@ void VCanvasPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint 
 #endif
 }
 
-void VCanvasPainter::FillRectangle(const VRect &Rectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush)
-{
+void VCanvasPainter::FillRectangle(const VRect &Rectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	SolidRectangle(Rectangle, FillBrush);
 	DrawRectangle(Rectangle, BorderPen);
 #endif
 }
-void VCanvasPainter::FillEllipse(const VRect &EllipseRectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush)
-{
+void VCanvasPainter::FillEllipse(const VRect &EllipseRectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	SolidEllipse(EllipseRectangle, FillBrush);
 	DrawEllipse(EllipseRectangle, BorderPen);
 #endif
 }
 void VCanvasPainter::FillRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VPenBrush *BorderPen,
-										  VSolidBrush *FillBrush)
-{
+										  VSolidBrush *FillBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	SolidRoundedRectangle(Rectangle, Radius, FillBrush);
 
@@ -162,8 +143,7 @@ void VCanvasPainter::FillRoundedRectangle(const VRect &Rectangle, const VPoint &
 #endif
 }
 void VCanvasPainter::DrawString(const VString &String, const VRect &StringRectangle, VFont *TargetFont,
-								VSolidBrush *TextBrush)
-{
+								VSolidBrush *TextBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	D2D1_RECT_F D2DRECT = {static_cast<FLOAT>(StringRectangle.Left), static_cast<FLOAT>(StringRectangle.Top),
 						   static_cast<FLOAT>(StringRectangle.Right), static_cast<FLOAT>(StringRectangle.Bottom)};
@@ -178,8 +158,7 @@ void VCanvasPainter::DrawString(const VString &String, const VRect &StringRectan
 #endif
 }
 void VCanvasPainter::DrawImage(const VRect &TargetRectangle, VImage *SourceImage, const VRect &SourceRectangle,
-							   const float &ImageOpacity)
-{
+							   const float &ImageOpacity) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawBitmap(
 		SourceImage->GetDirectXObject(),
@@ -189,8 +168,7 @@ void VCanvasPainter::DrawImage(const VRect &TargetRectangle, VImage *SourceImage
 #endif
 }
 void VCanvasPainter::DrawCanvas(const VRect &TargetRectangle, VCanvasPainter *SourceImage, const VRect &SourceRectangle,
-								const float &ImageOpacity)
-{
+								const float &ImageOpacity) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	ID2D1Bitmap *DirectXObject;
 
@@ -207,8 +185,7 @@ void VCanvasPainter::DrawCanvas(const VRect &TargetRectangle, VCanvasPainter *So
 #endif
 }
 
-VPainter::VPainter(const VRenderHandle &RenderHandle)
-{
+VPainter::VPainter(const VRenderHandle &RenderHandle) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	VLIB_CHECK_REPORT(RenderHandle._IRenderTarget == nullptr, L"Invalid render handle was specified");
 	RenderHandle._IRenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
@@ -216,48 +193,41 @@ VPainter::VPainter(const VRenderHandle &RenderHandle)
 	TargetDevice = RenderHandle._IRenderTarget;
 #endif
 }
-VPainter::~VPainter()
-{
+VPainter::~VPainter() {
 	TargetDevice->Release();
 	TargetDevice = NULL;
 }
-void VPainter::Clear(const VColor &Color)
-{
+void VPainter::Clear(const VColor &Color) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->Clear(Color.GetDxObject());
 #endif
 }
-void VPainter::BeginDraw()
-{
+void VPainter::BeginDraw() {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->BeginDraw();
 #endif
 }
-void VPainter::EndDraw()
-{
+void VPainter::EndDraw() {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->EndDraw();
 #endif
 }
 
-void VPainter::DrawLine(const VPoint &StartPoint, const VPoint &EndPoint, VPenBrush *PenBrush)
-{
+void VPainter::DrawLine(const VPoint &StartPoint, const VPoint &EndPoint, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawLine(D2D1::Point2F(static_cast<FLOAT>(StartPoint.X), static_cast<FLOAT>(StartPoint.Y)),
 						   D2D1::Point2F(static_cast<FLOAT>(EndPoint.X), static_cast<FLOAT>(EndPoint.Y)),
 						   PenBrush->GetDxBrush(), PenBrush->GetThickness(), PenBrush->GetStrokeStyle());
 #endif
 }
-void VPainter::DrawRectangle(const VRect &Rectangle, VPenBrush *PenBrush)
-{
+void VPainter::DrawRectangle(const VRect &Rectangle, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawRectangle(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
 											static_cast<FLOAT>(Rectangle.Right), static_cast<FLOAT>(Rectangle.Bottom)),
 								PenBrush->GetDxBrush(), PenBrush->GetThickness(), PenBrush->GetStrokeStyle());
 #endif
 }
-void VPainter::DrawEllipse(const VRect &EllipseRectangle, VPenBrush *PenBrush)
-{
+void VPainter::DrawEllipse(const VRect &EllipseRectangle, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	int RadiusX = EllipseRectangle.GetWidth() / 2;
 	int RadiusY = EllipseRectangle.GetHeight() / 2;
@@ -269,8 +239,7 @@ void VPainter::DrawEllipse(const VRect &EllipseRectangle, VPenBrush *PenBrush)
 							  PenBrush->GetDxBrush(), PenBrush->GetThickness(), PenBrush->GetStrokeStyle());
 #endif
 }
-void VPainter::DrawRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VPenBrush *PenBrush)
-{
+void VPainter::DrawRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VPenBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawRoundedRectangle(
 		D2D1::RoundedRect(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
@@ -280,16 +249,14 @@ void VPainter::DrawRoundedRectangle(const VRect &Rectangle, const VPoint &Radius
 #endif
 }
 
-void VPainter::SolidRectangle(const VRect &Rectangle, VSolidBrush *PenBrush)
-{
+void VPainter::SolidRectangle(const VRect &Rectangle, VSolidBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRectangle(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
 											static_cast<FLOAT>(Rectangle.Right), static_cast<FLOAT>(Rectangle.Bottom)),
 								PenBrush->GetDxBrush());
 #endif
 }
-void VPainter::SolidEllipse(const VRect &EllipseRectangle, VSolidBrush *PenBrush)
-{
+void VPainter::SolidEllipse(const VRect &EllipseRectangle, VSolidBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	int RadiusX = EllipseRectangle.GetWidth() / 2;
 	int RadiusY = EllipseRectangle.GetHeight() / 2;
@@ -301,8 +268,7 @@ void VPainter::SolidEllipse(const VRect &EllipseRectangle, VSolidBrush *PenBrush
 							  PenBrush->GetDxBrush());
 #endif
 }
-void VPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VSolidBrush *PenBrush)
-{
+void VPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VSolidBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRoundedRectangle(
 		D2D1::RoundedRect(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
@@ -312,16 +278,14 @@ void VPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radiu
 #endif
 }
 
-void VPainter::SolidRectangle(const VRect &Rectangle, VBitmapBrush *PenBrush)
-{
+void VPainter::SolidRectangle(const VRect &Rectangle, VBitmapBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRectangle(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
 											static_cast<FLOAT>(Rectangle.Right), static_cast<FLOAT>(Rectangle.Bottom)),
 								PenBrush->GetDxBrush());
 #endif
 }
-void VPainter::SolidEllipse(const VRect &EllipseRectangle, VBitmapBrush *PenBrush)
-{
+void VPainter::SolidEllipse(const VRect &EllipseRectangle, VBitmapBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	int RadiusX = EllipseRectangle.GetWidth() / 2;
 	int RadiusY = EllipseRectangle.GetHeight() / 2;
@@ -333,8 +297,7 @@ void VPainter::SolidEllipse(const VRect &EllipseRectangle, VBitmapBrush *PenBrus
 							  PenBrush->GetDxBrush());
 #endif
 }
-void VPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VBitmapBrush *PenBrush)
-{
+void VPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VBitmapBrush *PenBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->FillRoundedRectangle(
 		D2D1::RoundedRect(D2D1::RectF(static_cast<FLOAT>(Rectangle.Left), static_cast<FLOAT>(Rectangle.Top),
@@ -344,30 +307,27 @@ void VPainter::SolidRoundedRectangle(const VRect &Rectangle, const VPoint &Radiu
 #endif
 }
 
-void VPainter::FillRectangle(const VRect &Rectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush)
-{
+void VPainter::FillRectangle(const VRect &Rectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	SolidRectangle(Rectangle, FillBrush);
 	DrawEllipse(Rectangle, BorderPen);
 #endif
 }
-void VPainter::FillEllipse(const VRect &EllipseRectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush)
-{
+void VPainter::FillEllipse(const VRect &EllipseRectangle, VPenBrush *BorderPen, VSolidBrush *FillBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	SolidEllipse(EllipseRectangle, FillBrush);
 	DrawEllipse(EllipseRectangle, BorderPen);
 #endif
 }
 void VPainter::FillRoundedRectangle(const VRect &Rectangle, const VPoint &Radius, VPenBrush *BorderPen,
-									VSolidBrush *FillBrush)
-{
+									VSolidBrush *FillBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	SolidRoundedRectangle(Rectangle, Radius, FillBrush);
 	DrawRoundedRectangle(Rectangle, Radius, BorderPen);
 #endif
 }
-void VPainter::DrawString(const VString &String, const VRect &StringRectangle, VFont *TargetFont, VPenBrush *TextBrush)
-{
+void VPainter::DrawString(const VString &String, const VRect &StringRectangle, VFont *TargetFont,
+						  VPenBrush *TextBrush) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	D2D1_RECT_F D2DRECT = {static_cast<FLOAT>(StringRectangle.Left), static_cast<FLOAT>(StringRectangle.Top),
 						   static_cast<FLOAT>(StringRectangle.Right), static_cast<FLOAT>(StringRectangle.Bottom)};
@@ -381,8 +341,7 @@ void VPainter::DrawString(const VString &String, const VRect &StringRectangle, V
 #endif
 }
 void VPainter::DrawImage(const VRect &TargetRectangle, VImage *SourceImage, const VRect &SourceRectangle,
-						 const float &ImageOpacity)
-{
+						 const float &ImageOpacity) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	TargetDevice->DrawBitmap(
 		SourceImage->GetDirectXObject(),
@@ -392,8 +351,7 @@ void VPainter::DrawImage(const VRect &TargetRectangle, VImage *SourceImage, cons
 #endif
 }
 void VPainter::DrawCanvas(const VRect &TargetRectangle, VCanvasPainter *SourceImage, const VRect &SourceRectangle,
-						  const float &ImageOpacity)
-{
+						  const float &ImageOpacity) {
 #ifndef _VLIB_CANVAS_DEBUING_S
 	ID2D1Bitmap *DirectXObject;
 

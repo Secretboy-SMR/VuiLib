@@ -2,62 +2,49 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VImageLabel::VImageLabel(VUIObject *Parent) : VUIObject(Parent)
-{
+VImageLabel::VImageLabel(VUIObject *Parent) : VUIObject(Parent) {
 	Theme		 = new VImageLabelTheme;
 	Theme->Image = nullptr;
 }
-VImageLabel::VImageLabel(const int &Width, const int &Height, Core::VUIObject *Parent) : VUIObject(Parent)
-{
+VImageLabel::VImageLabel(const int &Width, const int &Height, Core::VUIObject *Parent) : VUIObject(Parent) {
 	Theme		 = new VImageLabelTheme;
 	Theme->Image = nullptr;
 
 	Resize(Width, Height);
 }
-VImageLabel::VImageLabel(const int &Width, const int &Height, VImage *Image, VUIObject *Parent) : VUIObject(Parent)
-{
+VImageLabel::VImageLabel(const int &Width, const int &Height, VImage *Image, VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VImageLabelTheme;
 
-	if (Image != nullptr)
-	{
+	if (Image != nullptr) {
 		Theme->Image = new VImage(*Image);
-	}
-	else
-	{
+	} else {
 		Theme->Image = nullptr;
 	}
 
 	Resize(Width, Height);
 }
 VImageLabel::VImageLabel(const int &Width, const int &Height, const VString &ImagePath, VUIObject *Parent)
-	: VUIObject(Parent)
-{
+	: VUIObject(Parent) {
 	Theme		 = new VImageLabelTheme;
 	Theme->Image = new VImage(ImagePath.CStyleString(), CallWidgetGetStaticRenderHandle());
 
 	Resize(Width, Height);
 }
-VImageLabel::~VImageLabel()
-{
+VImageLabel::~VImageLabel() {
 	delete Theme;
 }
 
-VImageLabelTheme *VImageLabel::GetTheme()
-{
+VImageLabelTheme *VImageLabel::GetTheme() {
 	return Theme;
 }
 
-void VImageLabel::OnPaint(VCanvasPainter *Painter)
-{
+void VImageLabel::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
-	if (Theme->Image)
-	{
-		if (Theme->BorderRadius.X == Theme->BorderRadius.Y && Theme->BorderRadius.X == 0)
-		{
+	if (Theme->Image) {
+		if (Theme->BorderRadius.X == Theme->BorderRadius.Y && Theme->BorderRadius.X == 0) {
 			Painter->DrawImage(
 				VRect{
 					0,
@@ -73,10 +60,8 @@ void VImageLabel::OnPaint(VCanvasPainter *Painter)
 					static_cast<int>(Theme->Image->GetDirectXObject()->GetSize().height),
 				},
 				1.f);
-		}
-		else if (GetRegion().GetWidth() == Theme->Image->GetDirectXObject()->GetSize().width &&
-				 GetRegion().GetHeight() == Theme->Image->GetDirectXObject()->GetSize().height)
-		{
+		} else if (GetRegion().GetWidth() == Theme->Image->GetDirectXObject()->GetSize().width &&
+				   GetRegion().GetHeight() == Theme->Image->GetDirectXObject()->GetSize().height) {
 			VBitmapBrush BitmapBrush(Theme->Image, CallWidgetGetRenderHandle());
 
 			Painter->SolidRoundedRectangle(
@@ -87,9 +72,7 @@ void VImageLabel::OnPaint(VCanvasPainter *Painter)
 					static_cast<int>(GetRegion().GetHeight()),
 				},
 				Theme->BorderRadius, &BitmapBrush);
-		}
-		else
-		{
+		} else {
 			VCanvasPainter ScaleCanvas(GetRegion().GetWidth(), GetRegion().GetHeight(), CallWidgetGetRenderHandle());
 			ScaleCanvas.BeginDraw();
 			ScaleCanvas.DrawImage(
@@ -130,48 +113,34 @@ void VImageLabel::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-void VImageLabel::ResizeByImage()
-{
-	if (Theme->Image != nullptr)
-	{
+void VImageLabel::ResizeByImage() {
+	if (Theme->Image != nullptr) {
 		Resize(Theme->Image->GetWidth(), Theme->Image->GetHeight());
 	}
 }
-void VImageLabel::SetBorderRadius(const VPoint &Radius)
-{
+void VImageLabel::SetBorderRadius(const VPoint &Radius) {
 	Theme->BorderRadius = Radius;
 
 	Update();
 }
-VImage *VImageLabel::GetImage()
-{
+VImage *VImageLabel::GetImage() {
 	return Theme->Image;
 }
-void VImageLabel::SetLockStatus(const bool &Status)
-{
+void VImageLabel::SetLockStatus(const bool &Status) {
 	LockHeight = Status;
 }
-void VImageLabel::Resize(const int &Width, const int &Height)
-{
-	if (LockHeight)
-	{
+void VImageLabel::Resize(const int &Width, const int &Height) {
+	if (LockHeight) {
 		VUIObject::Resize(Height, Height);
-	}
-	else
-	{
+	} else {
 		VUIObject::Resize(Width, Height);
 	}
 }
-void VImageLabel::SetImage(VImage *Image)
-{
-	if (Image != nullptr)
-	{
-		if (Theme->Image != nullptr)
-		{
+void VImageLabel::SetImage(VImage *Image) {
+	if (Image != nullptr) {
+		if (Theme->Image != nullptr) {
 			*(Theme->Image) = *Image;
-		}
-		else
-		{
+		} else {
 			Theme->Image = new VImage(*Image);
 		}
 	}

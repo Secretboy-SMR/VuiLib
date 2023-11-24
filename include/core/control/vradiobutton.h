@@ -9,11 +9,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VRadioButton : public VAbstractButton
-{
+class VRadioButton : public VAbstractButton {
 private:
 	VRadioButtonTheme *Theme;
 

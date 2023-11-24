@@ -16,8 +16,7 @@
 #include "seal.lexical.token.h"
 #include <string>
 
-namespace VKits
-{
+namespace VKits {
 ///////////////////////////////////////////////////////////////
 //   _lexical_info[typedef with seal_lexical_type_info] :
 //          @description :   Token splitter information
@@ -31,8 +30,7 @@ namespace VKits
 //        lexical_token [var]
 //
 //        _lexical_token [struct]
-typedef struct _lexical_info
-{
+typedef struct _lexical_info {
 	// lexical traverses the subscripts of the source string
 	se_int lexical_index = 0;
 	// read the line relative to the code
@@ -49,8 +47,7 @@ typedef struct _lexical_info
 	//          @birth       :   2021/2.15
 	//          @operator    :   Margoo
 	//
-	typedef struct _lexical_token_type
-	{
+	typedef struct _lexical_token_type {
 		// Temporary token
 		_lexical_token cache_token = NO_STATUS_TOKEN;
 		// Token's string
@@ -68,8 +65,7 @@ typedef struct _lexical_info
 //          @description :   Token split core
 //          @birth       :   2021/2.15
 //          @operator    :   Margoo
-typedef class _lexical_core
-{
+typedef class _lexical_core {
 private:
 	// Define info class
 	seal_lexical_type_info core_info;

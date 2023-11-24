@@ -3,8 +3,7 @@
 #define MAX_POINT_AMOUNT 5000
 #define PI				 3.1415926565
 
-struct Point3d
-{
+struct Point3d {
 	double X;
 	double Y;
 	double Z;
@@ -19,13 +18,11 @@ int					 Fps		 = 0;
 std::vector<Point3d> PointSets;
 bool				 InAnimation = true;
 
-void InitPoint()
-{
+void InitPoint() {
 	PointSets.clear();
 
 	double rxy, a;
-	for (int Count = 0; Count < PointAmount; ++Count)
-	{
+	for (int Count = 0; Count < PointAmount; ++Count) {
 		Point3d PointTemp;
 
 		PointTemp.Z = 2.0 * rand() / RAND_MAX - 1;
@@ -40,36 +37,31 @@ void InitPoint()
 	}
 }
 
-void PointSetted(const double &Value)
-{
+void PointSetted(const double &Value) {
 	PointAmount = MAX_POINT_AMOUNT * Value;
 	PointInfoLabel->SetPlainText(L"Point amount : " + std::to_wstring(PointAmount));
 	InitPoint();
 }
 
-void RotateX(Point3d &Point, double Angle)
-{
+void RotateX(Point3d &Point, double Angle) {
 	double Y = Point.Y;
 	Point.Y	 = Point.Y * cos(Angle) + Point.Z * sin(-Angle);
 	Point.Z	 = Y * sin(Angle) + Point.Z * cos(Angle);
 }
 
-void RotateY(Point3d &Point, double Angle)
-{
+void RotateY(Point3d &Point, double Angle) {
 	double X = Point.X;
 	Point.X	 = Point.X * cos(Angle) + Point.Z * sin(-Angle);
 	Point.Z	 = X * sin(Angle) + Point.Z * cos(Angle);
 }
 
-void RotateZ(Point3d &Point, double Angle)
-{
+void RotateZ(Point3d &Point, double Angle) {
 	double X = Point.X;
 	Point.X	 = Point.X * cos(Angle) + Point.Y * sin(-Angle);
 	Point.Y	 = X * sin(Angle) + Point.Y * cos(Angle);
 }
 
-POINT Projection(Point3d Point)
-{
+POINT Projection(Point3d Point) {
 	POINT Point2D;
 
 	Point2D.x = (int)(Point.X * (CameraZ / (CameraZ - Point.Z)) * 200 + 0.5) + 320;
@@ -78,17 +70,14 @@ POINT Projection(Point3d Point)
 	return Point2D;
 }
 
-void CanvasShow(Core::VCanvasPainter *Painter, const Core::VRenderHandle &RenderHandle)
-{
+void CanvasShow(Core::VCanvasPainter *Painter, const Core::VRenderHandle &RenderHandle) {
 	++Fps;
 
 	Painter->BeginDraw();
 	Painter->Clear(Core::VColor::White);
 
-	for (auto &Point : PointSets)
-	{
-		if (InAnimation)
-		{
+	for (auto &Point : PointSets) {
+		if (InAnimation) {
 			RotateX(Point, PI / 800);
 			RotateY(Point, PI / 600);
 			RotateZ(Point, PI / 400);
@@ -106,37 +95,30 @@ void CanvasShow(Core::VCanvasPainter *Painter, const Core::VRenderHandle &Render
 	Painter->EndDraw();
 }
 
-void ResetAllPoints()
-{
+void ResetAllPoints() {
 	InitPoint();
 }
 
-void AnimationStatusSwitch()
-{
+void AnimationStatusSwitch() {
 	InAnimation = !InAnimation;
 
-	if (InAnimation)
-	{
+	if (InAnimation) {
 		AnimationButton->SetPlainText(L"Stop Animation");
-	}
-	else
-	{
+	} else {
 		AnimationButton->SetPlainText(L"Play Animation");
 	}
 }
 
 Core::VSmartTimer *FpsTimer;
 
-void FpsOnFlush()
-{
+void FpsOnFlush() {
 	CanvasInfoLabel->SetPlainText(L"Canvas : 721x706 \nFps: " + std::to_wstring(Fps));
 	FpsTimer->Start(1000);
 
 	Fps = 0;
 }
 
-int main()
-{
+int main() {
 	Core::VApplication Application;
 	VML::VMLMainWindow MainWindow(&Application);
 

@@ -5,16 +5,13 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VLineEditor::VLineEditor(VUIObject *Parent) : VAbstractButton(Parent)
-{
+namespace Core {
+VLineEditor::VLineEditor(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VTextEditorTheme(*(static_cast<VTextEditorTheme *>(GetTargetTheme(VUIThemeType::VTextEditor))));
 
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 }
-VLineEditor::VLineEditor(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VLineEditor::VLineEditor(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VTextEditorTheme(*(static_cast<VTextEditorTheme *>(GetTargetTheme(VUIThemeType::VTextEditor))));
 
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
@@ -22,8 +19,7 @@ VLineEditor::VLineEditor(const int &Width, const int &Height, VUIObject *Parent)
 	Resize(Width, Height);
 }
 VLineEditor::VLineEditor(const int &Width, const int &Height, VString PlainText, VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VTextEditorTheme(*(static_cast<VTextEditorTheme *>(GetTargetTheme(VUIThemeType::VTextEditor))));
 
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
@@ -33,23 +29,18 @@ VLineEditor::VLineEditor(const int &Width, const int &Height, VString PlainText,
 	Resize(Width, Height);
 }
 
-void VLineEditor::Move(const int &X, const int &Y)
-{
+void VLineEditor::Move(const int &X, const int &Y) {
 	VUIObject::Move(X, Y);
 
-	if (InTyping)
-	{
+	if (InTyping) {
 		CallWidgetSetIME(GetOriginX() + CursorGraphicsX + Theme->LocalTheme.BorderThickness + OffsetX,
 						 GetOriginY() + GetHeight() / 2 - Theme->LabelFont->GetTextSize() / 2);
 	}
 }
 
-void VLineEditor::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VLineEditor::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -72,14 +63,11 @@ void VLineEditor::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 
-	if (CursorTimer.End() && InTyping)
-	{
+	if (CursorTimer.End() && InTyping) {
 		ShowCursor = !ShowCursor;
 
 		CursorTimer.Start(600);
@@ -88,10 +76,8 @@ void VLineEditor::CheckFrame()
 	}
 }
 
-void VLineEditor::OnMessage(VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::KillFocusMessage)
-	{
+void VLineEditor::OnMessage(VMessage *Message) {
+	if (Message->GetType() == VMessageType::KillFocusMessage) {
 		CallWidgetUnlockFocusID();
 
 		InTyping = false;
@@ -100,37 +86,29 @@ void VLineEditor::OnMessage(VMessage *Message)
 		return;
 	}
 
-	if (Message->GetType() == VMessageType::MouseMoveMessage)
-	{
+	if (Message->GetType() == VMessageType::MouseMoveMessage) {
 		VMouseMoveMessage *MouseMoveMessage = static_cast<VMouseMoveMessage *>(Message);
 
-		if (MouseMoveMessage->MousePosition.InsideRectangle(GetRegion()))
-		{
+		if (MouseMoveMessage->MousePosition.InsideRectangle(GetRegion())) {
 			HCURSOR ArrowCursor = LoadCursor(NULL, IDC_IBEAM);
 			SetClassLongPtr(CallWidgetGetHWND(), GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(ArrowCursor));
 
 			InCursorStyle = true;
-		}
-		else if (InCursorStyle)
-		{
+		} else if (InCursorStyle) {
 			InCursorStyle = false;
 
 			HCURSOR ArrowCursor = LoadCursor(NULL, IDC_ARROW);
 			SetClassLongPtr(CallWidgetGetHWND(), GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(ArrowCursor));
 		}
 	}
-	if (Message->GetType() == VMessageType::MouseClickedMessage)
-	{
+	if (Message->GetType() == VMessageType::MouseClickedMessage) {
 		VMouseClickedMessage *MouseMessage = static_cast<VMouseClickedMessage *>(Message);
 
-		if (!MouseMessage->MousePosition.InsideRectangle(GetRegion()) && InTyping)
-		{
-			if (ShiftOnHold && InSelectMode)
-			{
+		if (!MouseMessage->MousePosition.InsideRectangle(GetRegion()) && InTyping) {
+			if (ShiftOnHold && InSelectMode) {
 				return;
 			}
-			if (!ShiftOnHold && InSelectMode)
-			{
+			if (!ShiftOnHold && InSelectMode) {
 				InSelectMode = false;
 
 				TextSelectRange.startPosition = 0;
@@ -153,10 +131,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 			return;
 		}
 		if (MouseMessage->MousePosition.InsideRectangle(GetRegion()) &&
-			MouseMessage->ClickedMethod == VMouseClickedFlag::Down && MouseMessage->ClickedKey == VMouseKeyFlag::Left)
-		{
-			if (!ShiftOnHold && InSelectMode)
-			{
+			MouseMessage->ClickedMethod == VMouseClickedFlag::Down && MouseMessage->ClickedKey == VMouseKeyFlag::Left) {
+			if (!ShiftOnHold && InSelectMode) {
 				InSelectMode = false;
 
 				TextSelectRange.startPosition = 0;
@@ -181,8 +157,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 			TextLayout->HitTestPoint(static_cast<FLOAT>(MouseRelativeX), static_cast<FLOAT>(MouseRelativeY),
 									 &IsTrailingHit, &IsInside, &HitTestMetrics);
 
-			if (CursorPosition != 0)
-			{
+			if (CursorPosition != 0) {
 				CursorPosition	= HitTestMetrics.textPosition;
 				CursorGraphicsX = HitTestMetrics.width + HitTestMetrics.left;
 
@@ -194,9 +169,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 						? 0
 						: static_cast<int>(GetWidth() - TextMetrics.widthIncludingTrailingWhitespace - TextMetrics.top);
 				WidthOffset = 0;
-			}
-			else
-			{
+			} else {
 				CursorPosition = -1;
 				OffsetX		   = 0;
 
@@ -219,14 +192,11 @@ void VLineEditor::OnMessage(VMessage *Message)
 			Update();
 		}
 	}
-	if (Message->GetType() == VMessageType::KeyClickedMessage && InTyping)
-	{
+	if (Message->GetType() == VMessageType::KeyClickedMessage && InTyping) {
 		VKeyClickedMessage *KeyMessage = static_cast<VKeyClickedMessage *>(Message);
 
-		if (KeyMessage->KeyVKCode == VK_LEFT && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (!ShiftOnHold && InSelectMode)
-			{
+		if (KeyMessage->KeyVKCode == VK_LEFT && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (!ShiftOnHold && InSelectMode) {
 				InSelectMode = false;
 
 				Update();
@@ -236,8 +206,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 				TextSelectRange.startPosition = 0;
 				TextSelectRange.length		  = 0;
 
-				if (CursorPosition != -1)
-				{
+				if (CursorPosition != -1) {
 					IDWriteTextLayout *TextLayout;
 
 					VLIB_CHECK_REPORT(VDirectXWriteFactory.GetInstance()->CreateTextLayout(
@@ -254,17 +223,14 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 					CursorGraphicsX = HitTestMetrics.width + HitTestMetrics.left;
 
-					if (CursorGraphicsX > GetWidth())
-					{
+					if (CursorGraphicsX > GetWidth()) {
 						OffsetX = (HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top) < GetWidth()
 									  ? 0
 									  : static_cast<int>(GetWidth() - (HitTestMetrics.width + HitTestMetrics.left +
 																	   HitTestMetrics.top));
 
 						WidthOffset = HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top;
-					}
-					else
-					{
+					} else {
 						DWRITE_TEXT_METRICS
 						StringMetrics;
 
@@ -275,11 +241,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 					}
 
 					VDXObjectSafeFree(&TextLayout);
-				}
-				else
-				{
-					if (!ShiftOnHold && InSelectMode)
-					{
+				} else {
+					if (!ShiftOnHold && InSelectMode) {
 						InSelectMode = false;
 
 						TextSelectRange.startPosition = 0;
@@ -318,15 +281,12 @@ void VLineEditor::OnMessage(VMessage *Message)
 				return;
 			}
 
-			if (SelectedUsedKey == VLineEditorUsedKey::None)
-			{
+			if (SelectedUsedKey == VLineEditorUsedKey::None) {
 				SelectedUsedKey = VLineEditorUsedKey::Left;
 			}
 
-			if (CursorPosition - 1 >= -1)
-			{
-				if (CursorPosition - 1 == -1)
-				{
+			if (CursorPosition - 1 >= -1) {
+				if (CursorPosition - 1 == -1) {
 					CursorPosition = -1;
 					OffsetX		   = 0;
 
@@ -353,15 +313,12 @@ void VLineEditor::OnMessage(VMessage *Message)
 									 GetOriginY() + GetHeight() / 2 - Theme->LabelFont->GetTextSize() / 2);
 
 					Update();
-				}
-				else
-				{
+				} else {
 					ShowCursor = true;
 
 					Update();
 
-					if (CursorPosition == InputStringCache.size())
-					{
+					if (CursorPosition == InputStringCache.size()) {
 						--CursorPosition;
 					}
 
@@ -383,17 +340,14 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 					CursorGraphicsX = HitTestMetrics.width + HitTestMetrics.left;
 
-					if (CursorGraphicsX > GetWidth())
-					{
+					if (CursorGraphicsX > GetWidth()) {
 						OffsetX = (HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top) < GetWidth()
 									  ? 0
 									  : static_cast<int>(GetWidth() - (HitTestMetrics.width + HitTestMetrics.left +
 																	   HitTestMetrics.top));
 
 						WidthOffset = HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top;
-					}
-					else
-					{
+					} else {
 						DWRITE_TEXT_METRICS
 						StringMetrics;
 
@@ -409,31 +363,24 @@ void VLineEditor::OnMessage(VMessage *Message)
 									 GetOriginY() + GetHeight() / 2 - Theme->LabelFont->GetTextSize() / 2);
 				}
 
-				if (InSelectMode)
-				{
-					if (SelectedUsedKey == VLineEditorUsedKey::Left || SelectedUsedKey == VLineEditorUsedKey::Home)
-					{
+				if (InSelectMode) {
+					if (SelectedUsedKey == VLineEditorUsedKey::Left || SelectedUsedKey == VLineEditorUsedKey::Home) {
 						TextSelectRange.startPosition = CursorPosition + 1;
 						TextSelectRange.length		  = TextSelectRange.length + 1;
 
 						SelectedUsedKey = VLineEditorUsedKey::Left;
-					}
-					else
-					{
+					} else {
 						TextSelectRange.length -= 1;
 
-						if (TextSelectRange.length == 0)
-						{
+						if (TextSelectRange.length == 0) {
 							SelectedUsedKey = VLineEditorUsedKey::Left;
 						}
 					}
 				}
 			}
 		}
-		if (KeyMessage->KeyVKCode == VK_RIGHT && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (!ShiftOnHold && InSelectMode)
-			{
+		if (KeyMessage->KeyVKCode == VK_RIGHT && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (!ShiftOnHold && InSelectMode) {
 				InSelectMode = false;
 
 				CursorPosition = TextSelectRange.startPosition + TextSelectRange.length;
@@ -457,17 +404,14 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				CursorGraphicsX = HitTestMetrics.width + HitTestMetrics.left;
 
-				if (CursorGraphicsX > GetWidth())
-				{
+				if (CursorGraphicsX > GetWidth()) {
 					OffsetX = (HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top) < GetWidth()
 								  ? 0
 								  : static_cast<int>(GetWidth() -
 													 (HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top));
 
 					WidthOffset = HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top;
-				}
-				else
-				{
+				} else {
 					DWRITE_TEXT_METRICS StringMetrics;
 
 					TextLayout->GetMetrics(&StringMetrics);
@@ -486,10 +430,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 				return;
 			}
 
-			if (CursorPosition + 1 <= InputStringCache.size())
-			{
-				if (SelectedUsedKey == VLineEditorUsedKey::None)
-				{
+			if (CursorPosition + 1 <= InputStringCache.size()) {
+				if (SelectedUsedKey == VLineEditorUsedKey::None) {
 					SelectedUsedKey = VLineEditorUsedKey::Right;
 				}
 				ShowCursor = true;
@@ -498,32 +440,22 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				++CursorPosition;
 
-				if (InSelectMode)
-				{
-					if (TextSelectRange.length != 0)
-					{
-						if (TextSelectRange.startPosition > CursorPosition && TextSelectRange.length != 0)
-						{
+				if (InSelectMode) {
+					if (TextSelectRange.length != 0) {
+						if (TextSelectRange.startPosition > CursorPosition && TextSelectRange.length != 0) {
 							TextSelectRange.length += 1;
-						}
-						else if (SelectedUsedKey == VLineEditorUsedKey::Right ||
-								 SelectedUsedKey == VLineEditorUsedKey::End)
-						{
+						} else if (SelectedUsedKey == VLineEditorUsedKey::Right ||
+								   SelectedUsedKey == VLineEditorUsedKey::End) {
 							TextSelectRange.length += 1;
-						}
-						else
-						{
+						} else {
 							TextSelectRange.startPosition += 1;
 							TextSelectRange.length -= 1;
 
-							if (TextSelectRange.length == 0)
-							{
+							if (TextSelectRange.length == 0) {
 								SelectedUsedKey = VLineEditorUsedKey::Right;
 							}
 						}
-					}
-					else
-					{
+					} else {
 						TextSelectRange.startPosition = CursorPosition;
 						TextSelectRange.length		  = 1;
 					}
@@ -553,12 +485,9 @@ void VLineEditor::OnMessage(VMessage *Message)
 							  : static_cast<int>(GetWidth() -
 												 (HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top));
 
-				if (CursorGraphicsX > GetWidth())
-				{
+				if (CursorGraphicsX > GetWidth()) {
 					WidthOffset = HitTestMetrics.width + HitTestMetrics.left + HitTestMetrics.top;
-				}
-				else
-				{
+				} else {
 					DWRITE_TEXT_METRICS StringMetrics;
 
 					TextLayout->GetMetrics(&StringMetrics);
@@ -572,10 +501,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 								 GetOriginY() + GetHeight() / 2 - Theme->LabelFont->GetTextSize() / 2);
 			}
 		}
-		if (KeyMessage->KeyVKCode == VK_DELETE && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (InSelectMode && !ShiftOnHold)
-			{
+		if (KeyMessage->KeyVKCode == VK_DELETE && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (InSelectMode && !ShiftOnHold) {
 				InSelectMode = false;
 
 				InputStringCache.Erase(TextSelectRange.startPosition, TextSelectRange.length);
@@ -601,8 +528,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				TextLayout->HitTestTextPosition(CursorPosition, FALSE, &CursorX, &CursorY, &HitTestMetrics);
 
-				if (CursorPosition != 0)
-				{
+				if (CursorPosition != 0) {
 					CursorPosition	= HitTestMetrics.textPosition;
 					CursorGraphicsX = HitTestMetrics.width + HitTestMetrics.left;
 
@@ -614,9 +540,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 									  : static_cast<int>(GetWidth() - TextMetrics.widthIncludingTrailingWhitespace -
 													 TextMetrics.top);
 					WidthOffset = 0;
-				}
-				else
-				{
+				} else {
 					CursorPosition = -1;
 					OffsetX		   = 0;
 
@@ -640,36 +564,27 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				return;
 			}
-			if (CursorPosition + 1 < InputStringCache.size())
-			{
+			if (CursorPosition + 1 < InputStringCache.size()) {
 				ShowCursor = true;
 
 				Update();
 
-				if (CursorPosition > -1)
-				{
+				if (CursorPosition > -1) {
 					InputStringCache.Erase(InputStringCache.begin() + CursorPosition + 1);
-				}
-				else
-				{
+				} else {
 					InputStringCache.Erase(InputStringCache.begin());
 				}
 
 				TextOnChange.Emit(InputStringCache);
 			}
 		}
-		if (KeyMessage->KeyVKCode == VK_END && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (ShiftOnHold && InSelectMode)
-			{
-				if (CursorPosition != -1)
-				{
+		if (KeyMessage->KeyVKCode == VK_END && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (ShiftOnHold && InSelectMode) {
+				if (CursorPosition != -1) {
 					TextSelectRange.startPosition = CursorPosition + 1;
 
 					TextSelectRange.length = InputStringCache.size() - CursorPosition - 1;
-				}
-				else
-				{
+				} else {
 					TextSelectRange.startPosition = TextSelectRange.length;
 					TextSelectRange.length		  = InputStringCache.size() - TextSelectRange.length;
 				}
@@ -678,8 +593,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				Update();
 			}
-			if (!ShiftOnHold && InSelectMode)
-			{
+			if (!ShiftOnHold && InSelectMode) {
 				InSelectMode = false;
 
 				TextSelectRange.startPosition = 0;
@@ -724,11 +638,9 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 			Update();
 		}
-		if (KeyMessage->KeyVKCode == 0x56 && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
+		if (KeyMessage->KeyVKCode == 0x56 && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
 			if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && IsClipboardFormatAvailable(CF_TEXT) &&
-				OpenClipboard(CallWidgetGetHWND()))
-			{
+				OpenClipboard(CallWidgetGetHWND())) {
 				KeyboardUsed = true;
 
 				HANDLE ClipBoardHandle;
@@ -747,16 +659,11 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				VString TestString = InputStringCache;
 
-				if (CursorPosition == -1)
-				{
+				if (CursorPosition == -1) {
 					TestString.Insert(0, WideString);
-				}
-				else if (CursorPosition < InputStringCache.size())
-				{
+				} else if (CursorPosition < InputStringCache.size()) {
 					TestString.Insert(CursorPosition + 1, WideString);
-				}
-				else
-				{
+				} else {
 					TestString.Insert(CursorPosition, WideString);
 				}
 
@@ -770,8 +677,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 				DWRITE_TEXT_METRICS TestMetrics;
 				TextLayout->GetMetrics(&TestMetrics);
 
-				if (TestString.IndexOf(L"\n") == -1)
-				{
+				if (TestString.IndexOf(L"\n") == -1) {
 					InputStringCache = TestString;
 
 					CursorPosition += ConvertedLength - 1;
@@ -808,10 +714,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 				VDXObjectSafeFree(&TextLayout);
 			}
 		}
-		if (KeyMessage->KeyVKCode == 0x41 && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
-			{
+		if (KeyMessage->KeyVKCode == 0x41 && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (GetAsyncKeyState(VK_CONTROL) & 0x8000) {
 				KeyboardUsed = true;
 				InSelectMode = true;
 				ShiftOnHold	 = false;
@@ -849,10 +753,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 				SelectedUsedKey = VLineEditorUsedKey::None;
 			}
 		}
-		if (KeyMessage->KeyVKCode == 0x43 && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && InSelectMode && OpenClipboard(CallWidgetGetHWND()))
-			{
+		if (KeyMessage->KeyVKCode == 0x43 && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (GetAsyncKeyState(VK_CONTROL) & 0x8000 && InSelectMode && OpenClipboard(CallWidgetGetHWND())) {
 				KeyboardUsed = true;
 
 				VString ClipString;
@@ -884,24 +786,19 @@ void VLineEditor::OnMessage(VMessage *Message)
 				CloseClipboard();
 			}
 		}
-		if (KeyMessage->KeyVKCode == VK_SHIFT && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (!ShiftOnHold)
-			{
+		if (KeyMessage->KeyVKCode == VK_SHIFT && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (!ShiftOnHold) {
 				InSelectMode = true;
 				ShiftOnHold	 = true;
 
 				SelectedUsedKey = VLineEditorUsedKey::None;
 			}
 		}
-		if (KeyMessage->KeyVKCode == VK_SHIFT && KeyMessage->KeyStats == VkeyClickedFlag::Up)
-		{
+		if (KeyMessage->KeyVKCode == VK_SHIFT && KeyMessage->KeyStats == VkeyClickedFlag::Up) {
 			ShiftOnHold = false;
 		}
-		if (KeyMessage->KeyVKCode == VK_HOME && KeyMessage->KeyStats == VkeyClickedFlag::Down)
-		{
-			if (ShiftOnHold && InSelectMode)
-			{
+		if (KeyMessage->KeyVKCode == VK_HOME && KeyMessage->KeyStats == VkeyClickedFlag::Down) {
+			if (ShiftOnHold && InSelectMode) {
 				TextSelectRange.startPosition = 0;
 
 				int SelectLength = abs(static_cast<int>(TextSelectRange.length) - CursorPosition);
@@ -913,8 +810,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				Update();
 			}
-			if (!ShiftOnHold && InSelectMode)
-			{
+			if (!ShiftOnHold && InSelectMode) {
 				InSelectMode = false;
 
 				TextSelectRange.startPosition = 0;
@@ -951,19 +847,16 @@ void VLineEditor::OnMessage(VMessage *Message)
 			Update();
 		}
 	}
-	if (Message->GetType() == VMessageType::IMECharMessage && InTyping)
-	{
+	if (Message->GetType() == VMessageType::IMECharMessage && InTyping) {
 		VIMECharMessage *IMECharMessage = static_cast<VIMECharMessage *>(Message);
 
-		if (KeyboardUsed)
-		{
+		if (KeyboardUsed) {
 			KeyboardUsed = false;
 
 			return;
 		}
 
-		if (IMECharMessage->IMEChar == L'\n' || IMECharMessage->IMEChar == L'\r')
-		{
+		if (IMECharMessage->IMEChar == L'\n' || IMECharMessage->IMEChar == L'\r') {
 			CallWidgetUnlockFocusID();
 
 			InTyping = false;
@@ -971,10 +864,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 			return;
 		}
-		if (IMECharMessage->IMEChar == L'\b')
-		{
-			if (InSelectMode && !ShiftOnHold)
-			{
+		if (IMECharMessage->IMEChar == L'\b') {
+			if (InSelectMode && !ShiftOnHold) {
 				InSelectMode = false;
 
 				CursorPosition = TextSelectRange.startPosition;
@@ -1000,8 +891,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				TextLayout->HitTestTextPosition(CursorPosition, FALSE, &CursorX, &CursorY, &HitTestMetrics);
 
-				if (CursorPosition != 0)
-				{
+				if (CursorPosition != 0) {
 					CursorPosition	= HitTestMetrics.textPosition;
 					CursorGraphicsX = HitTestMetrics.width + HitTestMetrics.left;
 
@@ -1013,9 +903,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 									  : static_cast<int>(GetWidth() - TextMetrics.widthIncludingTrailingWhitespace -
 													 TextMetrics.top);
 					WidthOffset = 0;
-				}
-				else
-				{
+				} else {
 					CursorPosition = -1;
 					OffsetX		   = 0;
 
@@ -1039,8 +927,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				return;
 			}
-			if (CursorPosition >= 0)
-			{
+			if (CursorPosition >= 0) {
 				ShowCursor = true;
 
 				Update();
@@ -1084,10 +971,8 @@ void VLineEditor::OnMessage(VMessage *Message)
 			return;
 		}
 
-		if (InSelectMode)
-		{
-			if (TextSelectRange.length != 0)
-			{
+		if (InSelectMode) {
+			if (TextSelectRange.length != 0) {
 				InSelectMode = false;
 
 				InputStringCache.Erase(TextSelectRange.startPosition, TextSelectRange.length);
@@ -1096,24 +981,17 @@ void VLineEditor::OnMessage(VMessage *Message)
 
 				TextSelectRange.startPosition = 0;
 				TextSelectRange.length		  = 0;
-			}
-			else
-			{
+			} else {
 				TextSelectRange.startPosition = 0;
 				TextSelectRange.length		  = 0;
 			}
 		}
 
-		if (CursorPosition == -1)
-		{
+		if (CursorPosition == -1) {
 			InputStringCache.Insert(InputStringCache.begin(), IMECharMessage->IMEChar);
-		}
-		else if (CursorPosition < InputStringCache.size())
-		{
+		} else if (CursorPosition < InputStringCache.size()) {
 			InputStringCache.Insert(InputStringCache.begin() + CursorPosition + 1, IMECharMessage->IMEChar);
-		}
-		else
-		{
+		} else {
 			InputStringCache.Insert(InputStringCache.begin() + CursorPosition, IMECharMessage->IMEChar);
 		}
 
@@ -1158,8 +1036,7 @@ void VLineEditor::OnMessage(VMessage *Message)
 	}
 }
 
-void VLineEditor::LeftClickedDown()
-{
+void VLineEditor::LeftClickedDown() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -1183,10 +1060,8 @@ void VLineEditor::LeftClickedDown()
 
 	Update();
 }
-void VLineEditor::LeftClickedUp()
-{
-	if (!InTyping)
-	{
+void VLineEditor::LeftClickedUp() {
+	if (!InTyping) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -1198,10 +1073,8 @@ void VLineEditor::LeftClickedUp()
 		Update();
 	}
 }
-void VLineEditor::GotMouseFocus()
-{
-	if (!InTyping)
-	{
+void VLineEditor::GotMouseFocus() {
+	if (!InTyping) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -1213,10 +1086,8 @@ void VLineEditor::GotMouseFocus()
 		Update();
 	}
 }
-void VLineEditor::LostMouseFocus()
-{
-	if (!InTyping)
-	{
+void VLineEditor::LostMouseFocus() {
+	if (!InTyping) {
 		InAnimation = true;
 
 		ShiftOnHold	 = false;
@@ -1237,8 +1108,7 @@ void VLineEditor::LostMouseFocus()
 	}
 }
 
-void VLineEditor::SetPlainText(const VString &PlainText)
-{
+void VLineEditor::SetPlainText(const VString &PlainText) {
 	InputStringCache = PlainText;
 
 	CursorPosition	= 0;
@@ -1248,26 +1118,21 @@ void VLineEditor::SetPlainText(const VString &PlainText)
 	Update();
 }
 
-const VString VLineEditor::GetPlainText()
-{
+const VString VLineEditor::GetPlainText() {
 	return InputStringCache;
 }
-const int VLineEditor::GetCurrentCursorPosition()
-{
+const int VLineEditor::GetCurrentCursorPosition() {
 	return CursorPosition;
 }
-void VLineEditor::SetLeadText(const VString &Text)
-{
+void VLineEditor::SetLeadText(const VString &Text) {
 	LeadText = Text;
 }
 
-VTextEditorTheme *VLineEditor::GetTheme()
-{
+VTextEditorTheme *VLineEditor::GetTheme() {
 	return Theme;
 }
 
-void VLineEditor::OnPaint(Core::VCanvasPainter *Painter)
-{
+void VLineEditor::OnPaint(Core::VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -1287,20 +1152,16 @@ void VLineEditor::OnPaint(Core::VCanvasPainter *Painter)
 
 	IDWriteTextLayout *TextLayout;
 
-	if (!InputStringCache.empty())
-	{
+	if (!InputStringCache.empty()) {
 		VLIB_CHECK_REPORT(VDirectXWriteFactory.GetInstance()->CreateTextLayout(
 							  InputStringCache.CStyleString(), InputStringCache.size(), Theme->LabelFont->GetDXObject(),
 							  INT_MAX, GetHeight(), &TextLayout) != S_OK,
 						  L"Failed to create TextLayout object!");
 
-		if (InSelectMode)
-		{
+		if (InSelectMode) {
 			TextLayout->SetDrawingEffect(SelectedColor.GetDxBrush(), TextSelectRange);
 		}
-	}
-	else
-	{
+	} else {
 		VLIB_CHECK_REPORT(VDirectXWriteFactory.GetInstance()->CreateTextLayout(LeadText.CStyleString(), LeadText.size(),
 																			   Theme->LabelFont->GetDXObject(), INT_MAX,
 																			   GetHeight(), &TextLayout) != S_OK,
@@ -1309,12 +1170,9 @@ void VLineEditor::OnPaint(Core::VCanvasPainter *Painter)
 
 	TextCanvas.BeginDraw();
 	TextCanvas.Clear(VColor(0.f, 0.f, 0.f, 0.f));
-	if (!InputStringCache.empty())
-	{
+	if (!InputStringCache.empty()) {
 		TextCanvas.GetDXObject()->DrawTextLayout({static_cast<float>(OffsetX), 0}, TextLayout, TextBrush.GetDxBrush());
-	}
-	else
-	{
+	} else {
 		VSolidBrush TextBrush(Theme->StaticTheme.TextColor, CallWidgetGetRenderHandle());
 		TextCanvas.GetDXObject()->DrawTextLayout({static_cast<float>(OffsetX), 0}, TextLayout, TextBrush.GetDxBrush());
 	}
@@ -1324,8 +1182,7 @@ void VLineEditor::OnPaint(Core::VCanvasPainter *Painter)
 						 static_cast<int>(GetWidth() - Theme->LocalTheme.BorderThickness), GetHeight()},
 						&TextCanvas, {0, 0, GetWidth(), GetHeight()}, 1.f);
 
-	if (InTyping && ShowCursor)
-	{
+	if (InTyping && ShowCursor) {
 		Painter->DrawLine({static_cast<int>(CursorGraphicsX + OffsetX + Theme->LocalTheme.BorderThickness),
 						   GetHeight() / 2 - Theme->LabelFont->GetTextSize() / 2},
 						  {static_cast<int>(CursorGraphicsX + OffsetX + Theme->LocalTheme.BorderThickness),

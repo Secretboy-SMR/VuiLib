@@ -2,13 +2,10 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-void VScrollerPushButton::MouseLeftClicked(const Core::VMouseClickedFlag &ClickedFlag)
-{
-	switch (ClickedFlag)
-	{
+void VScrollerPushButton::MouseLeftClicked(const Core::VMouseClickedFlag &ClickedFlag) {
+	switch (ClickedFlag) {
 	case VMouseClickedFlag::Down: {
 		ScrollerInDragging = true;
 
@@ -32,33 +29,27 @@ void VScrollerPushButton::MouseLeftClicked(const Core::VMouseClickedFlag &Clicke
 	}
 }
 
-void VScrollerPushButton::OnMessage(Core::VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::MouseClickedMessage)
-	{
+void VScrollerPushButton::OnMessage(Core::VMessage *Message) {
+	if (Message->GetType() == VMessageType::MouseClickedMessage) {
 		VMouseClickedMessage *ClickedMessage = static_cast<VMouseClickedMessage *>(Message);
 
 		if (ClickedMessage->MousePosition.InsideRectangle(GetRegion()) ||
 			(ClickedMessage->ClickedKey == VMouseKeyFlag::Left &&
-			 ClickedMessage->ClickedMethod == VMouseClickedFlag::Down))
-		{
+			 ClickedMessage->ClickedMethod == VMouseClickedFlag::Down)) {
 			ScrollerDragOriginPoint = ClickedMessage->MousePosition;
 
 			ScrollerDragOriginPoint.Offset(-GetX(), -GetY());
 		}
 	}
 
-	if (ScrollerInDragging)
-	{
-		switch (Message->GetType())
-		{
+	if (ScrollerInDragging) {
+		switch (Message->GetType()) {
 		case VMessageType::MouseClickedMessage: {
 			VMouseClickedMessage *ClickedMessage = static_cast<VMouseClickedMessage *>(Message);
 
 			if ((ClickedMessage->ClickedKey == VMouseKeyFlag::Left &&
 				 ClickedMessage->ClickedMethod == VMouseClickedFlag::Up) &&
-				(ClickedMessage->MousePosition.X < 0 || ClickedMessage->MousePosition.Y < 0) && ScrollerInDragging)
-			{
+				(ClickedMessage->MousePosition.X < 0 || ClickedMessage->MousePosition.Y < 0) && ScrollerInDragging) {
 				ScrollerInDragging = false;
 				CallWidgetUnlockFocusID();
 				CallWidgetSendMessage(Message);
@@ -68,8 +59,7 @@ void VScrollerPushButton::OnMessage(Core::VMessage *Message)
 
 			if (!ClickedMessage->MousePosition.InsideRectangle(GetRegion()) ||
 				(ClickedMessage->ClickedKey == VMouseKeyFlag::Left &&
-				 ClickedMessage->ClickedMethod == VMouseClickedFlag::Up))
-			{
+				 ClickedMessage->ClickedMethod == VMouseClickedFlag::Up)) {
 				ScrollerInDragging = false;
 				CallWidgetUnlockFocusID();
 				CallWidgetSendMessage(Message);
@@ -78,8 +68,7 @@ void VScrollerPushButton::OnMessage(Core::VMessage *Message)
 			}
 			if (ClickedMessage->MousePosition.InsideRectangle(GetRegion()) ||
 				(ClickedMessage->ClickedKey == VMouseKeyFlag::Left &&
-				 ClickedMessage->ClickedMethod == VMouseClickedFlag::Down))
-			{
+				 ClickedMessage->ClickedMethod == VMouseClickedFlag::Down)) {
 				ScrollerDragOriginPoint = ClickedMessage->MousePosition;
 
 				ScrollerDragOriginPoint.Offset(-GetX(), -GetY());
@@ -100,17 +89,12 @@ void VScrollerPushButton::OnMessage(Core::VMessage *Message)
 			auto OffsetX = MouseMoveMessage->MousePosition.X - ScrollerDragOriginPoint.X;
 			auto OffsetY = MouseMoveMessage->MousePosition.Y - ScrollerDragOriginPoint.Y;
 
-			if (ScrollerType == VScrollerButtonType::Vertical)
-			{
-				if (OffsetY >= ScrollerMiniValue && OffsetY <= ScrollerMaxValue - GetHeight())
-				{
+			if (ScrollerType == VScrollerButtonType::Vertical) {
+				if (OffsetY >= ScrollerMiniValue && OffsetY <= ScrollerMaxValue - GetHeight()) {
 					Move(GetX(), OffsetY);
 				}
-			}
-			else
-			{
-				if (OffsetX >= ScrollerMiniValue && OffsetX <= ScrollerMaxValue - GetWidth())
-				{
+			} else {
+				if (OffsetX >= ScrollerMiniValue && OffsetX <= ScrollerMaxValue - GetWidth()) {
 					Move(OffsetX, GetY());
 				}
 			}
@@ -123,21 +107,17 @@ void VScrollerPushButton::OnMessage(Core::VMessage *Message)
 	}
 }
 
-void VScrollerPushButton::SetMaxValue(const int &TargetValue)
-{
+void VScrollerPushButton::SetMaxValue(const int &TargetValue) {
 	ScrollerMaxValue = TargetValue;
 }
-void VScrollerPushButton::SetMiniValue(const int &TargetValue)
-{
+void VScrollerPushButton::SetMiniValue(const int &TargetValue) {
 	ScrollerMiniValue = TargetValue;
 }
-void VScrollerPushButton::SetScrollerType(const VScrollerButtonType &TargetType)
-{
+void VScrollerPushButton::SetScrollerType(const VScrollerButtonType &TargetType) {
 	ScrollerType = TargetType;
 }
 
-void VScrollerPushButton::LeftClickedDown()
-{
+void VScrollerPushButton::LeftClickedDown() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -148,8 +128,7 @@ void VScrollerPushButton::LeftClickedDown()
 
 	Update();
 }
-void VScrollerPushButton::LeftClickedUp()
-{
+void VScrollerPushButton::LeftClickedUp() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -160,10 +139,8 @@ void VScrollerPushButton::LeftClickedUp()
 
 	Update();
 }
-void VScrollerPushButton::GotMouseFocus()
-{
-	if (!ScrollerInDragging)
-	{
+void VScrollerPushButton::GotMouseFocus() {
+	if (!ScrollerInDragging) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -177,10 +154,8 @@ void VScrollerPushButton::GotMouseFocus()
 		Update();
 	}
 }
-void VScrollerPushButton::LostMouseFocus()
-{
-	if (!ScrollerInDragging)
-	{
+void VScrollerPushButton::LostMouseFocus() {
+	if (!ScrollerInDragging) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -194,12 +169,9 @@ void VScrollerPushButton::LostMouseFocus()
 		Update();
 	}
 }
-void VScrollerPushButton::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VScrollerPushButton::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -222,14 +194,11 @@ void VScrollerPushButton::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
-VRect VScrollerPushButton::GetRegion()
-{
+VRect VScrollerPushButton::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -237,8 +206,7 @@ VRect VScrollerPushButton::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VScrollerPushButton::OnPaint(VCanvasPainter *Painter)
-{
+void VScrollerPushButton::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -252,29 +220,25 @@ void VScrollerPushButton::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-VViewScrollerButtonTheme *VScrollerPushButton::GetTheme()
-{
+VViewScrollerButtonTheme *VScrollerPushButton::GetTheme() {
 	return Theme;
 }
 
-VScrollerPushButton::VScrollerPushButton(VUIObject *Parent, const VScrollerButtonType &Type) : VAbstractButton(Parent)
-{
+VScrollerPushButton::VScrollerPushButton(VUIObject *Parent, const VScrollerButtonType &Type) : VAbstractButton(Parent) {
 	Theme = new VViewScrollerButtonTheme(
 		*(static_cast<VViewScrollerButtonTheme *>(GetTargetTheme(VUIThemeType::VViewScrollerPushButton))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 	ScrollerType = Type;
 }
 
-VScrollerVertical::VScrollerVertical(VUIObject *Parent) : VAbstractButton(Parent)
-{
+VScrollerVertical::VScrollerVertical(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VViewScrollerTheme(*(static_cast<VViewScrollerTheme *>(GetTargetTheme(VUIThemeType::VViewScroller))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
 	InitViewButton();
 	ResetViewButton();
 }
-VScrollerVertical::VScrollerVertical(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VScrollerVertical::VScrollerVertical(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VViewScrollerTheme(*(static_cast<VViewScrollerTheme *>(GetTargetTheme(VUIThemeType::VViewScroller))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
@@ -284,8 +248,7 @@ VScrollerVertical::VScrollerVertical(const int &Width, const int &Height, VUIObj
 	Resize(Width, Height);
 }
 VScrollerVertical::VScrollerVertical(const int &Width, const int &Height, const int &ViewHeight, VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VViewScrollerTheme(*(static_cast<VViewScrollerTheme *>(GetTargetTheme(VUIThemeType::VViewScroller))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
@@ -297,8 +260,7 @@ VScrollerVertical::VScrollerVertical(const int &Width, const int &Height, const 
 	Resize(Width, Height);
 }
 
-void VScrollerVertical::SwitchDraggingStatusAnimation()
-{
+void VScrollerVertical::SwitchDraggingStatusAnimation() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -309,8 +271,7 @@ void VScrollerVertical::SwitchDraggingStatusAnimation()
 
 	Update();
 }
-void VScrollerVertical::TurnToNormalStatusAnimation()
-{
+void VScrollerVertical::TurnToNormalStatusAnimation() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -321,8 +282,7 @@ void VScrollerVertical::TurnToNormalStatusAnimation()
 
 	Update();
 }
-void VScrollerVertical::GotMouseFocus()
-{
+void VScrollerVertical::GotMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -335,8 +295,7 @@ void VScrollerVertical::GotMouseFocus()
 
 	Update();
 }
-void VScrollerVertical::LostMouseFocus()
-{
+void VScrollerVertical::LostMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -349,12 +308,9 @@ void VScrollerVertical::LostMouseFocus()
 
 	Update();
 }
-void VScrollerVertical::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VScrollerVertical::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -377,14 +333,11 @@ void VScrollerVertical::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
-VRect VScrollerVertical::GetRegion()
-{
+VRect VScrollerVertical::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -392,8 +345,7 @@ VRect VScrollerVertical::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VScrollerVertical::OnPaint(VCanvasPainter *Painter)
-{
+void VScrollerVertical::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -407,40 +359,29 @@ void VScrollerVertical::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-void VScrollerVertical::ScrollerValueOnChange()
-{
+void VScrollerVertical::ScrollerValueOnChange() {
 	ValueOnChange.Emit(double(GetHeight()) / double(ScrollerButton->GetY()));
 }
-double VScrollerVertical::GetValue() const
-{
-	if (GetHeight() >= ScrollerViewHeight)
-	{
+double VScrollerVertical::GetValue() const {
+	if (GetHeight() >= ScrollerViewHeight) {
 		return 1.f;
 	}
 
 	return double(ScrollerButton->GetY()) / double(GetHeight() - ScrollerButton->GetHeight());
 }
 
-void VScrollerVertical::OnMessage(Core::VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::MouseWheelMessage)
-	{
+void VScrollerVertical::OnMessage(Core::VMessage *Message) {
+	if (Message->GetType() == VMessageType::MouseWheelMessage) {
 		VMouseWheelMessage *WheelMessage = static_cast<VMouseWheelMessage *>(Message);
 
-		if (WheelMessage->MousePosition.InsideRectangle(GetRegion()))
-		{
+		if (WheelMessage->MousePosition.InsideRectangle(GetRegion())) {
 			auto ScrollerButtonNewY = ScrollerButton->GetY() + (WheelMessage->WheelValue >= 0 ? -10 : 10);
 
-			if (ScrollerButtonNewY >= 0 && ScrollerButtonNewY <= GetHeight() - ScrollerButton->GetHeight())
-			{
+			if (ScrollerButtonNewY >= 0 && ScrollerButtonNewY <= GetHeight() - ScrollerButton->GetHeight()) {
 				ScrollerButton->Move(ScrollerButton->GetX(), ScrollerButtonNewY);
-			}
-			else if (ScrollerButtonNewY < 0)
-			{
+			} else if (ScrollerButtonNewY < 0) {
 				ScrollerButton->Move(ScrollerButton->GetX(), 0);
-			}
-			else
-			{
+			} else {
 				ScrollerButton->Move(ScrollerButton->GetX(), GetHeight() - ScrollerButton->GetHeight());
 			}
 
@@ -449,24 +390,20 @@ void VScrollerVertical::OnMessage(Core::VMessage *Message)
 	}
 }
 
-void VScrollerVertical::InitViewButton()
-{
+void VScrollerVertical::InitViewButton() {
 	ScrollerButton = new VScrollerPushButton(this);
 
 	ScrollerButton->OnMouseFocus.Connect(this, &VScrollerVertical::GotMouseFocus);
 	ScrollerButton->LoseMouseFocus.Connect(this, &VScrollerVertical::LostMouseFocus);
 	ScrollerButton->ScrollerOnTrigger.Connect(this, &VScrollerVertical::ScrollerValueOnChange);
 }
-void VScrollerVertical::ResetViewButton()
-{
-	if (ScrollerViewHeight > 0)
-	{
+void VScrollerVertical::ResetViewButton() {
+	if (ScrollerViewHeight > 0) {
 		auto ViewRatioRegion = double(GetHeight()) / double(ScrollerViewHeight);
 
 		ScrollerButton->Resize(GetWidth(), GetHeight() * ViewRatioRegion);
 
-		if (ScrollerButton->GetHeight() <= 20)
-		{
+		if (ScrollerButton->GetHeight() <= 20) {
 			ScrollerButton->Resize(GetWidth(), 20);
 		}
 
@@ -475,45 +412,38 @@ void VScrollerVertical::ResetViewButton()
 	}
 }
 
-void VScrollerVertical::Resize(const int &Width, const int &Height)
-{
+void VScrollerVertical::Resize(const int &Width, const int &Height) {
 	VUIObject::Resize(Width, Height);
 
 	ResetViewButton();
 
-	if (ScrollerButton->GetY() > Height - ScrollerButton->GetHeight())
-	{
+	if (ScrollerButton->GetY() > Height - ScrollerButton->GetHeight()) {
 		ScrollerButton->Move(GetX(), Height - ScrollerButton->GetHeight());
 	}
 }
 
-VViewScrollerTheme *VScrollerVertical::GetTheme()
-{
+VViewScrollerTheme *VScrollerVertical::GetTheme() {
 	return Theme;
 }
 
-VScrollerPushButton *VScrollerVertical::GetScrollerButtonInstance()
-{
+VScrollerPushButton *VScrollerVertical::GetScrollerButtonInstance() {
 	return ScrollerButton;
 }
 
-void VScrollerVertical::SetViewHeight(const int &Height)
-{
+void VScrollerVertical::SetViewHeight(const int &Height) {
 	ScrollerViewHeight = Height;
 
 	ResetViewButton();
 
 	Update();
 }
-void VScrollerVertical::SetViewPercent(const double &ViewPercent)
-{
+void VScrollerVertical::SetViewPercent(const double &ViewPercent) {
 	auto Percent = ViewPercent >= 1.f ? 1.f : ViewPercent;
 	Percent		 = ViewPercent <= 0.f ? 0.f : ViewPercent;
 
 	ScrollerButton->Move(0, GetHeight() * Percent);
 }
-void VScrollerVertical::SetViewPoint(const int &TargetPoint)
-{
+void VScrollerVertical::SetViewPoint(const int &TargetPoint) {
 	auto MaxValue = GetHeight() - ScrollerButton->GetHeight();
 	auto Point	  = TargetPoint >= MaxValue ? MaxValue : TargetPoint;
 	Point		  = TargetPoint <= 0 ? 0 : TargetPoint;
@@ -521,8 +451,7 @@ void VScrollerVertical::SetViewPoint(const int &TargetPoint)
 	ScrollerButton->Move(0, Point);
 }
 
-VScrollerHorizontal::VScrollerHorizontal(VUIObject *Parent) : VAbstractButton(Parent)
-{
+VScrollerHorizontal::VScrollerHorizontal(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VViewScrollerTheme(*(static_cast<VViewScrollerTheme *>(GetTargetTheme(VUIThemeType::VViewScroller))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
@@ -530,8 +459,7 @@ VScrollerHorizontal::VScrollerHorizontal(VUIObject *Parent) : VAbstractButton(Pa
 	ResetViewButton();
 }
 VScrollerHorizontal::VScrollerHorizontal(const int &Width, const int &Height, VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VViewScrollerTheme(*(static_cast<VViewScrollerTheme *>(GetTargetTheme(VUIThemeType::VViewScroller))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
@@ -541,8 +469,7 @@ VScrollerHorizontal::VScrollerHorizontal(const int &Width, const int &Height, VU
 	Resize(Width, Height);
 }
 VScrollerHorizontal::VScrollerHorizontal(const int &Width, const int &Height, const int &ViewHeight, VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VViewScrollerTheme(*(static_cast<VViewScrollerTheme *>(GetTargetTheme(VUIThemeType::VViewScroller))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
@@ -554,8 +481,7 @@ VScrollerHorizontal::VScrollerHorizontal(const int &Width, const int &Height, co
 	Resize(Width, Height);
 }
 
-void VScrollerHorizontal::SwitchDraggingStatusAnimation()
-{
+void VScrollerHorizontal::SwitchDraggingStatusAnimation() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -566,8 +492,7 @@ void VScrollerHorizontal::SwitchDraggingStatusAnimation()
 
 	Update();
 }
-void VScrollerHorizontal::TurnToNormalStatusAnimation()
-{
+void VScrollerHorizontal::TurnToNormalStatusAnimation() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -578,8 +503,7 @@ void VScrollerHorizontal::TurnToNormalStatusAnimation()
 
 	Update();
 }
-void VScrollerHorizontal::GotMouseFocus()
-{
+void VScrollerHorizontal::GotMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -592,8 +516,7 @@ void VScrollerHorizontal::GotMouseFocus()
 
 	Update();
 }
-void VScrollerHorizontal::LostMouseFocus()
-{
+void VScrollerHorizontal::LostMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -607,22 +530,17 @@ void VScrollerHorizontal::LostMouseFocus()
 	Update();
 }
 
-VViewScrollerTheme *VScrollerHorizontal::GetTheme()
-{
+VViewScrollerTheme *VScrollerHorizontal::GetTheme() {
 	return Theme;
 }
 
-VScrollerPushButton *VScrollerHorizontal::GetScrollerButtonInstance()
-{
+VScrollerPushButton *VScrollerHorizontal::GetScrollerButtonInstance() {
 	return ScrollerButton;
 }
 
-void VScrollerHorizontal::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VScrollerHorizontal::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -645,14 +563,11 @@ void VScrollerHorizontal::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
-VRect VScrollerHorizontal::GetRegion()
-{
+VRect VScrollerHorizontal::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -660,8 +575,7 @@ VRect VScrollerHorizontal::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VScrollerHorizontal::OnPaint(VCanvasPainter *Painter)
-{
+void VScrollerHorizontal::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -675,40 +589,29 @@ void VScrollerHorizontal::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-void VScrollerHorizontal::ScrollerValueOnChange()
-{
+void VScrollerHorizontal::ScrollerValueOnChange() {
 	ValueOnChange.Emit(double(GetWidth()) / double(ScrollerButton->GetX()));
 }
-double VScrollerHorizontal::GetValue() const
-{
-	if (GetWidth() >= ScrollerViewWidth)
-	{
+double VScrollerHorizontal::GetValue() const {
+	if (GetWidth() >= ScrollerViewWidth) {
 		return 1.f;
 	}
 
 	return double(ScrollerButton->GetX()) / double(GetWidth() - ScrollerButton->GetWidth());
 }
 
-void VScrollerHorizontal::OnMessage(Core::VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::MouseWheelMessage)
-	{
+void VScrollerHorizontal::OnMessage(Core::VMessage *Message) {
+	if (Message->GetType() == VMessageType::MouseWheelMessage) {
 		VMouseWheelMessage *WheelMessage = static_cast<VMouseWheelMessage *>(Message);
 
-		if (WheelMessage->MousePosition.InsideRectangle(GetRegion()))
-		{
+		if (WheelMessage->MousePosition.InsideRectangle(GetRegion())) {
 			auto ScrollerButtonNewX = ScrollerButton->GetX() + (WheelMessage->WheelValue >= 0 ? -10 : 10);
 
-			if (ScrollerButtonNewX >= 0 && ScrollerButtonNewX <= GetWidth() - ScrollerButton->GetWidth())
-			{
+			if (ScrollerButtonNewX >= 0 && ScrollerButtonNewX <= GetWidth() - ScrollerButton->GetWidth()) {
 				ScrollerButton->Move(ScrollerButtonNewX, ScrollerButton->GetY());
-			}
-			else if (ScrollerButtonNewX < 0)
-			{
+			} else if (ScrollerButtonNewX < 0) {
 				ScrollerButton->Move(0, ScrollerButton->GetY());
-			}
-			else
-			{
+			} else {
 				ScrollerButton->Move(GetWidth() - ScrollerButton->GetWidth(), GetWidth() - ScrollerButton->GetWidth());
 			}
 
@@ -717,8 +620,7 @@ void VScrollerHorizontal::OnMessage(Core::VMessage *Message)
 	}
 }
 
-void VScrollerHorizontal::InitViewButton()
-{
+void VScrollerHorizontal::InitViewButton() {
 	ScrollerButton = new VScrollerPushButton(this, VScrollerButtonType::Horizontal);
 
 	ScrollerButton->OnMouseFocus.Connect(this, &VScrollerHorizontal::GotMouseFocus);
@@ -727,16 +629,13 @@ void VScrollerHorizontal::InitViewButton()
 
 	ScrollerButton->Move(0, 0);
 }
-void VScrollerHorizontal::ResetViewButton()
-{
-	if (ScrollerViewWidth > 0)
-	{
+void VScrollerHorizontal::ResetViewButton() {
+	if (ScrollerViewWidth > 0) {
 		auto ViewRatioRegion = double(GetWidth()) / double(ScrollerViewWidth);
 
 		ScrollerButton->Resize(GetWidth() * ViewRatioRegion, GetHeight());
 
-		if (ScrollerButton->GetWidth() <= 20)
-		{
+		if (ScrollerButton->GetWidth() <= 20) {
 			ScrollerButton->Resize(ViewRatioRegion, 20);
 		}
 
@@ -745,35 +644,30 @@ void VScrollerHorizontal::ResetViewButton()
 	}
 }
 
-void VScrollerHorizontal::Resize(const int &Width, const int &Height)
-{
+void VScrollerHorizontal::Resize(const int &Width, const int &Height) {
 	VUIObject::Resize(Width, Height);
 
 	ResetViewButton();
 
-	if (ScrollerButton->GetX() > Width - ScrollerButton->GetWidth())
-	{
+	if (ScrollerButton->GetX() > Width - ScrollerButton->GetWidth()) {
 		ScrollerButton->Move(Width - ScrollerButton->GetWidth(), GetY());
 	}
 }
 
-void VScrollerHorizontal::SetViewWidth(const int &Width)
-{
+void VScrollerHorizontal::SetViewWidth(const int &Width) {
 	ScrollerViewWidth = Width;
 
 	ResetViewButton();
 
 	Update();
 }
-void VScrollerHorizontal::SetViewPercent(const double &ViewPercent)
-{
+void VScrollerHorizontal::SetViewPercent(const double &ViewPercent) {
 	auto Percent = ViewPercent >= 1.f ? 1.f : ViewPercent;
 	Percent		 = ViewPercent <= 0.f ? 0.f : ViewPercent;
 
 	ScrollerButton->Move(GetWidth() * Percent, 0);
 }
-void VScrollerHorizontal::SetViewPoint(const int &TargetPoint)
-{
+void VScrollerHorizontal::SetViewPoint(const int &TargetPoint) {
 	auto MaxValue = GetWidth() - ScrollerButton->GetWidth();
 	auto Point	  = TargetPoint >= MaxValue ? MaxValue : TargetPoint;
 	Point		  = TargetPoint <= 0 ? 0 : TargetPoint;

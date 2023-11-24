@@ -6,11 +6,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VBasicAnimation
-{
+class VBasicAnimation {
 public:
 	VAnimationCurve *AnimationCurve;
 	double			 AnimationX;
@@ -20,8 +18,7 @@ public:
 	VBasicAnimation(VAnimationCurve *Curve, const int &Duration);
 };
 
-class VPositionAnimation : public VUIObject
-{
+class VPositionAnimation : public VUIObject {
 private:
 	VPoint TargetPoint;
 	VPoint SourcePoint;
@@ -49,8 +46,7 @@ public:
 	VSignal<> AnimationEnd;
 };
 
-class VGeometryAnimation : public VUIObject
-{
+class VGeometryAnimation : public VUIObject {
 private:
 	VPoint TargetPoint;
 	VPoint SourcePoint;
@@ -78,8 +74,7 @@ public:
 	VSignal<> AnimationEnd;
 };
 
-class VOpacityAnimation : public VUIObject
-{
+class VOpacityAnimation : public VUIObject {
 private:
 	double TargetValue;
 	double SourceValue;

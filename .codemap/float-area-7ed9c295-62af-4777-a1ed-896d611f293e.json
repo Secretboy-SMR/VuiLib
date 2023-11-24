@@ -1,0 +1,323 @@
+{
+  "type": "float-area",
+  "_widgets": [
+    [
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///z%3A/VLib-Cmake/VuiLib/src/core/animation/vanimation.cc",
+              "floatAreaId": "7ed9c295-62af-4777-a1ed-896d611f293e"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 1,
+                  "column": 1
+                },
+                "position": {
+                  "lineNumber": 1,
+                  "column": 1
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 1,
+                "column": 1
+              },
+              "firstPositionDeltaTop": 0
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "lineCount": 224,
+                "provider": "syntax",
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "width": 600,
+        "height": 450,
+        "spacing": 0
+      },
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///z%3A/VLib-Cmake/VuiLib/src/core/widget/vprivatewidget.cc",
+              "floatAreaId": "7ed9c295-62af-4777-a1ed-896d611f293e"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 1,
+                  "column": 1
+                },
+                "position": {
+                  "lineNumber": 1,
+                  "column": 1
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 1,
+                "column": 1
+              },
+              "firstPositionDeltaTop": 0
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "lineCount": 446,
+                "provider": "syntax",
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "width": 600,
+        "height": 450,
+        "spacing": 0
+      },
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///z%3A/VLib-Cmake/VuiLib/src/core/widget/vwidget.cc",
+              "floatAreaId": "7ed9c295-62af-4777-a1ed-896d611f293e"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 12,
+                  "column": 28
+                },
+                "position": {
+                  "lineNumber": 12,
+                  "column": 28
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 6,
+                "column": 1
+              },
+              "firstPositionDeltaTop": -5
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "lineCount": 1104,
+                "provider": "syntax",
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": true
+            }
+          }
+        },
+        "width": 600,
+        "height": 450,
+        "spacing": 0
+      }
+    ],
+    [
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///z%3A/VLib-Cmake/VuiLib/src/core/animation/vanimationcurve.cc",
+              "floatAreaId": "7ed9c295-62af-4777-a1ed-896d611f293e"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 13,
+                  "column": 20
+                },
+                "position": {
+                  "lineNumber": 13,
+                  "column": 20
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 1,
+                "column": 1
+              },
+              "firstPositionDeltaTop": 0
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "lineCount": 109,
+                "provider": "syntax",
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": true
+            }
+          }
+        },
+        "width": 600,
+        "height": 450,
+        "spacing": 0
+      },
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///z%3A/VLib-Cmake/VuiLib/include/core/uibasic/vuitheme.h",
+              "floatAreaId": "7ed9c295-62af-4777-a1ed-896d611f293e"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 139,
+                  "column": 13
+                },
+                "position": {
+                  "lineNumber": 139,
+                  "column": 13
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 0,
+              "firstPosition": {
+                "lineNumber": 121,
+                "column": 1
+              },
+              "firstPositionDeltaTop": -13
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "lineCount": 405,
+                "provider": "syntax",
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "width": 600,
+        "height": 450,
+        "spacing": 0
+      }
+    ],
+    [
+      {
+        "widget": {
+          "constructionOptions": {
+            "factoryId": "code-editor-opener",
+            "options": {
+              "kind": "navigatable",
+              "uri": "file:///z%3A/VLib-Cmake/VuiLib/src/core/uibasic/vuitheme.cc",
+              "floatAreaId": "7ed9c295-62af-4777-a1ed-896d611f293e"
+            }
+          },
+          "innerWidgetState": {
+            "cursorState": [
+              {
+                "inSelectionMode": false,
+                "selectionStart": {
+                  "lineNumber": 76,
+                  "column": 18
+                },
+                "position": {
+                  "lineNumber": 76,
+                  "column": 18
+                }
+              }
+            ],
+            "viewState": {
+              "scrollLeft": 101,
+              "firstPosition": {
+                "lineNumber": 76,
+                "column": 1
+              },
+              "firstPositionDeltaTop": 0
+            },
+            "contributionsState": {
+              "editor.contrib.folding": {
+                "collapsedRegions": [],
+                "lineCount": 730,
+                "foldedImports": false
+              },
+              "editor.contrib.wordHighlighter": false
+            }
+          }
+        },
+        "height": 450,
+        "spacing": 0
+      }
+    ]
+  ],
+  "_widths": [
+    600,
+    600,
+    600
+  ],
+  "_modelData": {
+    "connections": [
+      {
+        "startWord": {
+          "uri": "/z:/VLib-Cmake/VuiLib/src/core/widget/vwidget.cc",
+          "lineNumber": 12,
+          "startColumn": 22,
+          "endColumn": 38,
+          "word": "VMainWindowTheme",
+          "clientX": 272,
+          "clientY": 1200,
+          "height": 19,
+          "width": 123
+        },
+        "endWord": {
+          "uri": "/z:/VLib-Cmake/VuiLib/include/core/uibasic/vuitheme.h",
+          "lineNumber": 48,
+          "startColumn": 7,
+          "endColumn": 23,
+          "endLineNumber": 48,
+          "word": "",
+          "clientX": 734,
+          "clientY": 566,
+          "height": 19,
+          "width": 0
+        },
+        "id": "59e3849a-1491-4847-ba8a-88a7e64cd3ca"
+      }
+    ],
+    "annotations": [],
+    "highlights": []
+  }
+}

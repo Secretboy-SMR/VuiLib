@@ -14,8 +14,7 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VApplication class:
  *  Description : This class is using to describe the application in vuilib
@@ -23,8 +22,7 @@ namespace Core
  * VApplicaiton should only be created as once in one single
  *                vuilib project
  */
-class VApplication : public VUIObject
-{
+class VApplication : public VUIObject {
 protected:
 	/*
 	 * GetApplicationTheme override function:

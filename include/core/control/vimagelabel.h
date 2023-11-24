@@ -4,10 +4,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-class VImageLabel : public VUIObject
-{
+namespace Core {
+class VImageLabel : public VUIObject {
 public:
 	VImageLabel(VUIObject *Parent);
 	VImageLabel(const int &Width, const int &Height, VUIObject *Parent);

@@ -4,22 +4,18 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum class VViewLabelVerticalAlign
-{
+enum class VViewLabelVerticalAlign {
 	Left,
 	Right
 };
-enum class VViewLabelHorizontalAlign
-{
+enum class VViewLabelHorizontalAlign {
 	Top,
 	Bottom
 };
 
-class VViewLabel : public VUIObject
-{
+class VViewLabel : public VUIObject {
 private:
 	VRect ViewArea;
 

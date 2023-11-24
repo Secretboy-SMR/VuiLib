@@ -3,8 +3,7 @@
 #include "../../../include/core/uibasic/vtimer.h"
 #include "../../../include/vml/vmlwidget.h"
 
-class StatusPercentBar : public Core::VUIObject
-{
+class StatusPercentBar : public Core::VUIObject {
 public:
 	StatusPercentBar(Core::VUIObject *Parent);
 	StatusPercentBar(Core::VUIObject *Parent, const int &Width, const int &Height);
@@ -17,8 +16,7 @@ private:
 	double End;
 };
 
-class StatusPercentBarAnimation : public Core::VUIObject
-{
+class StatusPercentBarAnimation : public Core::VUIObject {
 public:
 	StatusPercentBarAnimation(StatusPercentBar *TargetObject);
 

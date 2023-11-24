@@ -5,11 +5,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum class VLayoutMode
-{
+enum class VLayoutMode {
 	LayoutModeCenter,
 	LayoutModeFar,
 	LayoutModePercent,
@@ -20,8 +18,7 @@ enum class VLayoutMode
 	LayoutModeDontUse
 };
 
-class VLayout : public VUIObject
-{
+class VLayout : public VUIObject {
 private:
 	VUIObject *TargetWindow;
 
@@ -67,8 +64,7 @@ public:
 	int GetXMiddleOffset() const;
 	int GetYMiddleOffset() const;
 };
-class VScaleLayout : public VUIObject
-{
+class VScaleLayout : public VUIObject {
 private:
 	VUIObject *TargetWindow;
 
@@ -91,8 +87,7 @@ public:
 	void SetHeightScalePercent(const double &Percent);
 };
 
-class VTextSizeLayout : public VUIObject
-{
+class VTextSizeLayout : public VUIObject {
 private:
 	VUIObject *TargetWindow;
 

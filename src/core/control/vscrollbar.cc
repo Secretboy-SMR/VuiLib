@@ -2,11 +2,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 VCircleScrollBarButton::VCircleScrollBarButton(const VDragTowardsMode &DragTowards, VUIObject *Parent)
-	: VDragControlBaseOnPushButton(Parent)
-{
+	: VDragControlBaseOnPushButton(Parent) {
 	DragTowardsMode = DragTowards;
 	MouseDragged.Connect(this, &VCircleScrollBarButton::UserOnDrag);
 
@@ -14,15 +12,13 @@ VCircleScrollBarButton::VCircleScrollBarButton(const VDragTowardsMode &DragTowar
 }
 VCircleScrollBarButton::VCircleScrollBarButton(const VDragTowardsMode &DragTowards, const int &Width, const int &Height,
 											   VUIObject *Parent)
-	: VDragControlBaseOnPushButton(Width, Height, Parent)
-{
+	: VDragControlBaseOnPushButton(Width, Height, Parent) {
 	DragTowardsMode = DragTowards;
 	MouseDragged.Connect(this, &VCircleScrollBarButton::UserOnDrag);
 
 	Theme = new VCircleScrollBarTheme(*(VCircleScrollBarTheme *)GetTargetTheme(Core::VUIThemeType::VCircleBarButton));
 }
-void VCircleScrollBarButton::OnPaint(Core::VCanvasPainter *Painter)
-{
+void VCircleScrollBarButton::OnPaint(Core::VCanvasPainter *Painter) {
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
 	VPenBrush	PenBrush(Theme->LocalTheme.BorderColor, CallWidgetGetRenderHandle(), Theme->LocalTheme.BorderThickness);
 	VSolidBrush TextBrush(Theme->LocalTheme.TextColor, CallWidgetGetRenderHandle());
@@ -35,34 +31,26 @@ void VCircleScrollBarButton::OnPaint(Core::VCanvasPainter *Painter)
 
 	Painter->EndDraw();
 }
-void VCircleScrollBarButton::SetDragRange(const VRect &Range)
-{
+void VCircleScrollBarButton::SetDragRange(const VRect &Range) {
 	DraggedRange = Range;
 }
-void VCircleScrollBarButton::LostMouseFocus()
-{
-	if (!UserInDrag)
-	{
+void VCircleScrollBarButton::LostMouseFocus() {
+	if (!UserInDrag) {
 		VPushButton::LostMouseFocus();
 	}
 }
-void VCircleScrollBarButton::UserOnDrag(const int &MouseX, const int &MouseY)
-{
-	if (Draggable)
-	{
-		switch (DragTowardsMode)
-		{
+void VCircleScrollBarButton::UserOnDrag(const int &MouseX, const int &MouseY) {
+	if (Draggable) {
+		switch (DragTowardsMode) {
 		case VDragTowardsMode::Vertical: {
-			if (MouseY >= DraggedRange.Top && MouseY <= DraggedRange.Bottom)
-			{
+			if (MouseY >= DraggedRange.Top && MouseY <= DraggedRange.Bottom) {
 				Move(GetX(), MouseY);
 			}
 
 			break;
 		}
 		case VDragTowardsMode::Horizontal: {
-			if (MouseX >= DraggedRange.Left && MouseX <= DraggedRange.Right)
-			{
+			if (MouseX >= DraggedRange.Left && MouseX <= DraggedRange.Right) {
 				Move(MouseX, GetY());
 			}
 
@@ -71,35 +59,27 @@ void VCircleScrollBarButton::UserOnDrag(const int &MouseX, const int &MouseY)
 		}
 	}
 }
-void VCircleScrollBarButton::SetDraggable(const bool &DraggableStatus)
-{
+void VCircleScrollBarButton::SetDraggable(const bool &DraggableStatus) {
 	Draggable = DraggableStatus;
 }
-void VCircleScrollBarButton::MouseLeftClicked(const VMouseClickedFlag &ClickedFlag)
-{
-	if (Draggable)
-	{
+void VCircleScrollBarButton::MouseLeftClicked(const VMouseClickedFlag &ClickedFlag) {
+	if (Draggable) {
 		VDragControlBaseOnPushButton::MouseLeftClicked(ClickedFlag);
 	}
 }
-void VCircleScrollBarButton::OnMessage(VMessage *Message)
-{
-	if (Draggable)
-	{
+void VCircleScrollBarButton::OnMessage(VMessage *Message) {
+	if (Draggable) {
 		VDragControlBaseOnPushButton::OnMessage(Message);
 	}
 }
 
-void VSliderHorizontal::OnMessage(VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::MouseClickedMessage && Draggable)
-	{
+void VSliderHorizontal::OnMessage(VMessage *Message) {
+	if (Message->GetType() == VMessageType::MouseClickedMessage && Draggable) {
 		VMouseClickedMessage *MouseClickedMessage = static_cast<VMouseClickedMessage *>(Message);
 
 		if (MouseClickedMessage->ClickedKey == VMouseKeyFlag::Left &&
 			MouseClickedMessage->ClickedMethod == VMouseClickedFlag::Down &&
-			MouseClickedMessage->MousePosition.InsideRectangle(GetRegion()))
-		{
+			MouseClickedMessage->MousePosition.InsideRectangle(GetRegion())) {
 			SliderPercent = double(MouseClickedMessage->MousePosition.X - GetX()) / GetWidth();
 
 			SliderButton->Move(MouseClickedMessage->MousePosition.X - SliderButton->GetWidth() / 2,
@@ -109,8 +89,7 @@ void VSliderHorizontal::OnMessage(VMessage *Message)
 		}
 	}
 }
-VSliderHorizontal::VSliderHorizontal(VUIObject *Parent) : VUIObject(Parent)
-{
+VSliderHorizontal::VSliderHorizontal(VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VSliderTheme(*(static_cast<VSliderTheme *>(GetTargetTheme(VUIThemeType::VSlider))));
 
 	SliderButton = new VCircleScrollBarButton(VDragTowardsMode::Horizontal, Parent);
@@ -120,8 +99,7 @@ VSliderHorizontal::VSliderHorizontal(VUIObject *Parent) : VUIObject(Parent)
 
 	SliderButton->MouseDragged.Connect(this, &VSliderHorizontal::SliderButtonDraged);
 }
-VSliderHorizontal::VSliderHorizontal(const int &Width, VUIObject *Parent) : VUIObject(Parent)
-{
+VSliderHorizontal::VSliderHorizontal(const int &Width, VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VSliderTheme(*(static_cast<VSliderTheme *>(GetTargetTheme(VUIThemeType::VSlider))));
 
 	SliderButton = new VCircleScrollBarButton(VDragTowardsMode::Horizontal, Parent);
@@ -133,50 +111,38 @@ VSliderHorizontal::VSliderHorizontal(const int &Width, VUIObject *Parent) : VUIO
 
 	Resize(Width, 4);
 }
-VSliderHorizontal::~VSliderHorizontal()
-{
+VSliderHorizontal::~VSliderHorizontal() {
 	delete Theme;
 }
 
-int VSliderHorizontal::GetSliderButtonX() const
-{
-	if (SliderPercent != 0)
-	{
+int VSliderHorizontal::GetSliderButtonX() const {
+	if (SliderPercent != 0) {
 		return SliderPercent * GetWidth() + GetX() - SliderButton->GetWidth() / 2;
-	}
-	else
-	{
+	} else {
 		return SliderPercent * GetWidth() + GetX();
 	}
 }
-int VSliderHorizontal::GetSliderButtonY() const
-{
+int VSliderHorizontal::GetSliderButtonY() const {
 	return GetY() - 6;
 }
-VSliderTheme *VSliderHorizontal::GetTheme()
-{
+VSliderTheme *VSliderHorizontal::GetTheme() {
 	return Theme;
 }
-int VSliderHorizontal::GetSelectedAreaWidth() const
-{
+int VSliderHorizontal::GetSelectedAreaWidth() const {
 	return GetWidth() * SliderPercent;
 }
-int VSliderHorizontal::GetUnselectedAreaWidth() const
-{
+int VSliderHorizontal::GetUnselectedAreaWidth() const {
 	return GetWidth() - GetSelectedAreaWidth();
 }
-int VSliderHorizontal::GetUnselectedAreaX() const
-{
+int VSliderHorizontal::GetUnselectedAreaX() const {
 	return GetSelectedAreaWidth();
 }
-void VSliderHorizontal::SetDraggable(const bool &DraggableStatus)
-{
+void VSliderHorizontal::SetDraggable(const bool &DraggableStatus) {
 	Draggable = DraggableStatus;
 
 	SliderButton->SetDraggable(Draggable);
 }
-void VSliderHorizontal::OnPaint(VCanvasPainter *Painter)
-{
+void VSliderHorizontal::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	// Draw Unselected area
@@ -200,53 +166,43 @@ void VSliderHorizontal::OnPaint(VCanvasPainter *Painter)
 
 	Painter->EndDraw();
 }
-void VSliderHorizontal::Move(const int &X, const int &Y)
-{
+void VSliderHorizontal::Move(const int &X, const int &Y) {
 	VUIObject::Move(X, Y);
 	SliderButton->Move(GetSliderButtonX(), GetSliderButtonY());
 	SliderButton->SetDragRange({GetX(), GetY(), GetX() + GetWidth() - 14, GetY() + GetHeight()});
 }
-void VSliderHorizontal::SliderButtonDraged(const int &, const int &)
-{
+void VSliderHorizontal::SliderButtonDraged(const int &, const int &) {
 	SliderPercent = double(SliderButton->GetX() - GetX()) / (GetWidth() - 14);
 
 	ValueChanged.Emit(SliderPercent);
 
 	Update();
 }
-void VSliderHorizontal::Resize(const int &Width, const int &Height)
-{
+void VSliderHorizontal::Resize(const int &Width, const int &Height) {
 	VUIObject::Resize(Width, 4);
 }
-double VSliderHorizontal::GetValue() const
-{
+double VSliderHorizontal::GetValue() const {
 	return SliderPercent;
 }
-void VSliderHorizontal::SetValue(const double &Value)
-{
+void VSliderHorizontal::SetValue(const double &Value) {
 	auto TargetValue = Value >= 1.f ? 1.f : Value;
 	TargetValue		 = Value <= 0.f ? 0.f : Value;
 
 	SliderPercent = TargetValue;
 
-	if (SliderPercent != 0)
-	{
+	if (SliderPercent != 0) {
 		SliderButton->Move(GetX() + GetWidth() * SliderPercent - SliderButton->GetWidth() / 2, SliderButton->GetY());
-	}
-	else
-	{
+	} else {
 		SliderButton->Move(GetX() + GetWidth(), SliderButton->GetY());
 	}
 
 	Update();
 }
-VCircleScrollBarButton *VSliderHorizontal::GetScrollBarButtonInstance()
-{
+VCircleScrollBarButton *VSliderHorizontal::GetScrollBarButtonInstance() {
 	return SliderButton;
 }
 
-VSliderVertical::VSliderVertical(VUIObject *Parent) : VUIObject(Parent)
-{
+VSliderVertical::VSliderVertical(VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VSliderTheme(*(static_cast<VSliderTheme *>(GetTargetTheme(VUIThemeType::VSlider))));
 
 	SliderButton = new VCircleScrollBarButton(VDragTowardsMode::Vertical, Parent);
@@ -256,8 +212,7 @@ VSliderVertical::VSliderVertical(VUIObject *Parent) : VUIObject(Parent)
 
 	SliderButton->MouseDragged.Connect(this, &VSliderVertical::SliderButtonDraged);
 }
-VSliderVertical::VSliderVertical(const int &Height, VUIObject *Parent) : VUIObject(Parent)
-{
+VSliderVertical::VSliderVertical(const int &Height, VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VSliderTheme(*(static_cast<VSliderTheme *>(GetTargetTheme(VUIThemeType::VSlider))));
 
 	SliderButton = new VCircleScrollBarButton(VDragTowardsMode::Vertical, Parent);
@@ -269,50 +224,38 @@ VSliderVertical::VSliderVertical(const int &Height, VUIObject *Parent) : VUIObje
 
 	Resize(4, Height);
 }
-VSliderVertical::~VSliderVertical()
-{
+VSliderVertical::~VSliderVertical() {
 	delete Theme;
 }
 
-int VSliderVertical::GetSliderButtonX() const
-{
+int VSliderVertical::GetSliderButtonX() const {
 	return GetX() - 6;
 }
-int VSliderVertical::GetSliderButtonY() const
-{
-	if (SliderPercent != 0)
-	{
+int VSliderVertical::GetSliderButtonY() const {
+	if (SliderPercent != 0) {
 		return SliderPercent * GetHeight() + GetY() - SliderButton->GetHeight() / 2;
-	}
-	else
-	{
+	} else {
 		return SliderPercent * GetHeight() + GetY();
 	}
 }
-VSliderTheme *VSliderVertical::GetTheme()
-{
+VSliderTheme *VSliderVertical::GetTheme() {
 	return Theme;
 }
-int VSliderVertical::GetSelectedAreaHeight() const
-{
+int VSliderVertical::GetSelectedAreaHeight() const {
 	return GetHeight() * SliderPercent;
 }
-int VSliderVertical::GetUnselectedAreaHeight() const
-{
+int VSliderVertical::GetUnselectedAreaHeight() const {
 	return GetHeight() - GetSelectedAreaHeight();
 }
-int VSliderVertical::GetUnselectedAreaY() const
-{
+int VSliderVertical::GetUnselectedAreaY() const {
 	return GetSelectedAreaHeight();
 }
-void VSliderVertical::SetDraggable(const bool &DraggableStatus)
-{
+void VSliderVertical::SetDraggable(const bool &DraggableStatus) {
 	Draggable = DraggableStatus;
 
 	SliderButton->SetDraggable(Draggable);
 }
-void VSliderVertical::OnPaint(VCanvasPainter *Painter)
-{
+void VSliderVertical::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	// Draw Unselected area
@@ -336,30 +279,25 @@ void VSliderVertical::OnPaint(VCanvasPainter *Painter)
 
 	Painter->EndDraw();
 }
-void VSliderVertical::Move(const int &X, const int &Y)
-{
+void VSliderVertical::Move(const int &X, const int &Y) {
 	VUIObject::Move(X, Y);
 	SliderButton->Move(GetSliderButtonX(), GetSliderButtonY());
 	SliderButton->SetDragRange({GetX(), GetY(), GetX() + GetWidth(), GetY() + GetHeight() - 14});
 }
-void VSliderVertical::SliderButtonDraged(const int &, const int &)
-{
+void VSliderVertical::SliderButtonDraged(const int &, const int &) {
 	SliderPercent = double(SliderButton->GetY() - GetY()) / (GetHeight() - 14);
 
 	ValueChanged.Emit(SliderPercent);
 
 	Update();
 }
-void VSliderVertical::OnMessage(VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::MouseClickedMessage && Draggable)
-	{
+void VSliderVertical::OnMessage(VMessage *Message) {
+	if (Message->GetType() == VMessageType::MouseClickedMessage && Draggable) {
 		VMouseClickedMessage *MouseClickedMessage = static_cast<VMouseClickedMessage *>(Message);
 
 		if (MouseClickedMessage->ClickedKey == VMouseKeyFlag::Left &&
 			MouseClickedMessage->ClickedMethod == VMouseClickedFlag::Down &&
-			MouseClickedMessage->MousePosition.InsideRectangle(GetRegion()))
-		{
+			MouseClickedMessage->MousePosition.InsideRectangle(GetRegion())) {
 			SliderPercent = double(MouseClickedMessage->MousePosition.Y - GetY()) / GetHeight();
 
 			SliderButton->Move(SliderButton->GetX(),
@@ -369,34 +307,27 @@ void VSliderVertical::OnMessage(VMessage *Message)
 		}
 	}
 }
-void VSliderVertical::Resize(const int &Width, const int &Height)
-{
+void VSliderVertical::Resize(const int &Width, const int &Height) {
 	VUIObject::Resize(4, Height);
 }
-double VSliderVertical::GetValue() const
-{
+double VSliderVertical::GetValue() const {
 	return SliderPercent;
 }
-void VSliderVertical::SetValue(const double &Value)
-{
+void VSliderVertical::SetValue(const double &Value) {
 	auto TargetValue = Value >= 1.f ? 1.f : Value;
 	TargetValue		 = Value <= 0.f ? 0.f : Value;
 
 	SliderPercent = TargetValue;
 
-	if (SliderPercent != 0)
-	{
+	if (SliderPercent != 0) {
 		SliderButton->Move(GetX(), SliderButton->GetY() + GetHeight() * SliderPercent - SliderButton->GetHeight() / 2);
-	}
-	else
-	{
+	} else {
 		SliderButton->Move(GetX(), SliderButton->GetY() + GetHeight());
 	}
 
 	Update();
 }
-VCircleScrollBarButton *VSliderVertical::GetScrollBarButtonInstance()
-{
+VCircleScrollBarButton *VSliderVertical::GetScrollBarButtonInstance() {
 	return SliderButton;
 }
 } // namespace Core

@@ -1,30 +1,20 @@
 #include "kits/vchainif.h"
 
-namespace VKits
-{
-VChainIfJudgement::VChainIfJudgement(const bool &Invalid)
-{
+namespace VKits {
+VChainIfJudgement::VChainIfJudgement(const bool &Invalid) {
 	False = Invalid;
 }
-VChainIfJudgement VChainIfJudgement::If(const bool &Expression)
-{
-	if (Expression && False)
-	{
+VChainIfJudgement VChainIfJudgement::If(const bool &Expression) {
+	if (Expression && False) {
 		return true;
-	}
-	else
-	{
+	} else {
 		return false;
 	}
 }
-bool VChainIfJudgement::Judge(const bool &Expression)
-{
-	if (False)
-	{
+bool VChainIfJudgement::Judge(const bool &Expression) {
+	if (False) {
 		return Expression;
-	}
-	else
-	{
+	} else {
 		return false;
 	}
 }

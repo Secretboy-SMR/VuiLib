@@ -1,20 +1,17 @@
 #include "status-bar.h"
 
-StatusPercentBar::StatusPercentBar(Core::VUIObject *Parent) : VUIObject(Parent)
-{
+StatusPercentBar::StatusPercentBar(Core::VUIObject *Parent) : VUIObject(Parent) {
 	Start = 0;
 	End	  = 0;
 }
-StatusPercentBar::StatusPercentBar(Core::VUIObject *Parent, const int &Width, const int &Height) : VUIObject(Parent)
-{
+StatusPercentBar::StatusPercentBar(Core::VUIObject *Parent, const int &Width, const int &Height) : VUIObject(Parent) {
 	Start = 0;
 	End	  = 0;
 
 	Resize(Width, Height);
 }
 
-void StatusPercentBar::OnPaint(Core::VCanvasPainter *Painter)
-{
+void StatusPercentBar::OnPaint(Core::VCanvasPainter *Painter) {
 	Core::VSolidBrush *Brush = new Core::VSolidBrush(Core::VColor::White, CallWidgetGetRenderHandle());
 
 	Painter->BeginDraw();
@@ -22,8 +19,7 @@ void StatusPercentBar::OnPaint(Core::VCanvasPainter *Painter)
 								   Core::VPoint(GetHeight() / 2, GetHeight()), Brush);
 	Painter->EndDraw();
 }
-void StatusPercentBar::SetRange(const double &RangeStart, const double &RangeEnd)
-{
+void StatusPercentBar::SetRange(const double &RangeStart, const double &RangeEnd) {
 	Start = RangeStart;
 	End	  = RangeEnd;
 
@@ -31,33 +27,26 @@ void StatusPercentBar::SetRange(const double &RangeStart, const double &RangeEnd
 }
 
 StatusPercentBarAnimation::StatusPercentBarAnimation(StatusPercentBar *TargetObject)
-	: VUIObject(TargetObject), Interpolator(0.01, Core::VInterpolatorFunctional::AccelerateDecelerateInterpolator)
-{
+	: VUIObject(TargetObject), Interpolator(0.01, Core::VInterpolatorFunctional::AccelerateDecelerateInterpolator) {
 	AnimationPlaying = false;
 }
 
-void StatusPercentBarAnimation::Play()
-{
-	if (!AnimationPlaying)
-	{
+void StatusPercentBarAnimation::Play() {
+	if (!AnimationPlaying) {
 		AnimationPlaying = true;
 
 		Timer.Start(16);
 	}
 }
-void StatusPercentBarAnimation::Stop()
-{
+void StatusPercentBarAnimation::Stop() {
 	AnimationPlaying = false;
 }
 
-void StatusPercentBarAnimation::CheckFrame()
-{
-	if (Timer.End() && AnimationPlaying)
-	{
+void StatusPercentBarAnimation::CheckFrame() {
+	if (Timer.End() && AnimationPlaying) {
 		Timer.Start(16);
 
-		if (Interpolator.IsEnd())
-		{
+		if (Interpolator.IsEnd()) {
 			Interpolator.Reset();
 		}
 
@@ -71,10 +60,8 @@ void StatusPercentBarAnimation::CheckFrame()
 bool StatusBarBuilderFunction(const std::wstring &TypeName, const VML::VMLFinder &RootFinder,
 							  Core::VUIObject **OriginObject, Core::VUIObject *ParentObject,
 							  std::map<std::wstring, VML::VMLPropertyValue> &PropertyValue,
-							  VML::VMLControlBuildStatus					*BuildStaus)
-{
-	if (TypeName == L"status-percent-bar")
-	{
+							  VML::VMLControlBuildStatus					*BuildStaus) {
+	if (TypeName == L"status-percent-bar") {
 		*OriginObject = new StatusPercentBar(ParentObject);
 
 		VML::VMLCommonBuilder CommonBuilder(RootFinder, *OriginObject, PropertyValue, BuildStaus);

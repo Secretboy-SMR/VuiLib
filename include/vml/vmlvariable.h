@@ -4,10 +4,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
-class VMLBasicVariable
-{
+namespace VML {
+class VMLBasicVariable {
 protected:
 	Core::VUIObject *BindObject;
 
@@ -18,8 +16,7 @@ public:
 	VMLBasicVariable(Core::VUIObject *TargetObject);
 };
 
-class VMLIntVariable : public VMLBasicVariable
-{
+class VMLIntVariable : public VMLBasicVariable {
 private:
 	int Value;
 
@@ -37,8 +34,7 @@ public:
 	bool			operator>(const VMLIntVariable &JudgetValue);
 	operator int();
 };
-class VMLDoubleVariable : public VMLBasicVariable
-{
+class VMLDoubleVariable : public VMLBasicVariable {
 private:
 	double Value;
 
@@ -56,8 +52,7 @@ public:
 	bool			   operator>(const VMLDoubleVariable &JudgetValue);
 	operator double();
 };
-class VMLStringVariable : public VMLBasicVariable
-{
+class VMLStringVariable : public VMLBasicVariable {
 private:
 	VString Value;
 
@@ -71,8 +66,7 @@ public:
 	bool			   operator!=(const VString &JudgetValue);
 	operator VString();
 };
-class VMLBooleanVariable : public VMLBasicVariable
-{
+class VMLBooleanVariable : public VMLBasicVariable {
 private:
 	bool Value;
 

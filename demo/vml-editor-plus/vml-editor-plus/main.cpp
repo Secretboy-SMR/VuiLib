@@ -2,16 +2,12 @@
 
 #include "vstudioapp.h"
 
-int wmain(int argc, wchar_t *argv[])
-{
+int wmain(int argc, wchar_t *argv[]) {
 	Core::VApplication App;
 
-	if (argc == 1)
-	{
+	if (argc == 1) {
 		VStudioApp *VStudio = new VStudioApp(&App);
-	}
-	else
-	{
+	} else {
 		VStudioApp *VStudio = new VStudioApp(&App, argv[1]);
 	}
 

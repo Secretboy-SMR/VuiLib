@@ -2,21 +2,16 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VBlurLabel::VBlurLabel(VUIObject *Parent) : VUIObject(Parent)
-{
+VBlurLabel::VBlurLabel(VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VBlurLabelTheme(*(static_cast<VBlurLabelTheme *>(GetTargetTheme(VUIThemeType::VBlurLabel))));
 }
-VBlurLabel::~VBlurLabel()
-{
+VBlurLabel::~VBlurLabel() {
 	delete Theme;
 }
-bool VBlurLabel::RendBlurCanvas(VCanvasPainter *Painter, VUIObject *Object)
-{
-	if ((Object->GetWidth() == 0 && Object->GetHeight() == 0) || Object->GetCanvas() == nullptr)
-	{
+bool VBlurLabel::RendBlurCanvas(VCanvasPainter *Painter, VUIObject *Object) {
+	if ((Object->GetWidth() == 0 && Object->GetHeight() == 0) || Object->GetCanvas() == nullptr) {
 		return false;
 	}
 
@@ -28,15 +23,12 @@ bool VBlurLabel::RendBlurCanvas(VCanvasPainter *Painter, VUIObject *Object)
 
 	auto ObjectChildLayout = Object->GetChildLayout();
 
-	for (auto ChildObject = ObjectChildLayout.begin(); ChildObject != ObjectChildLayout.end(); ++ChildObject)
-	{
-		if (Object == this)
-		{
+	for (auto ChildObject = ObjectChildLayout.begin(); ChildObject != ObjectChildLayout.end(); ++ChildObject) {
+		if (Object == this) {
 			return true;
 		}
 
-		if (RendBlurCanvas(&ChildCanvas, *ChildObject))
-		{
+		if (RendBlurCanvas(&ChildCanvas, *ChildObject)) {
 			Painter->DrawCanvas(Object->GetRegion(), &ChildCanvas, {0, 0, Object->GetWidth(), Object->GetHeight()},
 								1.f);
 
@@ -51,14 +43,12 @@ bool VBlurLabel::RendBlurCanvas(VCanvasPainter *Painter, VUIObject *Object)
 
 	return false;
 }
-VBlurLabel::VBlurLabel(const int &Width, const int &Height, VUIObject *Parent) : VUIObject(Parent)
-{
+VBlurLabel::VBlurLabel(const int &Width, const int &Height, VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VBlurLabelTheme(*(static_cast<VBlurLabelTheme *>(GetTargetTheme(VUIThemeType::VBlurLabel))));
 
 	Resize(Width, Height);
 }
-VBlurLabel::VBlurLabel(const int &Width, const int &Height, const int &Radius, VUIObject *Parent) : VUIObject(Parent)
-{
+VBlurLabel::VBlurLabel(const int &Width, const int &Height, const int &Radius, VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VBlurLabelTheme(*(static_cast<VBlurLabelTheme *>(GetTargetTheme(VUIThemeType::VBlurLabel))));
 
 	Resize(Width, Height);
@@ -66,8 +56,7 @@ VBlurLabel::VBlurLabel(const int &Width, const int &Height, const int &Radius, V
 	Theme->BlurRadius = Radius;
 }
 
-void VBlurLabel::OnPaint(Core::VCanvasPainter *Painter)
-{
+void VBlurLabel::OnPaint(Core::VCanvasPainter *Painter) {
 	VImage BlurImage(GetWidth(), GetHeight(), VSF_ALPHA_MODE_PREMULTIPLIED, CallWidgetGetRenderHandle());
 
 	D2D1_POINT_2U SourcePoint = {0, 0};
@@ -75,8 +64,8 @@ void VBlurLabel::OnPaint(Core::VCanvasPainter *Painter)
 								 static_cast<unsigned int>(GetOriginX()) + static_cast<unsigned int>(GetWidth()),
 								 static_cast<unsigned int>(GetHeight()) + static_cast<unsigned int>(GetOriginY())};
 
-	BlurImage.GetDirectXObject()->CopyFromRenderTarget(
-		&SourcePoint, GetParent()->GetCanvas()->GetDXObject(), &RectArea);
+	BlurImage.GetDirectXObject()->CopyFromRenderTarget(&SourcePoint, GetParent()->GetCanvas()->GetDXObject(),
+													   &RectArea);
 	BlurImage.ApplyGassBlur(Theme->BlurRadius, CallWidgetGetRenderHandle());
 
 	VSolidBrush	 SolidBrush(Theme->MixedColor, CallWidgetGetRenderHandle());
@@ -90,8 +79,7 @@ void VBlurLabel::OnPaint(Core::VCanvasPainter *Painter)
 
 	Painter->EndDraw();
 }
-VBlurLabelTheme *VBlurLabel::GetTheme()
-{
+VBlurLabelTheme *VBlurLabel::GetTheme() {
 	return Theme;
 }
 

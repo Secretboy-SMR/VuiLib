@@ -6,13 +6,11 @@ Core::VTextLabel  *DateText;
 Core::VSmartTimer *MainUITimer;
 Core::VSmartTimer *DateTimer;
 
-void StartMainUITimer()
-{
+void StartMainUITimer() {
 	MainUITimer->Start(4000);
 }
 
-void UpdateTime()
-{
+void UpdateTime() {
 	time_t LocalTime = time(0);
 
 	tm TimeStucture;
@@ -20,16 +18,14 @@ void UpdateTime()
 	wchar_t Format[1024];
 	_wasctime_s(Format, 1024, &TimeStucture);
 
-	if (Format)
-	{
+	if (Format) {
 		DateText->SetPlainText(Format);
 	}
 
 	DateTimer->Start(500);
 }
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	Core::VSmartTimer  Timer(&App);
 

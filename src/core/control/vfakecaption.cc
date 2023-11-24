@@ -2,26 +2,20 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VFakeCaption::VFakeCaption(const int &Width, const int &Height, VUIObject *Parent) : VUIObject(Parent)
-{
+VFakeCaption::VFakeCaption(const int &Width, const int &Height, VUIObject *Parent) : VUIObject(Parent) {
 	Resize(Width, Height);
 }
-VFakeCaption::VFakeCaption(VUIObject *Parent) : VUIObject(Parent)
-{
+VFakeCaption::VFakeCaption(VUIObject *Parent) : VUIObject(Parent) {
 }
-void VFakeCaption::OnMessage(VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::MouseClickedMessage)
-	{
+void VFakeCaption::OnMessage(VMessage *Message) {
+	if (Message->GetType() == VMessageType::MouseClickedMessage) {
 		VMouseClickedMessage *MouseClicekdMessage = static_cast<VMouseClickedMessage *>(Message);
 
 		if (MouseClicekdMessage->ClickedKey == VMouseKeyFlag::Left &&
 			MouseClicekdMessage->ClickedMethod == VMouseClickedFlag::Down &&
-			MouseClicekdMessage->MousePosition.InsideRectangle(GetRegion()) && CallWidgetGetLockingStatus() == false)
-		{
+			MouseClicekdMessage->MousePosition.InsideRectangle(GetRegion()) && CallWidgetGetLockingStatus() == false) {
 			PostMessage(CallWidgetGetHWND(), WM_NCLBUTTONDOWN, HTCAPTION,
 						MAKELPARAM(MouseClicekdMessage->MousePosition.X, MouseClicekdMessage->MousePosition.Y));
 		}

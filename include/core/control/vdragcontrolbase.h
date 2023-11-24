@@ -6,11 +6,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VDragControlBase : public VUIObject
-{
+class VDragControlBase : public VUIObject {
 protected:
 	bool UserInDrag = false;
 
@@ -27,8 +25,7 @@ public:
 	void MouseLeftClicked(const VMouseClickedFlag &ClickedFlag) override;
 	void OnMessage(VMessage *Message) override;
 };
-class VDragControlBaseOnPushButton : public VPushButton
-{
+class VDragControlBaseOnPushButton : public VPushButton {
 protected:
 	bool UserInDrag = false;
 
@@ -39,11 +36,9 @@ public:
 	VSignal<>						  UserLeftUp;
 
 public:
-	virtual void BeginDrag()
-	{
+	virtual void BeginDrag() {
 	}
-	virtual void EndDrag()
-	{
+	virtual void EndDrag() {
 	}
 
 public:

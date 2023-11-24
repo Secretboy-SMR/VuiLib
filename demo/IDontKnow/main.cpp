@@ -14,8 +14,7 @@ Core::VImage *CringFace2;
 int ShakeDealy = 600;
 int ShakeDelta = 0;
 
-double Random(const double &Start, const double &End)
-{
+double Random(const double &Start, const double &End) {
 	static std::random_device RandomDevice;
 	static std::mt19937		  Generator(RandomDevice());
 
@@ -24,8 +23,7 @@ double Random(const double &Start, const double &End)
 	return Distribution(Generator);
 }
 
-void ResetShakingAnmiation()
-{
+void ResetShakingAnmiation() {
 	int Token1 = (rand() % 2) ? 1 : -1;
 	int Token2 = (rand() % 2) ? 1 : -1;
 
@@ -34,14 +32,11 @@ void ResetShakingAnmiation()
 	ShakingAnmiation->Start();
 }
 
-struct PerlinCurve : public Core::VAnimationCurve
-{
-	PerlinCurve()
-	{
+struct PerlinCurve : public Core::VAnimationCurve {
+	PerlinCurve() {
 	}
 
-	double CurveFunction(const double &X) override
-	{
+	double CurveFunction(const double &X) override {
 		return 6 * pow(X, 5) - 15 * pow(X, 4) + 10 * pow(X, 3);
 	}
 };
@@ -115,17 +110,13 @@ Core::VSmartTimer		*EndTimer;
 
 bool SwitchFlag = false;
 
-void SwitchCryFace()
-{
-	if (!SwitchFlag)
-	{
+void SwitchCryFace() {
+	if (!SwitchFlag) {
 		MainWindowInstance->Get("main-window")["eye-container"]["left-eye"].Get<Core::VImageLabel>()->SetImage(
 			CringFace2);
 		MainWindowInstance->Get("main-window")["eye-container"]["right-eye"].Get<Core::VImageLabel>()->SetImage(
 			CringFace2);
-	}
-	else
-	{
+	} else {
 		MainWindowInstance->Get("main-window")["eye-container"]["left-eye"].Get<Core::VImageLabel>()->SetImage(
 			CringFace1);
 		MainWindowInstance->Get("main-window")["eye-container"]["right-eye"].Get<Core::VImageLabel>()->SetImage(
@@ -136,8 +127,7 @@ void SwitchCryFace()
 
 	CryFaceSwitchTimer->Start(ShakeDealy);
 }
-void InitCryFace()
-{
+void InitCryFace() {
 	MainWindowInstance->Get("main-window")["eye-container"]["fade-in-animation"]
 		.Get<Core::VOpacityAnimation>()
 		->Start();
@@ -147,8 +137,7 @@ void InitCryFace()
 	CryFaceSwitchTimer->Start(200);
 	CryFaceSwitchTimer->OnTime.Connect(SwitchCryFace);
 }
-void End()
-{
+void End() {
 	MainWindowInstance->Get("main-window")["background-text"]
 		.Get<Core::VTextLabel>()
 		->GetTheme()
@@ -166,10 +155,8 @@ void End()
 		->Start();
 	FadeInAnimation->Start();
 }
-void SwitchPlainText()
-{
-	if (TextNum + 1 > Text.size())
-	{
+void SwitchPlainText() {
+	if (TextNum + 1 > Text.size()) {
 		MainWindowInstance->Get("main-window")["background-text"][L"fade-out-animation"]
 			.Get<Core::VOpacityAnimation>()
 			->SetDuration(4000);
@@ -189,34 +176,25 @@ void SwitchPlainText()
 
 	ConversationText->SetPlainText(Text[TextNum]);
 
-	if (Text[TextNum] == L"他那空洞的双眼，装不下对未来的希望...")
-	{
+	if (Text[TextNum] == L"他那空洞的双眼，装不下对未来的希望...") {
 		ConversationText->SetTextColor(Core::VColor::Red);
 		ConversationText->GetTheme()->LabelFont->SetFamilyName(L"手书体");
 		ConversationText->Update();
 		TextSwitchTimer->Start(10000);
 	}
 
-	if (TextNum + 1 < Text.size())
-	{
-		if (Text[TextNum] == L"原来他一直都是一个一无所有的，活在谎言中的人")
-		{
+	if (TextNum + 1 < Text.size()) {
+		if (Text[TextNum] == L"原来他一直都是一个一无所有的，活在谎言中的人") {
 			ConversationText->GetTheme()->LabelFont->SetFamilyName(L"手书体");
 			ConversationText->Update();
 			TextSwitchTimer->Start(1600);
-		}
-		else if (Text[TextNum] == L"他崩溃了")
-		{
+		} else if (Text[TextNum] == L"他崩溃了") {
 			ConversationText->GetTheme()->LabelFont->SetFamilyName(L"Microsoft YaHei UI");
 			ConversationText->Update();
 			TextSwitchTimer->Start(1600);
-		}
-		else if (TextNum == 16)
-		{
+		} else if (TextNum == 16) {
 			TextSwitchTimer->Start(10000);
-		}
-		else if (TextNum == 17)
-		{
+		} else if (TextNum == 17) {
 			MainWindowInstance->Get("main-window")["background-text"].Get<Core::VTextLabel>()->SetPlainText("WHY!");
 			MainWindowInstance->Get("main-window")["background-text"][L"fade-in-animation"]
 				.Get<Core::VOpacityAnimation>()
@@ -231,9 +209,7 @@ void SwitchPlainText()
 				.Get<Core::VOpacityAnimation>()
 				->Start();
 			TextSwitchTimer->Start(1800);
-		}
-		else if (TextNum == 23)
-		{
+		} else if (TextNum == 23) {
 			delete CringFace1;
 			delete CringFace2;
 
@@ -254,15 +230,11 @@ void SwitchPlainText()
 				.Get<Core::VOpacityAnimation>()
 				->Start();
 			TextSwitchTimer->Start(1800);
-		}
-		else if (TextNum >= 23 && TextNum <= 23)
-		{
+		} else if (TextNum >= 23 && TextNum <= 23) {
 			ShakeDelta += 20;
 			ShakeDealy -= 145;
 			TextSwitchTimer->Start(800);
-		}
-		else if (TextNum == 34)
-		{
+		} else if (TextNum == 34) {
 			MainWindowInstance->Get("main-window")["eye-container"]["fade-out-animation"]
 				.Get<Core::VOpacityAnimation>()
 				->AnimationEnd.Disconnect(InitCryFace);
@@ -270,35 +242,28 @@ void SwitchPlainText()
 				.Get<Core::VOpacityAnimation>()
 				->Start();
 			TextSwitchTimer->Start(2000);
-		}
-		else
-		{
+		} else {
 			TextSwitchTimer->Start(1800);
 		}
 	}
 
 	++TextNum;
 }
-void SwitchText()
-{
+void SwitchText() {
 	FadeOutAnimation->Start();
 }
 
-class ResourceLoaderAndReleaser
-{
+class ResourceLoaderAndReleaser {
 public:
-	ResourceLoaderAndReleaser()
-	{
+	ResourceLoaderAndReleaser() {
 		AddFontResource(L"./resource/hand-write-font.ttf");
 	}
-	~ResourceLoaderAndReleaser()
-	{
+	~ResourceLoaderAndReleaser() {
 		RemoveFontResource(L"./resource/hand-write-font.ttf");
 	}
 };
 
-int main()
-{
+int main() {
 	ResourceLoaderAndReleaser ResourceManager;
 
 	Core::VApplication App;

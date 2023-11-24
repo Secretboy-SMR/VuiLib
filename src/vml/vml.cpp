@@ -2,123 +2,93 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
-VMLObjectType VMLObject::StringToObjectType(const VString &String)
-{
+namespace VML {
+VMLObjectType VMLObject::StringToObjectType(const VString &String) {
 	VMLObjectType Type = VMLObjectType::PushButton;
 
-	if (String == L"pushbutton")
-	{
+	if (String == L"pushbutton") {
 		return VMLObjectType::PushButton;
 	}
-	if (String == L"textlabel")
-	{
+	if (String == L"textlabel") {
 		return VMLObjectType::TextLabel;
 	}
-	if (String == L"imagelabel")
-	{
+	if (String == L"imagelabel") {
 		return VMLObjectType::ImageLabel;
 	}
-	if (String == L"mainwindow")
-	{
+	if (String == L"mainwindow") {
 		return VMLObjectType::MainWindow;
 	}
-	if (String == L"layout")
-	{
+	if (String == L"layout") {
 		return VMLObjectType::Layout;
 	}
-	if (String == L"scalelayout")
-	{
+	if (String == L"scalelayout") {
 		return VMLObjectType::ScaleLayout;
 	}
-	if (String == L"radiobutton")
-	{
+	if (String == L"radiobutton") {
 		return VMLObjectType::RadioButton;
 	}
-	if (String == L"horizontal-slider")
-	{
+	if (String == L"horizontal-slider") {
 		return VMLObjectType::HorizontalSlider;
 	}
-	if (String == L"vertical-slider")
-	{
+	if (String == L"vertical-slider") {
 		return VMLObjectType::VerticalSlider;
 	}
-	if (String == L"fake-caption")
-	{
+	if (String == L"fake-caption") {
 		return VMLObjectType::FakeCaption;
 	}
-	if (String == L"blurlabel")
-	{
+	if (String == L"blurlabel") {
 		return VMLObjectType::BlurLabel;
 	}
-	if (String == L"iconbutton")
-	{
+	if (String == L"iconbutton") {
 		return VMLObjectType::IconButton;
 	}
-	if (String == L"lineeditor")
-	{
+	if (String == L"lineeditor") {
 		return VMLObjectType::LineEditor;
 	}
-	if (String == L"switchgroup")
-	{
+	if (String == L"switchgroup") {
 		return VMLObjectType::SwitchGroup;
 	}
-	if (String == L"vertical-scroller")
-	{
+	if (String == L"vertical-scroller") {
 		return VMLObjectType::VerticalScroller;
 	}
-	if (String == L"horizontal-scroller")
-	{
+	if (String == L"horizontal-scroller") {
 		return VMLObjectType::HorizontalSlider;
 	}
-	if (String == L"viewlabel")
-	{
+	if (String == L"viewlabel") {
 		return VMLObjectType::ViewLabel;
 	}
-	if (String == L"position-animation")
-	{
+	if (String == L"position-animation") {
 		return VMLObjectType::PositionAnimation;
 	}
-	if (String == L"geometry-animation")
-	{
+	if (String == L"geometry-animation") {
 		return VMLObjectType::GeometryAnimation;
 	}
-	if (String == L"opacity-animation")
-	{
+	if (String == L"opacity-animation") {
 		return VMLObjectType::OpacityAnimation;
 	}
-	if (String == L"circle-view")
-	{
+	if (String == L"circle-view") {
 		return VMLObjectType::CircleView;
 	}
-	if (String == L"polygon-view")
-	{
+	if (String == L"polygon-view") {
 		return VMLObjectType::PolygonView;
 	}
-	if (String == L"widget")
-	{
+	if (String == L"widget") {
 		return VMLObjectType::Widget;
 	}
-	if (String == L"canvas")
-	{
+	if (String == L"canvas") {
 		return VMLObjectType::Canvas;
 	}
-	if (String == L"editor")
-	{
+	if (String == L"editor") {
 		return VMLObjectType::Editor;
 	}
-	if (String == L"drop-down")
-	{
+	if (String == L"drop-down") {
 		return VMLObjectType::DropDown;
 	}
 
 	return Type;
 }
-const VString VMLObject::ObjectTypeToString(VMLObjectType ObjectType)
-{
-	switch (ObjectType)
-	{
+const VString VMLObject::ObjectTypeToString(VMLObjectType ObjectType) {
+	switch (ObjectType) {
 	case VMLObjectType::PushButton: {
 		return L"pushbutton";
 	}
@@ -198,10 +168,8 @@ const VString VMLObject::ObjectTypeToString(VMLObjectType ObjectType)
 
 	return L"";
 }
-void VMLObject::SetNativeStyleSheet(VSS::VSSBasicSelector *Selector)
-{
-	switch (VMLType)
-	{
+void VMLObject::SetNativeStyleSheet(VSS::VSSBasicSelector *Selector) {
+	switch (VMLType) {
 	case VMLObjectType::PushButton: {
 		VSS::VSSVPushButtonBuilder Builder(static_cast<Core::VPushButton *>(UIObject),
 										   std::vector<VSS::VSSBasicSelector *>{Selector}, nullptr);
@@ -312,14 +280,11 @@ void VMLObject::SetNativeStyleSheet(VSS::VSSBasicSelector *Selector)
 	}
 	}
 }
-void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
-{
-	switch (Selector->GetType())
-	{
+void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector) {
+	switch (Selector->GetType()) {
 	case VSS::VSSSelectorType::FakeElementSelector: {
 		if (StringToObjectType(static_cast<VSS::VSSFakeElementSelector *>(Selector)->ElementTag) == VMLType &&
-			VMLClass.empty())
-		{
+			VMLClass.empty()) {
 			SetNativeStyleSheet(Selector);
 		}
 
@@ -327,16 +292,14 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 	}
 	case VSS::VSSSelectorType::FakeElementWithClassSelector: {
 		if (StringToObjectType(static_cast<VSS::VSSFakeElementWithClassSelector *>(Selector)->ElementTag) == VMLType &&
-			VMLClass.empty())
-		{
+			VMLClass.empty()) {
 			SetNativeStyleSheet(Selector);
 		}
 
 		break;
 	}
 	case VSS::VSSSelectorType::ClassWithFakeElementSelector: {
-		if (static_cast<VSS::VSSClassWithFakeElementSelector *>(Selector)->ClassTag == VMLClass)
-		{
+		if (static_cast<VSS::VSSClassWithFakeElementSelector *>(Selector)->ClassTag == VMLClass) {
 			VSS::VSSFakeElementSelector *FakeElementSelector = new VSS::VSSFakeElementSelector;
 
 			FakeElementSelector->ElementTag = ObjectTypeToString(VMLType);
@@ -352,8 +315,7 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 		break;
 	}
 	case VSS::VSSSelectorType::ClassWithFakeClassAndFakeElementSelector: {
-		if (static_cast<VSS::VSSClassWithFakeClassAndFakeElementSelector *>(Selector)->ClassTag == VMLClass)
-		{
+		if (static_cast<VSS::VSSClassWithFakeClassAndFakeElementSelector *>(Selector)->ClassTag == VMLClass) {
 			VSS::VSSFakeElementWithClassSelector *FakeElementWithClassSelector =
 				new VSS::VSSFakeElementWithClassSelector;
 
@@ -372,8 +334,7 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 		break;
 	}
 	case VSS::VSSSelectorType::ClassSelector: {
-		if (static_cast<VSS::VSSClassSelector *>(Selector)->ClassTag == VMLClass)
-		{
+		if (static_cast<VSS::VSSClassSelector *>(Selector)->ClassTag == VMLClass) {
 			VSS::VSSElementSelector *ElementSelector = new VSS::VSSElementSelector;
 
 			ElementSelector->ElementTag		  = ObjectTypeToString(VMLType);
@@ -388,16 +349,14 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 	}
 	case VSS::VSSSelectorType::ElementSelector: {
 		if (StringToObjectType(static_cast<VSS::VSSElementSelector *>(Selector)->ElementTag) == VMLType &&
-			VMLClass.empty())
-		{
+			VMLClass.empty()) {
 			SetNativeStyleSheet(Selector);
 		}
 
 		break;
 	}
 	case VSS::VSSSelectorType::ClassWithFakeClassSelector: {
-		if (static_cast<VSS::VSSClassWithFakeClassSelector *>(Selector)->ClassTag == VMLClass)
-		{
+		if (static_cast<VSS::VSSClassWithFakeClassSelector *>(Selector)->ClassTag == VMLClass) {
 			VSS::VSSFakeClassSelector *FakeClassSelector = new VSS::VSSFakeClassSelector;
 
 			FakeClassSelector->ElementTag		= ObjectTypeToString(VMLType);
@@ -417,8 +376,7 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 		break;
 	}
 	case VSS::VSSSelectorType::IDSelector: {
-		if (static_cast<VSS::VSSIDSelector *>(Selector)->IDTag == VMLDOMID)
-		{
+		if (static_cast<VSS::VSSIDSelector *>(Selector)->IDTag == VMLDOMID) {
 			VSS::VSSElementSelector *ElementSelector = new VSS::VSSElementSelector;
 
 			ElementSelector->ElementTag		  = ObjectTypeToString(VMLType);
@@ -433,8 +391,7 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 	}
 	case VSS::VSSSelectorType::FakeClassSelector: {
 		if (StringToObjectType(static_cast<VSS::VSSFakeClassSelector *>(Selector)->ElementTag) == VMLType &&
-			VMLClass.empty())
-		{
+			VMLClass.empty()) {
 			SetNativeStyleSheet(Selector);
 		}
 
@@ -444,60 +401,47 @@ void VMLObject::SetStyleSheet(VSS::VSSBasicSelector *Selector)
 		break;
 	}
 
-	for (auto &Objects : ChildrenObjects)
-	{
+	for (auto &Objects : ChildrenObjects) {
 		Objects->SetStyleSheet(Selector);
 	}
 }
 VMLFinder::VMLFinder(VML::VMLObject *Object, std::vector<VMLObject *> List,
-					 std::vector<VMLBasicVariable *> *VariableList)
-{
+					 std::vector<VMLBasicVariable *> *VariableList) {
 	ObjectList	 = List;
 	OriginObject = Object;
 }
 
-VMLFinder VMLFinder::operator[](const VString &ChildrenId)
-{
-	for (auto &Object : ObjectList)
-	{
-		if (Object->VMLID == ChildrenId)
-		{
+VMLFinder VMLFinder::operator[](const VString &ChildrenId) {
+	for (auto &Object : ObjectList) {
+		if (Object->VMLID == ChildrenId) {
 			return VMLFinder(Object, Object->ChildrenObjects, VariableList);
 		}
 	}
 
 	return VMLFinder(nullptr, std::vector<VMLObject *>(), VariableList);
 }
-Core::VUIObject *VMLFinder::operator->()
-{
+Core::VUIObject *VMLFinder::operator->() {
 	return Get();
 }
-VMLFinder VMLFinder::Get(const VString &ChildrenId)
-{
-	for (auto &Object : ObjectList)
-	{
-		if (Object->VMLID == ChildrenId)
-		{
+VMLFinder VMLFinder::Get(const VString &ChildrenId) {
+	for (auto &Object : ObjectList) {
+		if (Object->VMLID == ChildrenId) {
 			return VMLFinder(Object, Object->ChildrenObjects, VariableList);
 		}
 	}
 
 	return VMLFinder(nullptr, std::vector<VMLObject *>(), VariableList);
 }
-bool VMLFinder::IsValid()
-{
+bool VMLFinder::IsValid() {
 	return OriginObject != nullptr;
 }
-Core::VLayout *VMLFinder::GetVMLLaytout()
-{
+Core::VLayout *VMLFinder::GetVMLLaytout() {
 	return OriginObject->VMLNativeLaytout;
 }
-Core::VScaleLayout *VMLFinder::GetVMLScaleLaytout()
-{
+Core::VScaleLayout *VMLFinder::GetVMLScaleLaytout() {
 	return OriginObject->VMLNativeScaleLaytout;
 }
-VMLFinder::operator Core::VUIObject *()
-{
+VMLFinder::operator Core::VUIObject *() {
 	return OriginObject->UIObject;
 }
 } // namespace VML

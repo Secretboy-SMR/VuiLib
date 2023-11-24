@@ -2,25 +2,19 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VKits
-{
-VString VParserHelper::ReadFromFile(const VString &FilePath, VDocumentEncoding DocumentEncoding)
-{
+namespace VKits {
+VString VParserHelper::ReadFromFile(const VString &FilePath, VDocumentEncoding DocumentEncoding) {
 	std::ifstream FileStream(FilePath);
 
 	std::string TempLine;
 	std::string TotalFile;
 
-	while (true)
-	{
+	while (true) {
 		std::getline(FileStream, TempLine);
 
-		if (!FileStream.eof())
-		{
+		if (!FileStream.eof()) {
 			TotalFile += TempLine + "\n";
-		}
-		else
-		{
+		} else {
 			TotalFile += TempLine;
 
 			break;
@@ -29,8 +23,7 @@ VString VParserHelper::ReadFromFile(const VString &FilePath, VDocumentEncoding D
 
 	FileStream.close();
 
-	switch (DocumentEncoding)
-	{
+	switch (DocumentEncoding) {
 	case VDocumentEncoding::UTF8: {
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> Convertor;
 
@@ -45,8 +38,7 @@ VString VParserHelper::ReadFromFile(const VString &FilePath, VDocumentEncoding D
 
 	return L"Unknown File";
 }
-bool VParserHelper::FileExist(const VString &FilePath)
-{
+bool VParserHelper::FileExist(const VString &FilePath) {
 	return (_waccess(FilePath.CStyleString(), 04) != -1);
 }
 } // namespace VKits

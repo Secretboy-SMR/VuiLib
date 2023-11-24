@@ -2,8 +2,7 @@
 
 #include "vml/vmlwidget.h"
 
-class BannerButton : public Core::VUIObject
-{
+class BannerButton : public Core::VUIObject {
 public:
 	BannerButton(Core::VUIObject *Parent, const VString &IconText, const VString &Text);
 

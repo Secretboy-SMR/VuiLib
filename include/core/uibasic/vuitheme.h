@@ -10,11 +10,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum class VUIThemeType
-{
+enum class VUIThemeType {
 	VUnknown,
 	VMainWindow,
 	VPushButton,
@@ -33,39 +31,33 @@ enum class VUIThemeType
 	VDropDown
 };
 
-struct VBasicUITheme
-{
+struct VBasicUITheme {
 public:
 	VBasicUITheme() = default;
 
 public:
-	virtual VUIThemeType GetThemeType()
-	{
+	virtual VUIThemeType GetThemeType() {
 		return VUIThemeType::VUnknown;
 	}
 };
 
-class VMainWindowTheme : public VBasicUITheme
-{
+class VMainWindowTheme : public VBasicUITheme {
 public:
 	VColor	BackgroundColor;
 	bool	WindowSizble;
 	VString WindowPlainText;
 
-	VMainWindowTheme()
-	{
+	VMainWindowTheme() {
 		BackgroundColor = VColor::FromBYTERGBA(41, 41, 41, 255);
 		WindowSizble	= true;
 	}
 
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VMainWindow;
 	}
 };
 
-struct VLabelStatusTheme
-{
+struct VLabelStatusTheme {
 	VColor BackgroundColor;
 	VColor BorderColor;
 	VColor TextColor;
@@ -80,8 +72,7 @@ struct VLabelStatusTheme
 	VLabelStatusTheme(const VLabelStatusTheme &Theme);
 };
 
-struct VLabelCommonTheme : public VBasicUITheme
-{
+struct VLabelCommonTheme : public VBasicUITheme {
 public:
 	VLabelStatusTheme StaticTheme;
 	VLabelStatusTheme OnHoverTheme;
@@ -96,8 +87,7 @@ public:
 	~VLabelCommonTheme();
 };
 
-struct VPushButtonTheme : public VLabelCommonTheme
-{
+struct VPushButtonTheme : public VLabelCommonTheme {
 public:
 	VString PlainText;
 
@@ -106,14 +96,12 @@ public:
 	VPushButtonTheme(const VPushButtonTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VPushButton;
 	}
 };
 
-struct VRadioButtonTheme : public VLabelCommonTheme
-{
+struct VRadioButtonTheme : public VLabelCommonTheme {
 public:
 	bool	SwitchStatus = false;
 	VString PlainText;
@@ -124,14 +112,12 @@ public:
 	VRadioButtonTheme(const VRadioButtonTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VRadioButton;
 	}
 };
 
-struct VTextLabelTheme : public VLabelCommonTheme
-{
+struct VTextLabelTheme : public VLabelCommonTheme {
 public:
 	VString PlainText;
 
@@ -140,48 +126,40 @@ public:
 	VTextLabelTheme(const VTextLabelTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VTextLabel;
 	}
 };
 
-struct VImageLabelTheme : public VBasicUITheme
-{
+struct VImageLabelTheme : public VBasicUITheme {
 	VImage *Image;
 	VPoint	BorderRadius;
 
-	VImageLabelTheme()
-	{
+	VImageLabelTheme() {
 		Image		 = nullptr;
 		BorderRadius = {0, 0};
 	}
-	~VImageLabelTheme()
-	{
+	~VImageLabelTheme() {
 		delete Image;
 	}
 
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VImageLabel;
 	}
 };
 
-class VCircleScrollBarTheme : public VPushButtonTheme
-{
+class VCircleScrollBarTheme : public VPushButtonTheme {
 public:
 	VCircleScrollBarTheme();
 	VCircleScrollBarTheme(const VCircleScrollBarTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VCircleBarButton;
 	}
 };
 
-struct VSliderStatusTheme
-{
+struct VSliderStatusTheme {
 	VColor BackgroundColor;
 	VColor BorderColor;
 
@@ -193,16 +171,14 @@ struct VSliderStatusTheme
 	VSliderStatusTheme(const VSliderStatusTheme &Theme);
 };
 
-struct VSliderAreaTheme
-{
+struct VSliderAreaTheme {
 	VSliderStatusTheme LocalTheme;
 
 	VSliderAreaTheme() = default;
 	VSliderAreaTheme(const VSliderAreaTheme &Theme);
 };
 
-class VSliderTheme : public VBasicUITheme
-{
+class VSliderTheme : public VBasicUITheme {
 public:
 	VSliderAreaTheme UnselectedArea;
 	VSliderAreaTheme SelectedArea;
@@ -212,14 +188,12 @@ public:
 	VSliderTheme();
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VSlider;
 	}
 };
 
-class VBlurLabelTheme : public VBasicUITheme
-{
+class VBlurLabelTheme : public VBasicUITheme {
 public:
 	VColor MixedColor;
 	int	   BlurRadius;
@@ -231,14 +205,12 @@ public:
 	VBlurLabelTheme();
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VBlurLabel;
 	}
 };
 
-struct VIconButtonStatus
-{
+struct VIconButtonStatus {
 	VImage *Image;
 	float	Opacity;
 
@@ -246,8 +218,7 @@ struct VIconButtonStatus
 	VIconButtonStatus(const VIconButtonStatus &Status);
 };
 
-class VIconButtonTheme : public VLabelCommonTheme
-{
+class VIconButtonTheme : public VLabelCommonTheme {
 public:
 	VImage *Image = nullptr;
 
@@ -256,14 +227,12 @@ public:
 	VIconButtonTheme(const VIconButtonTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VIconButton;
 	}
 };
 
-struct VTextEditorTheme : public VLabelCommonTheme
-{
+struct VTextEditorTheme : public VLabelCommonTheme {
 public:
 	VString PlainText;
 
@@ -278,40 +247,34 @@ public:
 	VTextEditorTheme(const VTextEditorTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VTextEditor;
 	}
 };
 
-struct VViewScrollerButtonTheme : public VLabelCommonTheme
-{
+struct VViewScrollerButtonTheme : public VLabelCommonTheme {
 public:
 	VViewScrollerButtonTheme();
 	VViewScrollerButtonTheme(const VViewScrollerButtonTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VViewScrollerPushButton;
 	}
 };
 
-struct VViewScrollerTheme : public VLabelCommonTheme
-{
+struct VViewScrollerTheme : public VLabelCommonTheme {
 public:
 	VViewScrollerTheme();
 	VViewScrollerTheme(const VViewScrollerTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VViewScroller;
 	}
 };
 
-class VViewLabelTheme : public VBasicUITheme
-{
+class VViewLabelTheme : public VBasicUITheme {
 public:
 	VColor BackgroundColor;
 	VColor BorderColor;
@@ -323,14 +286,12 @@ public:
 	VViewLabelTheme(const VViewLabelTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VViewLabel;
 	}
 };
 
-class VDropDownContextTheme : public VBasicUITheme
-{
+class VDropDownContextTheme : public VBasicUITheme {
 public:
 	VPoint Radius;
 	VColor TitleColor;
@@ -348,20 +309,17 @@ public:
 	VDropDownContextTheme(const VDropDownContextTheme &Theme);
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VDropDownContext;
 	}
 };
-class VDropDownTheme : public VLabelCommonTheme
-{
+class VDropDownTheme : public VLabelCommonTheme {
 public:
 	VDropDownTheme(const VDropDownTheme &Theme);
 	VDropDownTheme();
 
 public:
-	VUIThemeType GetThemeType() override
-	{
+	VUIThemeType GetThemeType() override {
 		return VUIThemeType::VDropDown;
 	}
 
@@ -371,8 +329,7 @@ public:
 	int		IconThickness;
 };
 
-class VThemeAbstract
-{
+class VThemeAbstract {
 public:
 	virtual VMainWindowTheme		 *GetMainWindowTheme()		   = 0;
 	virtual VPushButtonTheme		 *GetPushButtonTheme()		   = 0;
@@ -386,8 +343,7 @@ public:
 	virtual VViewLabelTheme			 *GetViewLabelTheme()		   = 0;
 };
 
-class VElementUITheme : public VThemeAbstract
-{
+class VElementUITheme : public VThemeAbstract {
 public:
 	VMainWindowTheme		 *GetMainWindowTheme() override;
 	VTextLabelTheme			 *GetTextLabelTheme() override;

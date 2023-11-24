@@ -2,20 +2,15 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
+namespace VML {
 bool VMLCommonBuilder::CheckNativeCallParameter(std::vector<VMLPropertyValue> Properties,
-												std::vector<VMLPropertyType>  PropertiesType)
-{
-	if (Properties.size() != PropertiesType.size())
-	{
+												std::vector<VMLPropertyType>  PropertiesType) {
+	if (Properties.size() != PropertiesType.size()) {
 		return false;
 	}
 
-	for (int PropertiesCount = 0; PropertiesCount != Properties.size(); ++PropertiesCount)
-	{
-		if (Properties[PropertiesCount].PropertyType != PropertiesType[PropertiesCount])
-		{
+	for (int PropertiesCount = 0; PropertiesCount != Properties.size(); ++PropertiesCount) {
+		if (Properties[PropertiesCount].PropertyType != PropertiesType[PropertiesCount]) {
 			return false;
 		}
 	}
@@ -27,8 +22,7 @@ void VMLCommonBuilder::Builder(Core::VUIObject *Object, const int &X, const int 
 							   const Core::VLayoutMode &HorizontalLayoutMode, const double &VerticalLayoutPercent,
 							   const double &HorizontalLayoutPercent, const int &RelativeX, const int &RelativeY,
 							   const int &XMiddleOffset, const int &YMiddleOffset, const double &WidthRatio,
-							   const double &HeightRatio, const bool &ViewOnly, const VMLFinder &ObjectFinder)
-{
+							   const double &HeightRatio, const bool &ViewOnly, const VMLFinder &ObjectFinder) {
 	Core::VLayout *_NativeLayout = new Core::VLayout(Object, Object->GetParent());
 	_NativeLayout->SetHorizontalLayoutMode(HorizontalLayoutMode);
 	_NativeLayout->SetVerticalLayoutMode(VerticalLayoutMode);
@@ -43,16 +37,14 @@ void VMLCommonBuilder::Builder(Core::VUIObject *Object, const int &X, const int 
 	_NativeScaleLayout->SetHeightScalePercent(HeightRatio);
 	_NativeScaleLayout->SetHeightScalePercent(HeightRatio);
 
-	if (!Object->IsWidget())
-	{
+	if (!Object->IsWidget()) {
 		Object->Move(X, Y);
 	}
 
 	Object->Resize(Width, Height);
 	Object->SetTransparency(Transparency);
 
-	if (!Visble)
-	{
+	if (!Visble) {
 		Object->Hide();
 	}
 
@@ -61,8 +53,7 @@ void VMLCommonBuilder::Builder(Core::VUIObject *Object, const int &X, const int 
 
 void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObject *Object,
 									   std::map<VString, VMLPropertyValue> &PropertyValueList,
-									   VMLControlBuildStatus			   *BuildStatus)
-{
+									   VMLControlBuildStatus			   *BuildStatus) {
 	int	  X			   = 0;
 	int	  Y			   = 0;
 	int	  Height	   = 0;
@@ -89,12 +80,9 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 
 	BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Ok;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"view-only")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"view-only") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-only\" Property must match the type \"bolean\"";
 
@@ -103,13 +91,11 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 
 			ViewOnly = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"x")
-		{
+		if (ElementProperty.first == L"x") {
 			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue &&
 				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall &&
 				ElementProperty.second.PropertyType != VMLPropertyType::VariableCall &&
-				ElementProperty.second.PropertyType != VMLPropertyType::VariableDefine)
-			{
+				ElementProperty.second.PropertyType != VMLPropertyType::VariableDefine) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"x\" Property must match the type \"int\" or \"native call "
 											L"functional\"";
@@ -117,40 +103,28 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				return;
 			}
 
-			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue)
-			{
+			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue) {
 				X = ElementProperty.second.PropertyAsInt;
-			}
-			else if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall)
-			{
-				if (ElementProperty.second.NativeCallMethodName == L"center")
-				{
+			} else if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall) {
+				if (ElementProperty.second.NativeCallMethodName == L"center") {
 					HorizontalLayoutMode = Core::VLayoutMode::LayoutModeCenter;
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"centeroffset")
-				{
+				if (ElementProperty.second.NativeCallMethodName == L"centeroffset") {
 					HorizontalLayoutMode = Core::VLayoutMode::LayoutModeMiddleOffset;
 
-					if (ElementProperty.second.NativeCallParameter.size() == 1)
-					{
+					if (ElementProperty.second.NativeCallParameter.size() == 1) {
 						if (CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-													 {VMLPropertyType::IntValue}))
-						{
+													 {VMLPropertyType::IntValue})) {
 							XMiddleOffset = ElementProperty.second.NativeCallParameter[0].PropertyAsInt;
 						}
-						if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-						{
-							if (ElementProperty.second.VariableType == VMLVariableType::IntType)
-							{
-								if (!ElementProperty.second.VariableInitValue.empty())
-								{
+						if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+							if (ElementProperty.second.VariableType == VMLVariableType::IntType) {
+								if (!ElementProperty.second.VariableInitValue.empty()) {
 									DefineVariable<int, VMLIntVariable>(
 										Object, ElementProperty.second.VariableInitValue[0].PropertyAsInt, RootFinder,
 										ElementProperty.second.NativeCallMethodName);
 									XMiddleOffset = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-								}
-								else
-								{
+								} else {
 									DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 																		ElementProperty.second.NativeCallMethodName);
 									XMiddleOffset = 0;
@@ -159,29 +133,22 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"relative")
-				{
+				if (ElementProperty.second.NativeCallMethodName == L"relative") {
 					HorizontalLayoutMode = Core::VLayoutMode::LayoutModeRelative;
 
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::IntValue}))
-					{
+												 {VMLPropertyType::IntValue})) {
 						RelativeX = ElementProperty.second.NativeCallParameter[0].PropertyAsInt;
 					}
-					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-					{
-						if (ElementProperty.second.VariableType == VMLVariableType::IntType)
-						{
-							if (!ElementProperty.second.VariableInitValue.empty())
-							{
+					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+						if (ElementProperty.second.VariableType == VMLVariableType::IntType) {
+							if (!ElementProperty.second.VariableInitValue.empty()) {
 								DefineVariable<int, VMLIntVariable>(
 									Object, ElementProperty.second.VariableInitValue[0].PropertyAsInt, RootFinder,
 									ElementProperty.second.NativeCallMethodName);
 								RelativeX = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-							}
-							else
-							{
+							} else {
 								DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 																	ElementProperty.second.NativeCallMethodName);
 								RelativeX = 0;
@@ -189,29 +156,22 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"ratio")
-				{
+				if (ElementProperty.second.NativeCallMethodName == L"ratio") {
 					HorizontalLayoutMode = Core::VLayoutMode::LayoutModePercent;
 
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::DoubleValue}))
-					{
+												 {VMLPropertyType::DoubleValue})) {
 						VerticalLayoutPercent = ElementProperty.second.NativeCallParameter[0].PropertyAsDouble;
 					}
-					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-					{
-						if (ElementProperty.second.VariableType == VMLVariableType::DoubleType)
-						{
-							if (!ElementProperty.second.VariableInitValue.empty())
-							{
+					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+						if (ElementProperty.second.VariableType == VMLVariableType::DoubleType) {
+							if (!ElementProperty.second.VariableInitValue.empty()) {
 								DefineVariable<double, VMLDoubleVariable>(
 									Object, ElementProperty.second.VariableInitValue[0].PropertyAsDouble, RootFinder,
 									ElementProperty.second.NativeCallMethodName);
 								VerticalLayoutPercent = ElementProperty.second.VariableInitValue[0].PropertyAsDouble;
-							}
-							else
-							{
+							} else {
 								DefineVariable<double, VMLDoubleVariable>(Object, 0.f, RootFinder,
 																		  ElementProperty.second.NativeCallMethodName);
 								VerticalLayoutPercent = 0.f;
@@ -219,20 +179,14 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-			}
-			else if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-			{
-				if (ElementProperty.second.VariableType == VMLVariableType::IntType)
-				{
-					if (!ElementProperty.second.VariableInitValue.empty())
-					{
+			} else if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+				if (ElementProperty.second.VariableType == VMLVariableType::IntType) {
+					if (!ElementProperty.second.VariableInitValue.empty()) {
 						DefineVariable<int, VMLIntVariable>(Object,
 															ElementProperty.second.VariableInitValue[0].PropertyAsInt,
 															RootFinder, ElementProperty.second.NativeCallMethodName);
 						X = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-					}
-					else
-					{
+					} else {
 						DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 															ElementProperty.second.NativeCallMethodName);
 						X = 0;
@@ -240,11 +194,9 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				}
 			}
 		}
-		if (ElementProperty.first == L"y")
-		{
+		if (ElementProperty.first == L"y") {
 			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue &&
-				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"y\" Property must match the type \"int\"  or \"native call "
 											L"functional\"";
@@ -252,39 +204,28 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				return;
 			}
 
-			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue)
-			{
+			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue) {
 				Y = ElementProperty.second.PropertyAsInt;
-			}
-			else
-			{
-				if (ElementProperty.second.NativeCallMethodName == L"center")
-				{
+			} else {
+				if (ElementProperty.second.NativeCallMethodName == L"center") {
 					VerticalLayoutMode = Core::VLayoutMode::LayoutModeCenter;
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"centeroffset")
-				{
+				if (ElementProperty.second.NativeCallMethodName == L"centeroffset") {
 					VerticalLayoutMode = Core::VLayoutMode::LayoutModeMiddleOffset;
 
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::IntValue}))
-					{
+												 {VMLPropertyType::IntValue})) {
 						YMiddleOffset = ElementProperty.second.NativeCallParameter[0].PropertyAsInt;
 					}
-					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-					{
-						if (ElementProperty.second.VariableType == VMLVariableType::IntType)
-						{
-							if (!ElementProperty.second.VariableInitValue.empty())
-							{
+					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+						if (ElementProperty.second.VariableType == VMLVariableType::IntType) {
+							if (!ElementProperty.second.VariableInitValue.empty()) {
 								DefineVariable<int, VMLIntVariable>(
 									Object, ElementProperty.second.VariableInitValue[0].PropertyAsInt, RootFinder,
 									ElementProperty.second.NativeCallMethodName);
 								YMiddleOffset = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-							}
-							else
-							{
+							} else {
 								DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 																	ElementProperty.second.NativeCallMethodName);
 								YMiddleOffset = 0;
@@ -292,29 +233,22 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"relative")
-				{
+				if (ElementProperty.second.NativeCallMethodName == L"relative") {
 					VerticalLayoutMode = Core::VLayoutMode::LayoutModeRelative;
 
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::IntValue}))
-					{
+												 {VMLPropertyType::IntValue})) {
 						RelativeY = ElementProperty.second.NativeCallParameter[0].PropertyAsInt;
 					}
-					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-					{
-						if (ElementProperty.second.VariableType == VMLVariableType::IntType)
-						{
-							if (!ElementProperty.second.VariableInitValue.empty())
-							{
+					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+						if (ElementProperty.second.VariableType == VMLVariableType::IntType) {
+							if (!ElementProperty.second.VariableInitValue.empty()) {
 								DefineVariable<int, VMLIntVariable>(
 									Object, ElementProperty.second.VariableInitValue[0].PropertyAsInt, RootFinder,
 									ElementProperty.second.NativeCallMethodName);
 								RelativeY = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-							}
-							else
-							{
+							} else {
 								DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 																	ElementProperty.second.NativeCallMethodName);
 								RelativeY = 0;
@@ -322,29 +256,22 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"ratio")
-				{
+				if (ElementProperty.second.NativeCallMethodName == L"ratio") {
 					VerticalLayoutMode = Core::VLayoutMode::LayoutModePercent;
 
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::DoubleValue}))
-					{
+												 {VMLPropertyType::DoubleValue})) {
 						HorizontalLayoutPercent = ElementProperty.second.NativeCallParameter[0].PropertyAsDouble;
 					}
-					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-					{
-						if (ElementProperty.second.VariableType == VMLVariableType::DoubleType)
-						{
-							if (!ElementProperty.second.VariableInitValue.empty())
-							{
+					if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+						if (ElementProperty.second.VariableType == VMLVariableType::DoubleType) {
+							if (!ElementProperty.second.VariableInitValue.empty()) {
 								DefineVariable<double, VMLDoubleVariable>(
 									Object, ElementProperty.second.VariableInitValue[0].PropertyAsDouble, RootFinder,
 									ElementProperty.second.NativeCallMethodName);
 								HorizontalLayoutPercent = ElementProperty.second.VariableInitValue[0].PropertyAsDouble;
-							}
-							else
-							{
+							} else {
 								DefineVariable<double, VMLDoubleVariable>(Object, 0.f, RootFinder,
 																		  ElementProperty.second.NativeCallMethodName);
 								HorizontalLayoutPercent = 0.f;
@@ -354,48 +281,33 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				}
 			}
 		}
-		if (ElementProperty.first == L"width")
-		{
+		if (ElementProperty.first == L"width") {
 			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue &&
-				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"width\" Property must match the type \"int\"";
 
 				return;
 			}
 
-			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue)
-			{
+			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue) {
 				Width = ElementProperty.second.PropertyAsInt;
-			}
-			else if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall)
-			{
-				if (ElementProperty.second.NativeCallMethodName == L"fill")
-				{
+			} else if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall) {
+				if (ElementProperty.second.NativeCallMethodName == L"fill") {
 					WidthRatio = 1.f;
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"scale")
-				{
-					for (auto &Property : ElementProperty.second.NativeCallParameter)
-					{
-						if (Property.PropertyType == VMLPropertyType::DoubleValue)
-						{
+				if (ElementProperty.second.NativeCallMethodName == L"scale") {
+					for (auto &Property : ElementProperty.second.NativeCallParameter) {
+						if (Property.PropertyType == VMLPropertyType::DoubleValue) {
 							WidthRatio = Property.PropertyAsDouble;
-						}
-						else if (Property.PropertyType == VMLPropertyType::VariableDefine)
-						{
-							if (Property.VariableType == VMLVariableType::DoubleType)
-							{
-								if (!ElementProperty.second.VariableInitValue.empty())
-								{
+						} else if (Property.PropertyType == VMLPropertyType::VariableDefine) {
+							if (Property.VariableType == VMLVariableType::DoubleType) {
+								if (!ElementProperty.second.VariableInitValue.empty()) {
 									DefineVariable<double, VMLDoubleVariable>(
 										Object, Property.VariableInitValue[0].PropertyAsDouble, RootFinder,
 										ElementProperty.second.NativeCallMethodName);
 									WidthRatio = ElementProperty.second.VariableInitValue[0].PropertyAsDouble;
-								}
-								else
-								{
+								} else {
 									DefineVariable<double, VMLDoubleVariable>(Object, 0.f, RootFinder,
 																			  Property.NativeCallMethodName);
 									WidthRatio = 0;
@@ -404,20 +316,14 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-			}
-			else if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-			{
-				if (ElementProperty.second.VariableType == VMLVariableType::DoubleType)
-				{
-					if (!ElementProperty.second.VariableInitValue.empty())
-					{
+			} else if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+				if (ElementProperty.second.VariableType == VMLVariableType::DoubleType) {
+					if (!ElementProperty.second.VariableInitValue.empty()) {
 						DefineVariable<int, VMLIntVariable>(Object,
 															ElementProperty.second.VariableInitValue[0].PropertyAsInt,
 															RootFinder, ElementProperty.second.NativeCallMethodName);
 						Width = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-					}
-					else
-					{
+					} else {
 						DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 															ElementProperty.second.NativeCallMethodName);
 						Width = 0;
@@ -425,11 +331,9 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				}
 			}
 		}
-		if (ElementProperty.first == L"height")
-		{
+		if (ElementProperty.first == L"height") {
 			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue &&
-				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"height\" Property must match the type \"int\" or \"native call "
 											L"functional\"";
@@ -437,37 +341,24 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				return;
 			}
 
-			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue)
-			{
+			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue) {
 				Height = ElementProperty.second.PropertyAsInt;
-			}
-			else if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall)
-			{
-				if (ElementProperty.second.NativeCallMethodName == L"fill")
-				{
+			} else if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall) {
+				if (ElementProperty.second.NativeCallMethodName == L"fill") {
 					HeightRatio = 1.f;
 				}
-				if (ElementProperty.second.NativeCallMethodName == L"scale")
-				{
-					for (auto &Property : ElementProperty.second.NativeCallParameter)
-					{
-						if (Property.PropertyType == VMLPropertyType::DoubleValue)
-						{
+				if (ElementProperty.second.NativeCallMethodName == L"scale") {
+					for (auto &Property : ElementProperty.second.NativeCallParameter) {
+						if (Property.PropertyType == VMLPropertyType::DoubleValue) {
 							HeightRatio = Property.PropertyAsDouble;
-						}
-						else if (Property.PropertyType == VMLPropertyType::VariableDefine)
-						{
-							if (Property.VariableType == VMLVariableType::DoubleType)
-							{
-								if (!ElementProperty.second.VariableInitValue.empty())
-								{
+						} else if (Property.PropertyType == VMLPropertyType::VariableDefine) {
+							if (Property.VariableType == VMLVariableType::DoubleType) {
+								if (!ElementProperty.second.VariableInitValue.empty()) {
 									DefineVariable<double, VMLDoubleVariable>(
 										Object, Property.VariableInitValue[0].PropertyAsDouble, RootFinder,
 										ElementProperty.second.NativeCallMethodName);
 									HeightRatio = ElementProperty.second.VariableInitValue[0].PropertyAsDouble;
-								}
-								else
-								{
+								} else {
 									DefineVariable<double, VMLDoubleVariable>(Object, 0.f, RootFinder,
 																			  Property.NativeCallMethodName);
 									HeightRatio = 0;
@@ -476,20 +367,14 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 						}
 					}
 				}
-			}
-			else if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine)
-			{
-				if (ElementProperty.second.VariableType == VMLVariableType::DoubleType)
-				{
-					if (!ElementProperty.second.VariableInitValue.empty())
-					{
+			} else if (ElementProperty.second.PropertyType == VMLPropertyType::VariableDefine) {
+				if (ElementProperty.second.VariableType == VMLVariableType::DoubleType) {
+					if (!ElementProperty.second.VariableInitValue.empty()) {
 						DefineVariable<int, VMLIntVariable>(Object,
 															ElementProperty.second.VariableInitValue[0].PropertyAsInt,
 															RootFinder, ElementProperty.second.NativeCallMethodName);
 						Height = ElementProperty.second.VariableInitValue[0].PropertyAsInt;
-					}
-					else
-					{
+					} else {
 						DefineVariable<int, VMLIntVariable>(Object, 0, RootFinder,
 															ElementProperty.second.NativeCallMethodName);
 						Height = 0;
@@ -497,10 +382,8 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 				}
 			}
 		}
-		if (ElementProperty.first == L"transparency")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"transparency") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"transparency\" Property must match the type \"int\"";
 
@@ -509,10 +392,8 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 
 			Transparency = ElementProperty.second.PropertyAsInt / 255.f;
 		}
-		if (ElementProperty.first == L"visible")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"visible") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"visible\" Property Must Match the Type \"boolean\"";
 
@@ -528,29 +409,23 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 							  RelativeY, XMiddleOffset, YMiddleOffset, WidthRatio, HeightRatio, ViewOnly, RootFinder);
 }
 
-void VMLPushButtonBuilder::Builder(Core::VPushButton *PushButton, const VString &PlainText, const int &TextSize)
-{
+void VMLPushButtonBuilder::Builder(Core::VPushButton *PushButton, const VString &PlainText, const int &TextSize) {
 	PushButton->SetPlainText(PlainText);
 
-	if (TextSize != 0)
-	{
+	if (TextSize != 0) {
 		PushButton->SetTextSize(TextSize);
 	}
 }
 
 void VMLPushButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VPushButton *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
-										   VMLControlBuildStatus			   *BuildStatus)
-{
+										   VMLControlBuildStatus			   *BuildStatus) {
 	int		TextSize = 0;
 	VString Text;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"font-size")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"font-size") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"font-size\" Property Must Match the Type \"int\"";
 
@@ -559,10 +434,8 @@ void VMLPushButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VP
 
 			TextSize = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"text")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"text") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"text\" Property Must Match the Type \"string\"";
 
@@ -579,36 +452,29 @@ void VMLPushButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VP
 VMLPushButtonBuilder::VMLPushButtonBuilder(const VMLFinder &RootFinder, Core::VPushButton *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
 										   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-void VMLImageLabelBuilder::Builder(Core::VImageLabel *ImageLabel, Core::VImage *Image, bool AutoSize, bool LockHeight)
-{
+void VMLImageLabelBuilder::Builder(Core::VImageLabel *ImageLabel, Core::VImage *Image, bool AutoSize, bool LockHeight) {
 	ImageLabel->SetImage(Image);
 	ImageLabel->SetLockStatus(LockHeight);
 
-	if (AutoSize)
-	{
+	if (AutoSize) {
 		ImageLabel->ResizeByImage();
 	}
 }
 
 void VMLImageLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VImageLabel *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
-										   VMLControlBuildStatus			   *BuildStatus)
-{
+										   VMLControlBuildStatus			   *BuildStatus) {
 	Core::VImage *Image		 = nullptr;
 	bool		  AutoSize	 = false;
 	bool		  LockHeight = false;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"src")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"src") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"src\" Property Must Match the Type \"string\"";
 
@@ -617,10 +483,8 @@ void VMLImageLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VI
 
 			Image = new Core::VImage(ElementProperty.second.PropertyAsString, Object->CallWidgetGetDCRenderTarget());
 		}
-		if (ElementProperty.first == L"auto-size")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"auto-size") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"auto-size\" Property Must Match the Type \"boolean\"";
 
@@ -629,10 +493,8 @@ void VMLImageLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VI
 
 			AutoSize = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"lock-height")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"lock-height") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"lock-height\" Property Must Match the Type \"boolean\"";
 
@@ -649,41 +511,32 @@ void VMLImageLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VI
 VMLImageLabelBuilder::VMLImageLabelBuilder(const VMLFinder &RootFinder, Core::VImageLabel *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
 										   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-Core::VFontAlignment VMLTextLabelBuilder::ConvertAlignment(VString AlignmentString)
-{
-	if (AlignmentString == L"alignment-near")
-	{
+Core::VFontAlignment VMLTextLabelBuilder::ConvertAlignment(VString AlignmentString) {
+	if (AlignmentString == L"alignment-near") {
 		return Core::VFontAlignment::DWRITE_TEXT_ALIGNMENT_LEADING;
 	}
-	if (AlignmentString == L"alignment-center")
-	{
+	if (AlignmentString == L"alignment-center") {
 		return Core::VFontAlignment::DWRITE_TEXT_ALIGNMENT_CENTER;
 	}
-	if (AlignmentString == L"alignment-far")
-	{
+	if (AlignmentString == L"alignment-far") {
 		return Core::VFontAlignment::DWRITE_TEXT_ALIGNMENT_TRAILING;
 	}
 
 	return Core::VFontAlignment::DWRITE_TEXT_ALIGNMENT_LEADING;
 }
 
-Core::VFontParagraphAlignment VMLTextLabelBuilder::ConvertParagraphAlignment(VString ParagraphString)
-{
-	if (ParagraphString == L"alignment-near")
-	{
+Core::VFontParagraphAlignment VMLTextLabelBuilder::ConvertParagraphAlignment(VString ParagraphString) {
+	if (ParagraphString == L"alignment-near") {
 		return Core::VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
 	}
-	if (ParagraphString == L"alignment-center")
-	{
+	if (ParagraphString == L"alignment-center") {
 		return Core::VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_CENTER;
 	}
-	if (ParagraphString == L"alignment-far")
-	{
+	if (ParagraphString == L"alignment-far") {
 		return Core::VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_FAR;
 	}
 	return Core::VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
@@ -691,12 +544,10 @@ Core::VFontParagraphAlignment VMLTextLabelBuilder::ConvertParagraphAlignment(VSt
 
 void VMLTextLabelBuilder::Builder(Core::VTextLabel *TextLabel, const VString &PlainText, const int &TextSize,
 								  const Core::VFontAlignment		  &Alignment,
-								  const Core::VFontParagraphAlignment &LineAlignment, const bool &AutoSize)
-{
+								  const Core::VFontParagraphAlignment &LineAlignment, const bool &AutoSize) {
 	TextLabel->SetPlainText(PlainText);
 
-	if (TextSize != 0)
-	{
+	if (TextSize != 0) {
 		TextLabel->SetTextSize(TextSize);
 	}
 
@@ -708,8 +559,7 @@ void VMLTextLabelBuilder::Builder(Core::VTextLabel *TextLabel, const VString &Pl
 
 void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTextLabel *Object,
 										  std::map<VString, VMLPropertyValue> &PropertyValueList,
-										  VMLControlBuildStatus				  *BuildStatus)
-{
+										  VMLControlBuildStatus				  *BuildStatus) {
 	VString Text;
 	int		TextSize = 0;
 	bool	AutoSize = false;
@@ -717,12 +567,9 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 	Core::VFontAlignment		  Alignment		= Core::VFontAlignment::DWRITE_TEXT_ALIGNMENT_LEADING;
 	Core::VFontParagraphAlignment LineAlignment = Core::VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"text")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"text") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"text\" Property Must Match the Type \"string\"";
 
@@ -731,10 +578,8 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 
 			Text = ElementProperty.second.PropertyAsString;
 		}
-		if (ElementProperty.first == L"font-size")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"font-size") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"font-size\" Property Must Match the Type \"int\"";
 
@@ -743,10 +588,8 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 
 			TextSize = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"alignment")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"alignment") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"alignment\" Property Must Match the Type \"alignment-string\"";
 
@@ -755,10 +598,8 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 
 			Alignment = ConvertAlignment(ElementProperty.second.PropertyAsString);
 		}
-		if (ElementProperty.first == L"line-alignment")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"line-alignment") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"line-alignment\" Property Must Match the Type "
 											L"\"alignment-string\"";
@@ -768,10 +609,8 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 
 			LineAlignment = ConvertParagraphAlignment(ElementProperty.second.PropertyAsString);
 		}
-		if (ElementProperty.first == L"auto-size")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"auto-size") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"auto-size\" Property Must Match the Type \"boolean\"";
 
@@ -780,10 +619,8 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 
 			AutoSize = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"size-layout")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+		if (ElementProperty.first == L"size-layout") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"size-layout\" Property must match the type \"size-layout "
 											L"native function\"";
@@ -793,8 +630,7 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 
 			if (ElementProperty.second.PropertyType == VMLPropertyType::NativeCall &&
 				ElementProperty.second.NativeCallMethodName == L"scale" &&
-				CheckNativeCallParameter(ElementProperty.second.NativeCallParameter, {VMLPropertyType::DoubleValue}))
-			{
+				CheckNativeCallParameter(ElementProperty.second.NativeCallParameter, {VMLPropertyType::DoubleValue})) {
 				Core::VTextSizeLayout *Layout = new Core::VTextSizeLayout(Object, Object->GetParent());
 				Layout->SetScalePercent(ElementProperty.second.NativeCallParameter[0].PropertyAsDouble);
 			}
@@ -807,19 +643,16 @@ void VMLTextLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTe
 VMLTextLabelBuilder::VMLTextLabelBuilder(const VMLFinder &RootFinder, Core::VTextLabel *Object,
 										 std::map<VString, VMLPropertyValue> &PropertyValueList,
 										 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLMainWindowBuilder::Builder(Core::VMainWindow *MainWindow, const int &Width, const int &Height,
 								   const VString &Title, const bool &Sizble, const bool &FramelessStatus,
-								   const bool &BorderlessStatus, const bool &AllowFileDrag)
-{
+								   const bool &BorderlessStatus, const bool &AllowFileDrag) {
 	MainWindow->Resize(Width, Height);
 
-	if (!Title.empty())
-	{
+	if (!Title.empty()) {
 		MainWindow->SetTitle(Title);
 	}
 
@@ -831,8 +664,7 @@ void VMLMainWindowBuilder::Builder(Core::VMainWindow *MainWindow, const int &Wid
 
 void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
-										   VMLControlBuildStatus			   *BuildStatus)
-{
+										   VMLControlBuildStatus			   *BuildStatus) {
 	int Width  = 0;
 	int Height = 0;
 
@@ -843,12 +675,9 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 	bool BorderlessStatus = false;
 	bool AllowFileDrag	  = false;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"width")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"width") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"width\" Property Must Match the Type \"int\"";
 
@@ -857,10 +686,8 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 			Width = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"height")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"height") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"height\" Property Must Match the Type \"int\"";
 
@@ -869,10 +696,8 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 			Height = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"title")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"title") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"title\" Property Must Match the Type \"string\"";
 
@@ -881,10 +706,8 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 			Title = ElementProperty.second.PropertyAsString;
 		}
-		if (ElementProperty.first == L"allow-file-drag")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"allow-file-drag") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"allow-file-drag\" Property Must Match the Type \"boolean\"";
 
@@ -893,10 +716,8 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 			AllowFileDrag = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"sizable")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"sizable") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"sizable\" Property Must Match the Type \"boolean\"";
 
@@ -905,10 +726,8 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 			Sizble = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"frameless")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"frameless") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"frameless\" Property Must Match the Type \"boolean\"";
 
@@ -917,10 +736,8 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 			FramelessStatus = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"borderless")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"borderless") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"borderless\" Property Must Match the Type \"boolean\"";
 
@@ -936,16 +753,14 @@ void VMLMainWindowBuilder::AnalyzeProperty(Core::VMainWindow				   *Object,
 
 VMLMainWindowBuilder::VMLMainWindowBuilder(Core::VMainWindow				   *MainWindow,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
-										   VMLControlBuildStatus			   *BuildStatus)
-{
+										   VMLControlBuildStatus			   *BuildStatus) {
 	AnalyzeProperty(MainWindow, PropertyValueList, BuildStatus);
 }
 
 void VMLLayoutBuilder::Builder(Core::VLayout *Layout, Core::VLayoutMode VerticalLayoutMode,
 							   Core::VLayoutMode HorizontalLayoutMode, double VerticalLayoutPercent,
 							   double HorziontalLayoutPercent, int RelativeX, int RelativeY, int XMiddleOffset,
-							   int YMiddleOffset)
-{
+							   int YMiddleOffset) {
 	Layout->SetVerticalLayoutMode(VerticalLayoutMode);
 	Layout->SetHorizontalLayoutMode(HorizontalLayoutMode);
 	Layout->SetVerticalLayoutPercent(VerticalLayoutPercent);
@@ -958,8 +773,7 @@ void VMLLayoutBuilder::Builder(Core::VLayout *Layout, Core::VLayoutMode Vertical
 
 void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayout *Object,
 									   std::map<VString, VMLPropertyValue> &PropertyValueList,
-									   VMLControlBuildStatus			   *BuildStatus)
-{
+									   VMLControlBuildStatus			   *BuildStatus) {
 	Core::VLayoutMode VerticalLayoutMode   = Core::VLayoutMode::LayoutModeCenter;
 	Core::VLayoutMode HorizontalLayoutMode = Core::VLayoutMode::LayoutModeCenter;
 
@@ -972,12 +786,9 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 	int XMiddleOffset = 0;
 	int YMiddleOffset = 0;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"vertical-percent")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"vertical-percent") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"vertical-percent\" Property Must Match the Type \"int\"";
 
@@ -986,10 +797,8 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 
 			VerticalLayoutPercent = ElementProperty.second.PropertyAsDouble;
 		}
-		if (ElementProperty.first == L"horziontal-percent")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+		if (ElementProperty.first == L"horziontal-percent") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"horziontal-percent\" Property Must Match the Type \"int\"";
 
@@ -998,10 +807,8 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 
 			HorziontalLayoutPercent = ElementProperty.second.PropertyAsDouble;
 		}
-		if (ElementProperty.first == L"relative-x")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"relative-x") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"relative-x\" Property Must Match the Type \"int\"";
 
@@ -1010,10 +817,8 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 
 			RelativeX = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"relative-y")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"relative-y") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"relative-y\" Property Must Match the Type \"int\"";
 
@@ -1022,10 +827,8 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 
 			RelativeY = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"x-middle-offset")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"x-middle-offset") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"x-middle-offset\" Property Must Match the Type \"int\"";
 
@@ -1034,10 +837,8 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 
 			XMiddleOffset = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"y-middle-offset")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"y-middle-offset") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"y-middle-offset\" Property Must Match the Type \"int\"";
 
@@ -1046,81 +847,63 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 
 			YMiddleOffset = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"vertical-layout-mode")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"vertical-layout-mode") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"vertical-layout-mode\" Property Must Match the Type \"string\"";
 
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"center")
-			{
+			if (ElementProperty.second.PropertyAsString == L"center") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModeCenter;
 			}
-			if (ElementProperty.second.PropertyAsString == L"far")
-			{
+			if (ElementProperty.second.PropertyAsString == L"far") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModeFar;
 			}
-			if (ElementProperty.second.PropertyAsString == L"percent")
-			{
+			if (ElementProperty.second.PropertyAsString == L"percent") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModePercent;
 			}
-			if (ElementProperty.second.PropertyAsString == L"relative")
-			{
+			if (ElementProperty.second.PropertyAsString == L"relative") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModeRelative;
 			}
-			if (ElementProperty.second.PropertyAsString == L"relative-bottom")
-			{
+			if (ElementProperty.second.PropertyAsString == L"relative-bottom") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModeRelativeBottom;
 			}
-			if (ElementProperty.second.PropertyAsString == L"relative-top")
-			{
+			if (ElementProperty.second.PropertyAsString == L"relative-top") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModeRelativeTop;
 			}
-			if (ElementProperty.second.PropertyAsString == L"middle-offset")
-			{
+			if (ElementProperty.second.PropertyAsString == L"middle-offset") {
 				VerticalLayoutMode = Core::VLayoutMode::LayoutModeMiddleOffset;
 			}
 		}
-		if (ElementProperty.first == L"horizontal-layout")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"horizontal-layout") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"horizontal-layout\" Property Must Match the Type \"string\"";
 
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"center")
-			{
+			if (ElementProperty.second.PropertyAsString == L"center") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModeCenter;
 			}
-			if (ElementProperty.second.PropertyAsString == L"far")
-			{
+			if (ElementProperty.second.PropertyAsString == L"far") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModeFar;
 			}
-			if (ElementProperty.second.PropertyAsString == L"percent")
-			{
+			if (ElementProperty.second.PropertyAsString == L"percent") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModePercent;
 			}
-			if (ElementProperty.second.PropertyAsString == L"relative")
-			{
+			if (ElementProperty.second.PropertyAsString == L"relative") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModeRelative;
 			}
-			if (ElementProperty.second.PropertyAsString == L"relative-bottom")
-			{
+			if (ElementProperty.second.PropertyAsString == L"relative-bottom") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModeRelativeBottom;
 			}
-			if (ElementProperty.second.PropertyAsString == L"relative-top")
-			{
+			if (ElementProperty.second.PropertyAsString == L"relative-top") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModeRelativeTop;
 			}
-			if (ElementProperty.second.PropertyAsString == L"middle-offset")
-			{
+			if (ElementProperty.second.PropertyAsString == L"middle-offset") {
 				HorizontalLayoutMode = Core::VLayoutMode::LayoutModeMiddleOffset;
 			}
 		}
@@ -1132,34 +915,28 @@ void VMLLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLayou
 VMLLayoutBuilder::VMLLayoutBuilder(const VMLFinder &RootFinder, Core::VLayout *Object,
 								   std::map<VString, VMLPropertyValue> &PropertyValueList,
 								   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLRadioButtonBuilder::Builder(Core::VRadioButton *RadioButton, const bool &Status, const VString &PlainText,
-									const bool &LockBack)
-{
+									const bool &LockBack) {
 	RadioButton->SetSwitchStatus(Status);
 	RadioButton->SetPlainText(PlainText);
 	RadioButton->SetLockBackStatus(LockBack);
 }
 void VMLRadioButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VRadioButton *RadioButton,
 											std::map<VString, VMLPropertyValue> &PropertyValueList,
-											VML::VMLControlBuildStatus			*BuildStatus)
-{
+											VML::VMLControlBuildStatus			*BuildStatus) {
 	VMLCommonBuilder::AnalyzeProperty(RootFinder, RadioButton, PropertyValueList, BuildStatus);
 
 	bool	SwitchStatus   = false;
 	bool	LockBackStatus = false;
 	VString PlainText;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"switch-status")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"switch-status") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"switch-status\" Property Must Match the Type \"bool\"";
 
@@ -1168,10 +945,8 @@ void VMLRadioButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 
 			SwitchStatus = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"lock-back")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"lock-back") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"lock-back\" Property Must Match the Type \"bool\"";
 
@@ -1180,10 +955,8 @@ void VMLRadioButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 
 			LockBackStatus = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"text")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"text") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"text\" Property Must Match the Type \"string\"";
 
@@ -1199,29 +972,23 @@ void VMLRadioButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 VMLRadioButtonBuilder::VMLRadioButtonBuilder(const VMLFinder &RootFinder, Core::VRadioButton *Object,
 											 std::map<VString, VMLPropertyValue> &PropertyValueList,
 											 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 void VMLScaleLayoutBuilder::Builder(Core::VScaleLayout *Layout, const double &ScaleWidthPercent,
-									const double &ScaleHeightPercent)
-{
+									const double &ScaleHeightPercent) {
 	Layout->SetWidthScalePercent(ScaleWidthPercent);
 	Layout->SetHeightScalePercent(ScaleHeightPercent);
 }
 void VMLScaleLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VScaleLayout *Object,
 											std::map<VString, VMLPropertyValue> &PropertyValueList,
-											VMLControlBuildStatus				*BuildStatus)
-{
+											VMLControlBuildStatus				*BuildStatus) {
 	double WidthScale  = 1.f;
 	double HeightScale = 1.f;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"width-scale")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"width-scale") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"width-scale\" Property Must Match the Type \"double\"";
 
@@ -1230,10 +997,8 @@ void VMLScaleLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 
 			WidthScale = ElementProperty.second.PropertyAsDouble;
 		}
-		if (ElementProperty.first == L"height-scale")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+		if (ElementProperty.first == L"height-scale") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"height-scale\" Property Must Match the Type \"double\"";
 
@@ -1249,26 +1014,20 @@ void VMLScaleLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 VMLScaleLayoutBuilder::VMLScaleLayoutBuilder(const VMLFinder &RootFinder, Core::VScaleLayout *Object,
 											 std::map<VString, VMLPropertyValue> &PropertyValueList,
 											 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
-void VMLTextSizeLayoutBuilder::Builder(Core::VTextSizeLayout *Layout, const double &Scale)
-{
+void VMLTextSizeLayoutBuilder::Builder(Core::VTextSizeLayout *Layout, const double &Scale) {
 	Layout->SetScalePercent(Scale);
 }
 void VMLTextSizeLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VTextSizeLayout *Object,
 											   std::map<VString, VMLPropertyValue> &PropertyValueList,
-											   VMLControlBuildStatus			   *BuildStatus)
-{
+											   VMLControlBuildStatus			   *BuildStatus) {
 	double Scale = 1.f;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"scale")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"scale") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"scale-scale\" Property Must Match the Type \"double\"";
 
@@ -1284,32 +1043,26 @@ void VMLTextSizeLayoutBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core
 VMLTextSizeLayoutBuilder::VMLTextSizeLayoutBuilder(const VMLFinder &RootFinder, Core::VTextSizeLayout *Object,
 												   std::map<VString, VMLPropertyValue> &PropertyValueList,
 												   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLSliderHorizontalBuilder::Builder(Core::VSliderHorizontal *SliderHorizontal, const double &Value,
-										 const bool &Draggable)
-{
+										 const bool &Draggable) {
 	SliderHorizontal->SetValue(Value);
 	SliderHorizontal->SetDraggable(Draggable);
 }
 void VMLSliderHorizontalBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VSliderHorizontal *Horizontal,
 												 std::map<VString, VMLPropertyValue> &PropertyValueList,
-												 VMLControlBuildStatus				 *BuildStatus)
-{
+												 VMLControlBuildStatus				 *BuildStatus) {
 	VMLCommonBuilder::AnalyzeProperty(RootFinder, Horizontal, PropertyValueList, BuildStatus);
 
 	double Value	 = 0.f;
 	bool   Draggable = true;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"value")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"value") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"value\" Property Must Match the Type \"double\"";
 
@@ -1318,10 +1071,8 @@ void VMLSliderHorizontalBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 
 			Value = ElementProperty.second.PropertyAsDouble;
 		}
-		if (ElementProperty.first == L"draggable")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"draggable") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"draggable\" Property Must Match the Type \"boolean\"";
 
@@ -1337,32 +1088,26 @@ void VMLSliderHorizontalBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 VMLSliderHorizontalBuilder::VMLSliderHorizontalBuilder(const VMLFinder &RootFinder, Core::VSliderHorizontal *Object,
 													   std::map<VString, VMLPropertyValue> &PropertyValueList,
 													   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLSliderVerticalBuilder::Builder(Core::VSliderVertical *SliderHorizontal, const double &Value,
-									   const bool &Draggable)
-{
+									   const bool &Draggable) {
 	SliderHorizontal->SetValue(Value);
 	SliderHorizontal->SetDraggable(Draggable);
 }
 void VMLSliderVerticalBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VSliderVertical *Vertical,
 											   std::map<VString, VMLPropertyValue> &PropertyValueList,
-											   VMLControlBuildStatus			   *BuildStatus)
-{
+											   VMLControlBuildStatus			   *BuildStatus) {
 	VMLCommonBuilder::AnalyzeProperty(RootFinder, Vertical, PropertyValueList, BuildStatus);
 
 	double Value	 = 0.f;
 	bool   Draggable = true;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"value")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"value") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::DoubleValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"value\" Property Must Match the Type \"double\"";
 
@@ -1371,10 +1116,8 @@ void VMLSliderVerticalBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core
 
 			Value = ElementProperty.second.PropertyAsDouble;
 		}
-		if (ElementProperty.first == L"draggable")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"draggable") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"draggable\" Property Must Match the Type \"boolean\"";
 
@@ -1390,28 +1133,22 @@ void VMLSliderVerticalBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core
 VMLSliderVerticalBuilder::VMLSliderVerticalBuilder(const VMLFinder &RootFinder, Core::VSliderVertical *Object,
 												   std::map<VString, VMLPropertyValue> &PropertyValueList,
 												   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-void VMLIconButtonBuilder::Builder(Core::VIconButton *IconButton, Core::VImage *Image)
-{
+void VMLIconButtonBuilder::Builder(Core::VIconButton *IconButton, Core::VImage *Image) {
 	IconButton->SetIconImage(Image);
 }
 
 void VMLIconButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VIconButton *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
-										   VMLControlBuildStatus			   *BuildStatus)
-{
+										   VMLControlBuildStatus			   *BuildStatus) {
 	Core::VImage *Image = nullptr;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"src")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"src") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"src\" Property Must Match the Type \"string\"";
 
@@ -1428,29 +1165,23 @@ void VMLIconButtonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VI
 VMLIconButtonBuilder::VMLIconButtonBuilder(const VMLFinder &RootFinder, Core::VIconButton *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
 										   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-void VMLLineEditorBuilder::Builder(Core::VLineEditor *LineEditor, const VString &PlainText, const VString &LeadText)
-{
+void VMLLineEditorBuilder::Builder(Core::VLineEditor *LineEditor, const VString &PlainText, const VString &LeadText) {
 	LineEditor->SetPlainText(PlainText);
 	LineEditor->SetLeadText(LeadText);
 }
 void VMLLineEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VLineEditor *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
-										   VMLControlBuildStatus			   *BuildStatus)
-{
+										   VMLControlBuildStatus			   *BuildStatus) {
 	VString PlainText;
 	VString LeadText;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"plane-text")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"plane-text") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"plane-text\" Property Must Match the Type \"string\"";
 
@@ -1459,10 +1190,8 @@ void VMLLineEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VL
 
 			PlainText = ElementProperty.second.PropertyAsString;
 		}
-		if (ElementProperty.first == L"placeholder")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"placeholder") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"placeholder\" Property Must Match the Type \"string\"";
 
@@ -1478,16 +1207,14 @@ void VMLLineEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VL
 VMLLineEditorBuilder::VMLLineEditorBuilder(const VMLFinder &RootFinder, Core::VLineEditor *Object,
 										   std::map<VString, VMLPropertyValue> &PropertyValueList,
 										   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLEditorBuilder::Builder(Core::VEditor *Editor, const VString &PlainText, const VString &LeadingText,
 							   const int &DeltaY, const bool &AllowEdit, const bool &AllowDragFontSizeChange,
 							   const bool &AllowOperationBack, const int &MaxOperationCache, const int &LeftMargin,
-							   const int &TopMargin)
-{
+							   const int &TopMargin) {
 	Editor->SetPlainText(PlainText);
 	Editor->SetLeadingText(LeadingText);
 	Editor->SetDeltaY(DeltaY);
@@ -1500,8 +1227,7 @@ void VMLEditorBuilder::Builder(Core::VEditor *Editor, const VString &PlainText, 
 }
 void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEditor *Object,
 									   std::map<VString, VMLPropertyValue> &PropertyValueList,
-									   VMLControlBuildStatus			   *BuildStatus)
-{
+									   VMLControlBuildStatus			   *BuildStatus) {
 	VString PlainText;
 	VString LeadingText;
 	int		DeltaY			  = 25;
@@ -1512,12 +1238,9 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 	bool	EditStatus		  = true;
 	bool	FontDragChange	  = false;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"left-margin")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"left-margin") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"left-margin\" Property Must Match the Type \"int\"";
 
@@ -1526,10 +1249,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			LeftMargin = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"top-margin")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"top-margin") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"top-margin\" Property Must Match the Type \"int\"";
 
@@ -1538,10 +1259,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			TopMargin = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"text")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"text") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"text\" Property Must Match the Type \"string\"";
 
@@ -1550,10 +1269,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			PlainText = ElementProperty.second.PropertyAsString;
 		}
-		if (ElementProperty.first == L"placeholder")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"placeholder") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"placeholder\" Property Must Match the Type \"string\"";
 
@@ -1562,10 +1279,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			LeadingText = ElementProperty.second.PropertyAsString;
 		}
-		if (ElementProperty.first == L"delta-y")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"delta-y") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"delta-y\" Property Must Match the Type \"int\"";
 
@@ -1574,10 +1289,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			DeltaY = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"allow-edit")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"allow-edit") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"allow-edit\" Property Must Match the Type \"boolean\"";
 
@@ -1586,10 +1299,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			EditStatus = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"allow-font-size-drag")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"allow-font-size-drag") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"allow-font-size-drag\" Property Must Match the Type "
 											L"\"boolean\"";
@@ -1599,10 +1310,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			FontDragChange = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"allow-operation-back")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"allow-operation-back") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"allow-operation-back\" Property Must Match the Type "
 											L"\"boolean\"";
@@ -1612,10 +1321,8 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 
 			AllowBack = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"max-operation-cache")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"max-operation-cache") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"max-operation-cache\" Property Must Match the Type \"int\"";
 
@@ -1632,29 +1339,23 @@ void VMLEditorBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VEdito
 VMLEditorBuilder::VMLEditorBuilder(const VMLFinder &RootFinder, Core::VEditor *Object,
 								   std::map<VString, VMLPropertyValue> &PropertyValueList,
 								   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-void VMLVerticalScrollerBuilder::Builder(Core::VScrollerVertical *Scroller, const int &Value, const int &ViewValue)
-{
+void VMLVerticalScrollerBuilder::Builder(Core::VScrollerVertical *Scroller, const int &Value, const int &ViewValue) {
 	Scroller->SetViewPoint(ViewValue);
 	Scroller->SetViewHeight(Value);
 }
 void VMLVerticalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VScrollerVertical *Object,
 												 std::map<VString, VMLPropertyValue> &PropertyValueList,
-												 VMLControlBuildStatus				 *BuildStatus)
-{
+												 VMLControlBuildStatus				 *BuildStatus) {
 	int ViewHeight = 0;
 	int ViewPoint  = 0;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"view-height")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"view-height") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-height\" Property Must Match the Type \"int\"";
 
@@ -1663,11 +1364,9 @@ void VMLVerticalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 
 			ViewHeight = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"view-point")
-		{
+		if (ElementProperty.first == L"view-point") {
 			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue &&
-				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-point\" Property must match the type \"int\" or \"native "
 											L"call functional\"";
@@ -1675,18 +1374,13 @@ void VMLVerticalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 				return;
 			}
 
-			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue)
-			{
+			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue) {
 				ViewPoint = ElementProperty.second.PropertyAsInt;
-			}
-			else
-			{
-				if (ElementProperty.second.NativeCallMethodName == L"ratio")
-				{
+			} else {
+				if (ElementProperty.second.NativeCallMethodName == L"ratio") {
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::DoubleValue}))
-					{
+												 {VMLPropertyType::DoubleValue})) {
 						ViewPoint =
 							ElementProperty.second.NativeCallParameter[0].PropertyAsDouble * Object->GetHeight();
 					}
@@ -1700,29 +1394,24 @@ void VMLVerticalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 VMLVerticalScrollerBuilder::VMLVerticalScrollerBuilder(const VMLFinder &RootFinder, Core::VScrollerVertical *Object,
 													   std::map<VString, VMLPropertyValue> &PropertyValueList,
 													   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-void VMLHorizontalScrollerBuilder::Builder(Core::VScrollerHorizontal *Scroller, const int &Value, const int &ViewValue)
-{
+void VMLHorizontalScrollerBuilder::Builder(Core::VScrollerHorizontal *Scroller, const int &Value,
+										   const int &ViewValue) {
 	Scroller->SetViewPoint(ViewValue);
 	Scroller->SetViewWidth(Value);
 }
 void VMLHorizontalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VScrollerHorizontal *Object,
 												   std::map<VString, VMLPropertyValue> &PropertyValueList,
-												   VMLControlBuildStatus			   *BuildStatus)
-{
+												   VMLControlBuildStatus			   *BuildStatus) {
 	int ViewWidth = 0;
 	int ViewPoint = 0;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"view-width")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"view-width") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-width\" Property Must Match the Type \"int\"";
 
@@ -1731,11 +1420,9 @@ void VMLHorizontalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, 
 
 			ViewWidth = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"view-point")
-		{
+		if (ElementProperty.first == L"view-point") {
 			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue &&
-				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+				ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-point\" Property must match the type \"int\" or \"native "
 											L"call functional\"";
@@ -1743,18 +1430,13 @@ void VMLHorizontalScrollerBuilder::AnalyzeProperty(const VMLFinder &RootFinder, 
 				return;
 			}
 
-			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue)
-			{
+			if (ElementProperty.second.PropertyType == VMLPropertyType::IntValue) {
 				ViewPoint = ElementProperty.second.PropertyAsInt;
-			}
-			else
-			{
-				if (ElementProperty.second.NativeCallMethodName == L"ratio")
-				{
+			} else {
+				if (ElementProperty.second.NativeCallMethodName == L"ratio") {
 					if (ElementProperty.second.NativeCallParameter.size() == 1 &&
 						CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-												 {VMLPropertyType::DoubleValue}))
-					{
+												 {VMLPropertyType::DoubleValue})) {
 						ViewPoint = ElementProperty.second.NativeCallParameter[0].PropertyAsDouble * Object->GetWidth();
 					}
 				}
@@ -1768,15 +1450,13 @@ VMLHorizontalScrollerBuilder::VMLHorizontalScrollerBuilder(const VMLFinder					 
 														   Core::VScrollerHorizontal		   *Object,
 														   std::map<VString, VMLPropertyValue> &PropertyValueList,
 														   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLViewLabelBuilder::Builder(Core::VViewLabel *ViewLabel, const int &ViewWidth, const int &ViewHeight,
 								  const Core::VViewLabelVerticalAlign	&VerticalAlign,
-								  const Core::VViewLabelHorizontalAlign &HorizontalAlign, const bool &TieWheel)
-{
+								  const Core::VViewLabelHorizontalAlign &HorizontalAlign, const bool &TieWheel) {
 	ViewLabel->SetViewRegion({ViewWidth, ViewHeight});
 	ViewLabel->SetVerticalAlign(VerticalAlign);
 	ViewLabel->SetHorizontalAlign(HorizontalAlign);
@@ -1784,8 +1464,7 @@ void VMLViewLabelBuilder::Builder(Core::VViewLabel *ViewLabel, const int &ViewWi
 }
 void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VViewLabel *Object,
 										  std::map<VString, VMLPropertyValue> &PropertyValueList,
-										  VMLControlBuildStatus				  *BuildStatus)
-{
+										  VMLControlBuildStatus				  *BuildStatus) {
 	int ViewWidth  = 0;
 	int ViewHeight = 0;
 
@@ -1794,12 +1473,9 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 
 	bool TieWheel = false;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"view-width")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"view-width") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-width\" Property Must Match the Type \"int\"";
 
@@ -1808,10 +1484,8 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 
 			ViewWidth = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"view-height")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"view-height") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-height\" Property Must Match the Type \"int\"";
 
@@ -1820,10 +1494,8 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 
 			ViewHeight = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"vertical-align")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"vertical-align") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"vertical-align\" Property Must Match the Type "
 											L"\"vertical-align-string\"";
@@ -1831,16 +1503,11 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"left")
-			{
+			if (ElementProperty.second.PropertyAsString == L"left") {
 				VerticalAlign = Core::VViewLabelVerticalAlign::Left;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"right")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"right") {
 				VerticalAlign = Core::VViewLabelVerticalAlign::Right;
-			}
-			else
-			{
+			} else {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"vertical-align\" Property Must Match the Type "
 											L"\"vertical-align-string\"";
@@ -1848,10 +1515,8 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 				return;
 			}
 		}
-		if (ElementProperty.first == L"horizontal-align")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"horizontal-align") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"horizontal-align\" Property Must Match the Type "
 											L"\"horizontal-align-string\"";
@@ -1859,16 +1524,11 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"top")
-			{
+			if (ElementProperty.second.PropertyAsString == L"top") {
 				HorizontalAlign = Core::VViewLabelHorizontalAlign::Top;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"bottom")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"bottom") {
 				HorizontalAlign = Core::VViewLabelHorizontalAlign::Bottom;
-			}
-			else
-			{
+			} else {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"horizontal-align\" Property Must Match the Type "
 											L"\"horizontal-align-string\"";
@@ -1876,10 +1536,8 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 				return;
 			}
 		}
-		if (ElementProperty.first == L"tie-wheel")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"tie-wheel") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"view-wheel\" Property Must Match the Type \"boolean\"";
 
@@ -1895,54 +1553,44 @@ void VMLViewLabelBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VVi
 VMLViewLabelBuilder::VMLViewLabelBuilder(const VMLFinder &RootFinder, Core::VViewLabel *Object,
 										 std::map<VString, VMLPropertyValue> &PropertyValueList,
 										 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLGeometryAnimationBuilder::Builder(Core::VGeometryAnimation *Animation, const Core::VPoint &TargetPoint,
-										  const Core::VAnimationCurveFlag &Flag, const int &Duration)
-{
+										  const Core::VAnimationCurveFlag &Flag, const int &Duration) {
 	Animation->SetTargetSize(TargetPoint);
 	Animation->SetCurve(Core::VAnimationCurveFactory::GetCurve(Flag));
 	Animation->SetDuration(Duration);
 }
 void VMLGeometryAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VGeometryAnimation *Object,
 												  std::map<VString, VMLPropertyValue> &PropertyValueList,
-												  VMLControlBuildStatus				  *BuildStatus)
-{
+												  VMLControlBuildStatus				  *BuildStatus) {
 	Core::VPoint			  TargetPoint;
 	Core::VAnimationCurveFlag AnimationCurve = Core::VAnimationCurveFlag::EaseLinerCurve;
 
 	int Duration = 0;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"target-point")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"target-point") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"target-point\" Property Must Match the Type \"point-native\"";
 
 				return;
 			}
 
-			if (ElementProperty.second.NativeCallMethodName == L"point")
-			{
+			if (ElementProperty.second.NativeCallMethodName == L"point") {
 				if (ElementProperty.second.NativeCallParameter.size() == 2 &&
-					CheckNativeCallParameter(ElementProperty.second.NativeCallParameter, {VMLPropertyType::IntValue}))
-				{
+					CheckNativeCallParameter(ElementProperty.second.NativeCallParameter, {VMLPropertyType::IntValue})) {
 					TargetPoint = {ElementProperty.second.NativeCallParameter[0].PropertyAsInt,
 								   ElementProperty.second.NativeCallParameter[0].PropertyAsInt};
 				}
 			}
 		}
 
-		if (ElementProperty.first == L"animation-curve")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"animation-curve") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"animation-curve\" Property Must Match the Type "
 											L"\"animation-curve-string\"";
@@ -1950,60 +1598,33 @@ void VMLGeometryAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, C
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"ease-liner-curve")
-			{
+			if (ElementProperty.second.PropertyAsString == L"ease-liner-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseLinerCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInQuartCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutQuartCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutQuartCurve;
-			}
-			else
-			{
+			} else {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"animation-curve\" Property Must Match the Type "
 											L"\"animation-curve-string\"";
@@ -2012,10 +1633,8 @@ void VMLGeometryAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, C
 			}
 		}
 
-		if (ElementProperty.first == L"duration")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"duration") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"duration\" Property Must Match the Type \"int\"";
 
@@ -2031,55 +1650,45 @@ void VMLGeometryAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, C
 VMLGeometryAnimationBuilder::VMLGeometryAnimationBuilder(const VMLFinder &RootFinder, Core::VGeometryAnimation *Object,
 														 std::map<VString, VMLPropertyValue> &PropertyValueList,
 														 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLPositionAnimationBuilder::Builder(Core::VPositionAnimation *Animation, const Core::VPoint &TargetPoint,
-										  const Core::VAnimationCurveFlag &Flag, const int &Duration)
-{
+										  const Core::VAnimationCurveFlag &Flag, const int &Duration) {
 	Animation->SetTargetPosition(TargetPoint);
 	Animation->SetDuration(Duration);
 	Animation->SetCurve(Core::VAnimationCurveFactory::GetCurve(Flag));
 }
 void VMLPositionAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VPositionAnimation *Object,
 												  std::map<VString, VMLPropertyValue> &PropertyValueList,
-												  VMLControlBuildStatus				  *BuildStatus)
-{
+												  VMLControlBuildStatus				  *BuildStatus) {
 	Core::VPoint			  TargetPoint;
 	Core::VAnimationCurveFlag AnimationCurve = Core::VAnimationCurveFlag::EaseLinerCurve;
 
 	int Duration = 0;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"target-position")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"target-position") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"target-position\" Property Must Match the Type \"size-native\"";
 
 				return;
 			}
 
-			if (ElementProperty.second.NativeCallMethodName == L"point")
-			{
+			if (ElementProperty.second.NativeCallMethodName == L"point") {
 				if (ElementProperty.second.NativeCallParameter.size() == 2 &&
 					CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-											 {VMLPropertyType::IntValue, VMLPropertyType::IntValue}))
-				{
+											 {VMLPropertyType::IntValue, VMLPropertyType::IntValue})) {
 					TargetPoint = {ElementProperty.second.NativeCallParameter[0].PropertyAsInt,
 								   ElementProperty.second.NativeCallParameter[1].PropertyAsInt};
 				}
 			}
 		}
 
-		if (ElementProperty.first == L"animation-curve")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"animation-curve") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"animation-curve\" Property Must Match the Type "
 											L"\"animation-curve-string\"";
@@ -2087,60 +1696,33 @@ void VMLPositionAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, C
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"ease-liner-curve")
-			{
+			if (ElementProperty.second.PropertyAsString == L"ease-liner-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseLinerCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInQuartCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutQuartCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutQuartCurve;
-			}
-			else
-			{
+			} else {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"animation-curve\" Property Must Match the Type "
 											L"\"animation-curve-string\"";
@@ -2149,10 +1731,8 @@ void VMLPositionAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, C
 			}
 		}
 
-		if (ElementProperty.first == L"duration")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"duration") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"duration\" Property Must Match the Type \"int\"";
 
@@ -2168,32 +1748,26 @@ void VMLPositionAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, C
 VMLPositionAnimationBuilder::VMLPositionAnimationBuilder(const VMLFinder &RootFinder, Core::VPositionAnimation *Object,
 														 std::map<VString, VMLPropertyValue> &PropertyValueList,
 														 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
 void VMLOpacityAnimationBuilder::Builder(Core::VOpacityAnimation *Animation, const int &TargetValue,
-										 const Core::VAnimationCurveFlag &Flag, const int &Duration)
-{
+										 const Core::VAnimationCurveFlag &Flag, const int &Duration) {
 	Animation->SetTargetValue(TargetValue);
 	Animation->SetDuration(Duration);
 	Animation->SetCurve(Core::VAnimationCurveFactory::GetCurve(Flag));
 }
 void VMLOpacityAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VOpacityAnimation *Object,
 												 std::map<VString, VMLPropertyValue> &PropertyValueList,
-												 VMLControlBuildStatus				 *BuildStatus)
-{
+												 VMLControlBuildStatus				 *BuildStatus) {
 	int						  TargetValue	 = 255;
 	int						  Duration		 = 0;
 	Core::VAnimationCurveFlag AnimationCurve = Core::VAnimationCurveFlag::EaseLinerCurve;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"target-opacity")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"target-opacity") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"target-opacity\" Property Must Match the Type \"int\"";
 
@@ -2203,10 +1777,8 @@ void VMLOpacityAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 			TargetValue = ElementProperty.second.PropertyAsInt;
 		}
 
-		if (ElementProperty.first == L"animation-curve")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"animation-curve") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"animation-curve\" Property Must Match the Type "
 											L"\"animation-curve-string\"";
@@ -2214,60 +1786,33 @@ void VMLOpacityAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 				return;
 			}
 
-			if (ElementProperty.second.PropertyAsString == L"ease-liner-curve")
-			{
+			if (ElementProperty.second.PropertyAsString == L"ease-liner-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseLinerCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-sine-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-sine-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutSineCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quad-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quad-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutQuadCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-cubic-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-cubic-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutCubicCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInQuartCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-out-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-out-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseOutQuartCurve;
-			}
-			else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quart-curve")
-			{
+			} else if (ElementProperty.second.PropertyAsString == L"ease-in-out-quart-curve") {
 				AnimationCurve = Core::VAnimationCurveFlag::EaseInOutQuartCurve;
-			}
-			else
-			{
+			} else {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"animation-curve\" Property Must Match the Type "
 											L"\"animation-curve-string\"";
@@ -2276,10 +1821,8 @@ void VMLOpacityAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 			}
 		}
 
-		if (ElementProperty.first == L"duration")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"duration") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"duration\" Property Must Match the Type \"int\"";
 
@@ -2295,30 +1838,23 @@ void VMLOpacityAnimationBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Co
 VMLOpacityAnimationBuilder::VMLOpacityAnimationBuilder(const VMLFinder &RootFinder, Core::VOpacityAnimation *Object,
 													   std::map<VString, VMLPropertyValue> &PropertyValueList,
 													   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Object, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Object, PropertyValueList, BuildStatus);
 }
 
-void VMLPolygonViewBuilder::Builder(Core::VPolygonView *PolygonView, const std::vector<Core::VPointF> &Points)
-{
-	for (auto &Point : Points)
-	{
+void VMLPolygonViewBuilder::Builder(Core::VPolygonView *PolygonView, const std::vector<Core::VPointF> &Points) {
+	for (auto &Point : Points) {
 		PolygonView->AddPoint(Point);
 	}
 }
 void VMLPolygonViewBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VPolygonView *PolygonView,
 											std::map<VString, VMLPropertyValue> &PropertyValueList,
-											VMLControlBuildStatus				*BuildStatus)
-{
+											VMLControlBuildStatus				*BuildStatus) {
 	std::vector<Core::VPointF> PointsContainer;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"points")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"points") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::NativeCall) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"points\" Property Must Match the Type "
 											L"\"points-native-function\"";
@@ -2326,11 +1862,9 @@ void VMLPolygonViewBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 				return;
 			}
 
-			for (auto &Element : ElementProperty.second.NativeCallParameter)
-			{
+			for (auto &Element : ElementProperty.second.NativeCallParameter) {
 				if (Element.PropertyType != VMLPropertyType::DoubleValue &&
-					Element.NativeCallMethodName != L"parallelogram")
-				{
+					Element.NativeCallMethodName != L"parallelogram") {
 					BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 					BuildStatus->FailedReason	 = L"Unexpected parameters type, is should be "
 												L"\"point-native-function\" "
@@ -2341,8 +1875,7 @@ void VMLPolygonViewBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 
 				if (ElementProperty.second.NativeCallMethodName == L"parallelogram" &&
 					CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
-											 {VMLPropertyType::DoubleValue}))
-				{
+											 {VMLPropertyType::DoubleValue})) {
 					PointsContainer.push_back(
 						Core::VPointF{ElementProperty.second.NativeCallParameter[0].PropertyAsDouble, 0});
 					PointsContainer.push_back(Core::VPointF{0, 1.f});
@@ -2355,8 +1888,7 @@ void VMLPolygonViewBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 				if (ElementProperty.second.NativeCallMethodName == L"parallelogram" &&
 					CheckNativeCallParameter(ElementProperty.second.NativeCallParameter,
 											 {VMLPropertyType::DoubleValue, VMLPropertyType::DoubleValue,
-											  VMLPropertyType::DoubleValue, VMLPropertyType::DoubleValue}))
-				{
+											  VMLPropertyType::DoubleValue, VMLPropertyType::DoubleValue})) {
 					PointsContainer.push_back(
 						Core::VPointF{ElementProperty.second.NativeCallParameter[0].PropertyAsDouble, 0});
 					PointsContainer.push_back(
@@ -2377,34 +1909,29 @@ void VMLPolygonViewBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::V
 VMLPolygonViewBuilder::VMLPolygonViewBuilder(const VMLFinder &RootFinder, Core::VPolygonView *PolygonView,
 											 std::map<VString, VMLPropertyValue> &PropertyValueList,
 											 VMLControlBuildStatus				 *BuildStatus)
-	: VMLCommonBuilder(RootFinder, PolygonView, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, PolygonView, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, PolygonView, PropertyValueList, BuildStatus);
 }
 VMLDropDownBuilder::VMLDropDownBuilder(const VMLFinder &RootFinder, Core::VDropDown *DropDown,
 									   std::map<VString, VMLPropertyValue> &PropertyValueList,
 									   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, DropDown, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, DropDown, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, DropDown, PropertyValueList, BuildStatus);
 }
 
 void VMLWidgetBuilder::Builder(Core::VWidget *Widget, const int &Width, const int &Height, const VString &Title,
-							   const bool &Sizable, const bool &FramelessStatus, const bool &Visible)
-{
+							   const bool &Sizable, const bool &FramelessStatus, const bool &Visible) {
 	Widget->Resize(Width, Height);
 	Widget->SetTitle(Title);
 	Widget->SetSizable(Sizable);
 	Widget->SetFrameless(FramelessStatus);
 
-	if (Visible)
-	{
+	if (Visible) {
 		Widget->Show();
 	}
 }
 void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, VMLPropertyValue> &PropertyValueList,
-									   VML::VMLControlBuildStatus *BuildStatus)
-{
+									   VML::VMLControlBuildStatus *BuildStatus) {
 	int	 Width			 = 0;
 	int	 Height			 = 0;
 	bool Sizble			 = true;
@@ -2413,12 +1940,9 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 
 	VString Title;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"width")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"width") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"width\" Property Must Match the Type \"int\"";
 
@@ -2427,10 +1951,8 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 
 			Width = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"height")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+		if (ElementProperty.first == L"height") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"height\" Property Must Match the Type \"int\"";
 
@@ -2439,10 +1961,8 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 
 			Height = ElementProperty.second.PropertyAsInt;
 		}
-		if (ElementProperty.first == L"title")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue)
-			{
+		if (ElementProperty.first == L"title") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::StringValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"title\" Property Must Match the Type \"string\"";
 
@@ -2451,10 +1971,8 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 
 			Title = ElementProperty.second.PropertyAsString;
 		}
-		if (ElementProperty.first == L"sizable")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"sizable") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"sizable\" Property Must Match the Type \"boolean\"";
 
@@ -2463,10 +1981,8 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 
 			Sizble = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"frameless")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"frameless") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"frameless\" Property Must Match the Type \"boolean\"";
 
@@ -2475,10 +1991,8 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 
 			FramelessStatus = ElementProperty.second.PropertyAsBool;
 		}
-		if (ElementProperty.first == L"visible")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue)
-			{
+		if (ElementProperty.first == L"visible") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::BooleanValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"visible\" Property Must Match the Type \"boolean\"";
 
@@ -2493,26 +2007,20 @@ void VMLWidgetBuilder::AnalyzeProperty(Core::VWidget *Widget, std::map<VString, 
 }
 
 VMLWidgetBuilder::VMLWidgetBuilder(Core::VWidget *Widget, std::map<VString, VMLPropertyValue> &PropertyValueList,
-								   VMLControlBuildStatus *BuildStatus)
-{
+								   VMLControlBuildStatus *BuildStatus) {
 	AnalyzeProperty(Widget, PropertyValueList, BuildStatus);
 }
-void VMLCanvasBuilder::Builder(Core::VCanvas *Canvas, const int &Fps)
-{
+void VMLCanvasBuilder::Builder(Core::VCanvas *Canvas, const int &Fps) {
 	Canvas->SetFps(Fps);
 }
 void VMLCanvasBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VCanvas *Canvas,
 									   std::map<VString, VMLPropertyValue> &PropertyValueList,
-									   VMLControlBuildStatus			   *BuildStatus)
-{
+									   VMLControlBuildStatus			   *BuildStatus) {
 	int Fps = 0;
 
-	for (auto &ElementProperty : PropertyValueList)
-	{
-		if (ElementProperty.first == L"fps")
-		{
-			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue)
-			{
+	for (auto &ElementProperty : PropertyValueList) {
+		if (ElementProperty.first == L"fps") {
+			if (ElementProperty.second.PropertyType != VMLPropertyType::IntValue) {
 				BuildStatus->BuildStatusCode = VMLControlBuildResultStatus::Failed;
 				BuildStatus->FailedReason	 = L"\"fps\" Property Must Match the Type \"int\"";
 
@@ -2529,8 +2037,7 @@ void VMLCanvasBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VCanva
 VMLCanvasBuilder::VMLCanvasBuilder(const VMLFinder &RootFinder, Core::VCanvas *Canvas,
 								   std::map<VString, VMLPropertyValue> &PropertyValueList,
 								   VMLControlBuildStatus			   *BuildStatus)
-	: VMLCommonBuilder(RootFinder, Canvas, PropertyValueList, BuildStatus)
-{
+	: VMLCommonBuilder(RootFinder, Canvas, PropertyValueList, BuildStatus) {
 	AnalyzeProperty(RootFinder, Canvas, PropertyValueList, BuildStatus);
 }
 } // namespace VML

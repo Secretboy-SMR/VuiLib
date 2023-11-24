@@ -16,14 +16,12 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VImage class:
  *	Description : This class describe a image surface
  */
-class VImage
-{
+class VImage {
 public:
 	/*
 	 * VImage constructor:
@@ -151,8 +149,7 @@ public:
 	 *		Tips
 	 * : The pointer which returned is unchangeable
 	 */
-	ID2D1Bitmap *GetDirectXObject() VRENDER_HELPER const
-	{
+	ID2D1Bitmap *GetDirectXObject() VRENDER_HELPER const {
 		return DirectXBitmap.Get();
 	}
 

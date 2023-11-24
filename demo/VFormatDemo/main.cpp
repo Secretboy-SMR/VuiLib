@@ -2,8 +2,7 @@
 
 #pragma comment(lib, "vuilib.lib")
 
-int main()
-{
+int main() {
 	auto Application = Core::VApplication();
 
 	auto MainWindow = Core::VMainWindow(1000, 800, &Application);

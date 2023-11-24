@@ -2,8 +2,7 @@
 
 #include "login-ui.h"
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	LoginUI			   LoginUIDemo(&App);
 

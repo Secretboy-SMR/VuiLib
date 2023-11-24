@@ -19,8 +19,7 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 class VUIObject;
 
 /*
@@ -29,8 +28,7 @@ class VUIObject;
  *
  * of a object
  */
-struct VUIObjectKernel
-{
+struct VUIObjectKernel {
 	/*
 	 * Parent variable:
 	 *  Description : Tag the object's parent control
@@ -84,8 +82,7 @@ struct VUIObjectKernel
  * VUIObjectShadowProperty structure:
  *  Description : The object's shadow's property
  */
-struct VUIObjectShadowProperty
-{
+struct VUIObjectShadowProperty {
 	/*
 	 * Color variable:
 	 *  Description : The color of shadow
@@ -126,8 +123,7 @@ struct VUIObjectShadowProperty
  * VUIObjectUIStats enum:
  *  Description : This enum mark the local object's status on surface
  */
-enum VUIObjectUIStats
-{
+enum VUIObjectUIStats {
 	/*
 	 * The object is invisible
 	 */
@@ -150,8 +146,7 @@ enum VUIObjectUIStats
  * VUIObjectSurface:
  *  Description : The object's visual element's collection
  */
-struct VUIObjectSurface
-{
+struct VUIObjectSurface {
 	/*
 	 * Rectangle variable:
 	 *  Description : This variable defines the object's area on the surface
@@ -185,8 +180,7 @@ struct VUIObjectSurface
  * VUIObject class:
  *  Description : The basic control object of every control objects
  */
-class VUIObject
-{
+class VUIObject {
 protected:
 	/*
 	 * ObjectKernel variable:
@@ -474,8 +468,7 @@ protected:
 	 * function
 	 * will be called to do any operation of the message
 	 */
-	virtual void EditChildMessage(VMessage *Message)
-	{
+	virtual void EditChildMessage(VMessage *Message) {
 	}
 
 protected:
@@ -504,8 +497,7 @@ public:
 	 * OnPaint function:
 	 *     Description : This function is provided to paint a object on surface
 	 */
-	virtual void OnPaint(VCanvasPainter *)
-	{
+	virtual void OnPaint(VCanvasPainter *) {
 	}
 	/*
 	 * EditCanvas function:
@@ -513,8 +505,7 @@ public:
 	 *
 	 * canvas before painting
 	 */
-	virtual void EditCanvas(VCanvasPainter *)
-	{
+	virtual void EditCanvas(VCanvasPainter *) {
 	}
 	/*
 	 * OnMessageTrigger function:
@@ -531,8 +522,7 @@ public:
 	 * will
 	 * be triggered
 	 */
-	virtual void GotMouseFocus()
-	{
+	virtual void GotMouseFocus() {
 	}
 	/*
 	 * GotMouseFocus function:
@@ -540,8 +530,7 @@ public:
 	 * will
 	 * be triggered
 	 */
-	virtual void LostMouseFocus()
-	{
+	virtual void LostMouseFocus() {
 	}
 	/*
    * MouseLeftClicked function:
@@ -549,8 +538,7 @@ public:
 
 	 * * called
    */
-	virtual void MouseLeftClicked(const VMouseClickedFlag &)
-	{
+	virtual void MouseLeftClicked(const VMouseClickedFlag &) {
 	}
 	/*
 	 * MouseRightClicked function:
@@ -558,8 +546,7 @@ public:
 	 * be
 	 * called
 	 */
-	virtual void MouseRightClicked(const VMouseClickedFlag &)
-	{
+	virtual void MouseRightClicked(const VMouseClickedFlag &) {
 	}
 	/*
 	 * MouseRightClicked function:
@@ -567,8 +554,7 @@ public:
 	 * be
 	 * called
 	 */
-	virtual void MouseMiddleClicked(const VMouseClickedFlag &)
-	{
+	virtual void MouseMiddleClicked(const VMouseClickedFlag &) {
 	}
 	/*
 	 * MouseRightClicked function:
@@ -576,8 +562,7 @@ public:
 	 * be
 	 * called
 	 */
-	virtual bool MouseMiddleDragged(const short &)
-	{
+	virtual bool MouseMiddleDragged(const short &) {
 		return false;
 	}
 	/*
@@ -588,8 +573,7 @@ public:
 	 * child objects won't receive
 	 * the VKeyClickedMessage
 	 */
-	virtual bool CheckDown(VKeyClickedMessage *)
-	{
+	virtual bool CheckDown(VKeyClickedMessage *) {
 		return false;
 	}
 	/*
@@ -598,8 +582,7 @@ public:
 
 	 * * called
    */
-	virtual bool IMECharInputed(const wchar_t &Message)
-	{
+	virtual bool IMECharInputed(const wchar_t &Message) {
 		return false;
 	}
 
@@ -610,8 +593,7 @@ public:
 	 * check
 	 * object's status or something
 	 */
-	virtual void CheckFrame()
-	{
+	virtual void CheckFrame() {
 	}
 	/*
    * CheckAllFrame function:
@@ -685,8 +667,7 @@ public:
 	 *
 	 * called
 	 */
-	virtual void OnMessage(VMessage *Message)
-	{
+	virtual void OnMessage(VMessage *Message) {
 	}
 	/*
    * CatchMessage function:
@@ -694,16 +675,14 @@ public:
 
 	 * * called
    */
-	virtual bool CatchMessage(VMessage *Message)
-	{
+	virtual bool CatchMessage(VMessage *Message) {
 		return false;
 	}
 	/*
 	 * CheckMousePosition function:
 	 *     Description : Do more detailed judgment if object need
 	 */
-	virtual bool CheckMousePosition(const VPoint &Point)
-	{
+	virtual bool CheckMousePosition(const VPoint &Point) {
 		return true;
 	}
 	/*
@@ -720,8 +699,7 @@ public:
 	 * be closed,
 	 *                   or the window won't close
 	 */
-	virtual bool CheckQuitWindowMessage(VMessage *Message)
-	{
+	virtual bool CheckQuitWindowMessage(VMessage *Message) {
 		return false;
 	}
 

@@ -15,8 +15,7 @@
 //          @description :   Enumerate tokens required for seal lexical analysis
 //          @birth       :   2021/2.15
 //          @operator    :   Margoo
-typedef enum _lexical_token
-{
+typedef enum _lexical_token {
 	NO_STATUS_TOKEN = (int)0,
 
 	UNKNOW_TOKEN,

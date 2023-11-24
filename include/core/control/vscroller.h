@@ -5,17 +5,14 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum class VScrollerButtonType
-{
+enum class VScrollerButtonType {
 	Vertical,
 	Horizontal
 };
 
-class VScrollerPushButton : public VAbstractButton
-{
+class VScrollerPushButton : public VAbstractButton {
 private:
 	bool				ScrollerInDragging = false;
 	VScrollerButtonType ScrollerType	   = VScrollerButtonType::Vertical;
@@ -71,8 +68,7 @@ public:
 	VScrollerPushButton(VUIObject *Parent, const VScrollerButtonType &ScrollerType = VScrollerButtonType::Vertical);
 };
 
-class VScrollerVertical : public VAbstractButton
-{
+class VScrollerVertical : public VAbstractButton {
 private:
 	int ScrollerViewHeight = 0;
 
@@ -136,8 +132,7 @@ public:
 	VScrollerVertical(const int &Width, const int &Height, const int &ViewHeight, VUIObject *Parent);
 };
 
-class VScrollerHorizontal : public VAbstractButton
-{
+class VScrollerHorizontal : public VAbstractButton {
 private:
 	int ScrollerViewWidth = 0;
 

@@ -7,17 +7,14 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-enum class VEditorCaretSelectMode
-{
+namespace Core {
+enum class VEditorCaretSelectMode {
 	Left,
 	Right,
 	Up,
 	Down
 };
-struct VEditorCaret
-{
+struct VEditorCaret {
 	VString *CacheTargetPtr;
 
 	bool InSelecting;
@@ -59,8 +56,7 @@ struct VEditorCaret
 	DWRITE_TEXT_RANGE GetTextRange();
 };
 
-class VEditor : public VAbstractButton
-{
+class VEditor : public VAbstractButton {
 public:
 	VEditor(VUIObject *Parent);
 	VEditor(const int &Width, const int &Height, VUIObject *Parent);

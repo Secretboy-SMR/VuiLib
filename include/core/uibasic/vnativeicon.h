@@ -4,10 +4,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-class VNativeIcon
-{
+namespace Core {
+class VNativeIcon {
 public:
 	static VCanvasPainter *CheckImage(const VColor &Color, const int &Width, const int &Height,
 									  const VRenderHandle &Handle, const int &Thickness);

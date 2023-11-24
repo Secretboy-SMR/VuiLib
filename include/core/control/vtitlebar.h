@@ -4,10 +4,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-class VWidgetTitleBar : public VUIObject
-{
+namespace Core {
+class VWidgetTitleBar : public VUIObject {
 private:
 	void WidgetOnSize(const int &Width, const int &Height);
 

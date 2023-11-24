@@ -2,8 +2,7 @@
 
 #pragma comment(lib, "vuilib.lib")
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	VML::VMLMainWindow Window(&App);
 

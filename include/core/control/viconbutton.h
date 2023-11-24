@@ -5,11 +5,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VIconButton : public VAbstractButton
-{
+class VIconButton : public VAbstractButton {
 protected:
 	VIconButtonTheme *Theme;
 

@@ -1,8 +1,7 @@
 #include "../../include/core/widget/vwidget.h"
 #include "../../include/vml/vmlwidget.h"
 
-int main()
-{
+int main() {
 	Core::VApplication VMLDemo;
 	VML::VMLMainWindow MainWindow(1000, 400, &VMLDemo);
 

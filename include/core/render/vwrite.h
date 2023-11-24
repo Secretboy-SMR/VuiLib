@@ -11,8 +11,7 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VFontAlignment (alias of DWRITE_TEXT_ALIGNMENT):
  *	Description : This object defines the alignment of text
@@ -30,15 +29,13 @@ using VFontParagraphAlignment = DWRITE_PARAGRAPH_ALIGNMENT;
  * VFont class:
  *	Description : This class describe a font object in surface
  */
-class VFont
-{
+class VFont {
 public:
 	/*
 	 * FontStretch enum:
 	 *		Description : This enum defines the stretch preset style of font
 	 */
-	enum FontStretch
-	{
+	enum FontStretch {
 		STRETCH_UNDEFINED		= 0,
 		STRETCH_ULTRA_CONDENSED = 1,
 		STRETCH_EXTRA_CONDENSED = 2,
@@ -55,8 +52,7 @@ public:
 	 * FontStretch enum:
 	 *		Description : This enum defines the font preset style of font
 	 */
-	enum FontStyle
-	{
+	enum FontStyle {
 		STYLE_NORMAL  = ::DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_NORMAL,
 		STYLE_OBLIQUE = ::DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_OBLIQUE,
 		STYLE_ITALIC  = ::DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC
@@ -65,8 +61,7 @@ public:
 	 * FontStretch enum:
 	 *		Description : This enum defines the weight preset style of font
 	 */
-	enum FontWeight
-	{
+	enum FontWeight {
 		WEIGHT_THIN		   = 100,
 		WEIGHT_EXTRA_LIGHT = 200,
 		WEIGHT_ULTRA_LIGHT = 200,
@@ -185,8 +180,7 @@ public:
 	 *
 	 * Tips		: The pointer which returned is unchangeable
 	 */
-	IDWriteTextFormat *GetDXObject() VRENDER_HELPER const
-	{
+	IDWriteTextFormat *GetDXObject() VRENDER_HELPER const {
 		return TextFormat.Get();
 	}
 

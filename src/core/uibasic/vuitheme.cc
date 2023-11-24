@@ -2,11 +2,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VLabelStatusTheme::VLabelStatusTheme(const VLabelStatusTheme &Theme)
-{
+VLabelStatusTheme::VLabelStatusTheme(const VLabelStatusTheme &Theme) {
 	BackgroundColor			  = Theme.BackgroundColor;
 	BorderColor				  = Theme.BorderColor;
 	TextColor				  = Theme.TextColor;
@@ -14,30 +12,25 @@ VLabelStatusTheme::VLabelStatusTheme(const VLabelStatusTheme &Theme)
 	Radius					  = Theme.Radius;
 	AnimationInterpolatorType = Theme.AnimationInterpolatorType;
 }
-VLabelCommonTheme::VLabelCommonTheme(const VLabelCommonTheme &LabelObject)
-{
+VLabelCommonTheme::VLabelCommonTheme(const VLabelCommonTheme &LabelObject) {
 	StaticTheme	 = LabelObject.StaticTheme;
 	OnHoverTheme = LabelObject.OnHoverTheme;
 	ActiveTheme	 = LabelObject.ActiveTheme;
 }
-VLabelCommonTheme::VLabelCommonTheme()
-{
+VLabelCommonTheme::VLabelCommonTheme() {
 	LCID	LocaleID = GetThreadLocale();
 	wchar_t LocaleName[LOCALE_NAME_MAX_LENGTH];
-	if (!LCIDToLocaleName(LocaleID, LocaleName, LOCALE_NAME_MAX_LENGTH, 0))
-	{
+	if (!LCIDToLocaleName(LocaleID, LocaleName, LOCALE_NAME_MAX_LENGTH, 0)) {
 		VLIB_REPORT_ERROR(L"Failed to get the system locale");
 	}
 
 	LabelFont = new VFont(L"Microsoft YaHei UI", VFont::WEIGHT_NORMAL, VFont::STYLE_NORMAL, VFont::STRETCH_NORMAL, 12.f,
 						  LocaleName);
 }
-VLabelCommonTheme::~VLabelCommonTheme()
-{
+VLabelCommonTheme::~VLabelCommonTheme() {
 	delete LabelFont;
 }
-VPushButtonTheme::VPushButtonTheme(const VPushButtonTheme &Theme)
-{
+VPushButtonTheme::VPushButtonTheme(const VPushButtonTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
@@ -45,8 +38,7 @@ VPushButtonTheme::VPushButtonTheme(const VPushButtonTheme &Theme)
 	PlainText	 = Theme.PlainText;
 	LocalTheme	 = Theme.StaticTheme;
 }
-VPushButtonTheme::VPushButtonTheme() : VLabelCommonTheme()
-{
+VPushButtonTheme::VPushButtonTheme() : VLabelCommonTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(41, 41, 41, 255);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(102, 102, 102, 255);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -73,8 +65,7 @@ VPushButtonTheme::VPushButtonTheme() : VLabelCommonTheme()
 	LabelFont->SetTextSize(16);
 }
 
-VTextLabelTheme::VTextLabelTheme() : VLabelCommonTheme()
-{
+VTextLabelTheme::VTextLabelTheme() : VLabelCommonTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(56, 56, 56, 0);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(53, 53, 53, 0);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -98,8 +89,7 @@ VTextLabelTheme::VTextLabelTheme() : VLabelCommonTheme()
 
 	LocalTheme = StaticTheme;
 }
-VTextLabelTheme::VTextLabelTheme(const VTextLabelTheme &Theme)
-{
+VTextLabelTheme::VTextLabelTheme(const VTextLabelTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
@@ -108,8 +98,7 @@ VTextLabelTheme::VTextLabelTheme(const VTextLabelTheme &Theme)
 	LocalTheme	 = Theme.StaticTheme;
 }
 
-VRadioButtonTheme::VRadioButtonTheme()
-{
+VRadioButtonTheme::VRadioButtonTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(41, 41, 41, 255);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(173, 173, 173, 255);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -135,8 +124,7 @@ VRadioButtonTheme::VRadioButtonTheme()
 
 	LocalTheme = StaticTheme;
 }
-VRadioButtonTheme::VRadioButtonTheme(const VRadioButtonTheme &Theme)
-{
+VRadioButtonTheme::VRadioButtonTheme(const VRadioButtonTheme &Theme) {
 	StaticTheme	  = Theme.StaticTheme;
 	OnHoverTheme  = Theme.OnHoverTheme;
 	ActiveTheme	  = Theme.ActiveTheme;
@@ -144,8 +132,7 @@ VRadioButtonTheme::VRadioButtonTheme(const VRadioButtonTheme &Theme)
 	SwitchStatus  = Theme.SwitchStatus;
 	IconThickness = Theme.IconThickness;
 }
-VCircleScrollBarTheme::VCircleScrollBarTheme()
-{
+VCircleScrollBarTheme::VCircleScrollBarTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(71, 158, 245, 255);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(41, 41, 41, 255);
 	StaticTheme.BorderThickness			  = 2.3f;
@@ -169,32 +156,27 @@ VCircleScrollBarTheme::VCircleScrollBarTheme()
 
 	LocalTheme = StaticTheme;
 }
-VCircleScrollBarTheme::VCircleScrollBarTheme(const VCircleScrollBarTheme &Theme)
-{
+VCircleScrollBarTheme::VCircleScrollBarTheme(const VCircleScrollBarTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
 	LocalTheme	 = Theme.StaticTheme;
 }
 
-VSliderStatusTheme::VSliderStatusTheme(const VSliderStatusTheme &Theme)
-{
+VSliderStatusTheme::VSliderStatusTheme(const VSliderStatusTheme &Theme) {
 	BackgroundColor = Theme.BackgroundColor;
 	BorderColor		= Theme.BorderColor;
 }
 
-VSliderAreaTheme::VSliderAreaTheme(const VSliderAreaTheme &Theme)
-{
+VSliderAreaTheme::VSliderAreaTheme(const VSliderAreaTheme &Theme) {
 	LocalTheme = Theme.LocalTheme;
 }
 
-VSliderTheme::VSliderTheme(const VSliderTheme &ThemeObject)
-{
+VSliderTheme::VSliderTheme(const VSliderTheme &ThemeObject) {
 	UnselectedArea = ThemeObject.UnselectedArea;
 	SelectedArea   = ThemeObject.SelectedArea;
 }
-VSliderTheme::VSliderTheme()
-{
+VSliderTheme::VSliderTheme() {
 	UnselectedArea.LocalTheme.BorderColor	  = VColor::FromBYTERGBA(173, 173, 173, 255);
 	UnselectedArea.LocalTheme.BackgroundColor = VColor::FromBYTERGBA(173, 173, 173, 255);
 	UnselectedArea.LocalTheme.BorderThickness = 0.f;
@@ -204,44 +186,37 @@ VSliderTheme::VSliderTheme()
 	SelectedArea.LocalTheme.BorderThickness = 0.f;
 }
 
-VBlurLabelTheme::VBlurLabelTheme(const VBlurLabelTheme &ThemeObject)
-{
+VBlurLabelTheme::VBlurLabelTheme(const VBlurLabelTheme &ThemeObject) {
 	MixedColor	 = ThemeObject.MixedColor;
 	BlurRadius	 = ThemeObject.BlurRadius;
 	BorderRadius = ThemeObject.BorderRadius;
 }
-VBlurLabelTheme::VBlurLabelTheme()
-{
+VBlurLabelTheme::VBlurLabelTheme() {
 	MixedColor	 = VColor::FromBYTERGBA(56, 56, 56, 219);
 	BlurRadius	 = 23;
 	BorderRadius = {0, 0};
 }
 
-VIconButtonStatus::VIconButtonStatus()
-{
+VIconButtonStatus::VIconButtonStatus() {
 	Image	= nullptr;
 	Opacity = 1.f;
 }
-VIconButtonStatus::VIconButtonStatus(const VIconButtonStatus &Status)
-{
+VIconButtonStatus::VIconButtonStatus(const VIconButtonStatus &Status) {
 	Image	= Status.Image;
 	Opacity = Status.Opacity;
 }
 
-VIconButtonTheme::VIconButtonTheme(const VIconButtonTheme &Theme)
-{
+VIconButtonTheme::VIconButtonTheme(const VIconButtonTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
 	LocalTheme	 = Theme.StaticTheme;
 
-	if (Theme.Image != nullptr)
-	{
+	if (Theme.Image != nullptr) {
 		Image = new VImage(*Theme.Image);
 	}
 }
-VIconButtonTheme::VIconButtonTheme() : VLabelCommonTheme()
-{
+VIconButtonTheme::VIconButtonTheme() : VLabelCommonTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(56, 56, 56, 0);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(53, 53, 53, 0);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -265,8 +240,7 @@ VIconButtonTheme::VIconButtonTheme() : VLabelCommonTheme()
 	Image	   = nullptr;
 }
 
-VTextEditorTheme::VTextEditorTheme(const VTextEditorTheme &Theme)
-{
+VTextEditorTheme::VTextEditorTheme(const VTextEditorTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
@@ -279,8 +253,7 @@ VTextEditorTheme::VTextEditorTheme(const VTextEditorTheme &Theme)
 	OnSelectedBackgroundColor = Theme.OnSelectedBackgroundColor;
 	PlaceHolderColor		  = Theme.PlaceHolderColor;
 }
-VTextEditorTheme::VTextEditorTheme()
-{
+VTextEditorTheme::VTextEditorTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(41, 41, 41, 255);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(102, 102, 102, 255);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -315,8 +288,7 @@ VTextEditorTheme::VTextEditorTheme()
 	PlaceHolderColor = VColor::FromBYTERGBA(255, 255, 255, 150);
 }
 
-VViewScrollerButtonTheme::VViewScrollerButtonTheme()
-{
+VViewScrollerButtonTheme::VViewScrollerButtonTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(71, 158, 245);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(71, 158, 245);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -338,8 +310,7 @@ VViewScrollerButtonTheme::VViewScrollerButtonTheme()
 
 	LocalTheme = StaticTheme;
 }
-VViewScrollerButtonTheme::VViewScrollerButtonTheme(const VViewScrollerButtonTheme &Theme)
-{
+VViewScrollerButtonTheme::VViewScrollerButtonTheme(const VViewScrollerButtonTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
@@ -347,8 +318,7 @@ VViewScrollerButtonTheme::VViewScrollerButtonTheme(const VViewScrollerButtonThem
 	LocalTheme = StaticTheme;
 }
 
-VViewScrollerTheme::VViewScrollerTheme()
-{
+VViewScrollerTheme::VViewScrollerTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(173, 173, 173, 0);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(173, 173, 173, 0);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -370,8 +340,7 @@ VViewScrollerTheme::VViewScrollerTheme()
 
 	LocalTheme = StaticTheme;
 }
-VViewScrollerTheme::VViewScrollerTheme(const VViewScrollerTheme &Theme)
-{
+VViewScrollerTheme::VViewScrollerTheme(const VViewScrollerTheme &Theme) {
 	StaticTheme	 = Theme.StaticTheme;
 	OnHoverTheme = Theme.OnHoverTheme;
 	ActiveTheme	 = Theme.ActiveTheme;
@@ -379,20 +348,17 @@ VViewScrollerTheme::VViewScrollerTheme(const VViewScrollerTheme &Theme)
 	LocalTheme = StaticTheme;
 }
 
-VViewLabelTheme::VViewLabelTheme()
-{
+VViewLabelTheme::VViewLabelTheme() {
 	BackgroundColor = VColor(0.f, 0.f, 0.f, 0.f);
 	BorderColor		= VColor(0.f, 0.f, 0.f, 0.f);
 
 	Radius = {8, 8};
 }
 
-VDropDownContextTheme::VDropDownContextTheme()
-{
+VDropDownContextTheme::VDropDownContextTheme() {
 	LCID	LocaleID = GetThreadLocale();
 	wchar_t LocaleName[LOCALE_NAME_MAX_LENGTH];
-	if (!LCIDToLocaleName(LocaleID, LocaleName, LOCALE_NAME_MAX_LENGTH, 0))
-	{
+	if (!LCIDToLocaleName(LocaleID, LocaleName, LOCALE_NAME_MAX_LENGTH, 0)) {
 		VLIB_REPORT_ERROR(L"Failed to get the system locale");
 	}
 
@@ -412,8 +378,7 @@ VDropDownContextTheme::VDropDownContextTheme()
 	GroupFont->SetTextSize(16);
 	ItemFont->SetParagraphAlignment(VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 }
-VDropDownContextTheme::VDropDownContextTheme(const VDropDownContextTheme &Theme)
-{
+VDropDownContextTheme::VDropDownContextTheme(const VDropDownContextTheme &Theme) {
 	Radius			= Theme.Radius;
 	TitleColor		= Theme.TitleColor;
 	ItemColor		= Theme.ItemColor;
@@ -425,8 +390,7 @@ VDropDownContextTheme::VDropDownContextTheme(const VDropDownContextTheme &Theme)
 	ItemFont		= new VFont(*(Theme.ItemFont));
 	BorderThickness = Theme.BorderThickness;
 }
-VDropDownTheme::VDropDownTheme(const VDropDownTheme &Theme)
-{
+VDropDownTheme::VDropDownTheme(const VDropDownTheme &Theme) {
 	StaticTheme	  = Theme.StaticTheme;
 	OnHoverTheme  = Theme.OnHoverTheme;
 	ActiveTheme	  = Theme.ActiveTheme;
@@ -436,8 +400,7 @@ VDropDownTheme::VDropDownTheme(const VDropDownTheme &Theme)
 	IconColor	  = Theme.IconColor;
 	IconThickness = Theme.IconThickness;
 }
-VDropDownTheme::VDropDownTheme() : VLabelCommonTheme()
-{
+VDropDownTheme::VDropDownTheme() : VLabelCommonTheme() {
 	StaticTheme.BackgroundColor			  = VColor::FromBYTERGBA(41, 41, 41, 255);
 	StaticTheme.BorderColor				  = VColor::FromBYTERGBA(102, 102, 102, 255);
 	StaticTheme.BorderThickness			  = 1.3f;
@@ -465,22 +428,19 @@ VDropDownTheme::VDropDownTheme() : VLabelCommonTheme()
 	LabelFont->SetParagraphAlignment(VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 	LabelFont->SetTextSize(16);
 }
-VViewLabelTheme::VViewLabelTheme(const VViewLabelTheme &Theme)
-{
+VViewLabelTheme::VViewLabelTheme(const VViewLabelTheme &Theme) {
 	BackgroundColor = Theme.BackgroundColor;
 	BorderColor		= Theme.BorderColor;
 	Radius			= Theme.Radius;
 }
-VMainWindowTheme *VElementUITheme::GetMainWindowTheme()
-{
+VMainWindowTheme *VElementUITheme::GetMainWindowTheme() {
 	VMainWindowTheme *Theme = new VMainWindowTheme;
 	Theme->BackgroundColor	= VColor::FromBYTERGBA(255, 255, 255);
 	Theme->WindowSizble		= true;
 
 	return Theme;
 }
-VTextLabelTheme *VElementUITheme::GetTextLabelTheme()
-{
+VTextLabelTheme *VElementUITheme::GetTextLabelTheme() {
 	VTextLabelTheme *Theme = new VTextLabelTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(96, 98, 102, 0);
@@ -510,8 +470,7 @@ VTextLabelTheme *VElementUITheme::GetTextLabelTheme()
 
 	return Theme;
 }
-VPushButtonTheme *VElementUITheme::GetPushButtonTheme()
-{
+VPushButtonTheme *VElementUITheme::GetPushButtonTheme() {
 	VPushButtonTheme *Theme = new VPushButtonTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(64, 158, 255, 0);
@@ -543,8 +502,7 @@ VPushButtonTheme *VElementUITheme::GetPushButtonTheme()
 
 	return Theme;
 }
-VTextEditorTheme *VElementUITheme::GetTextEditorTheme()
-{
+VTextEditorTheme *VElementUITheme::GetTextEditorTheme() {
 	VTextEditorTheme *Theme = new VTextEditorTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(255, 255, 255, 255);
@@ -584,8 +542,7 @@ VTextEditorTheme *VElementUITheme::GetTextEditorTheme()
 
 	return Theme;
 }
-VIconButtonTheme *VElementUITheme::GetIconButtonTheme()
-{
+VIconButtonTheme *VElementUITheme::GetIconButtonTheme() {
 	VIconButtonTheme *Theme = new VIconButtonTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(64, 158, 255, 0);
@@ -615,8 +572,7 @@ VIconButtonTheme *VElementUITheme::GetIconButtonTheme()
 
 	return Theme;
 }
-VSliderTheme *VElementUITheme::GetSilderTheme()
-{
+VSliderTheme *VElementUITheme::GetSilderTheme() {
 	VSliderTheme *Theme = new VSliderTheme;
 
 	Theme->UnselectedArea.LocalTheme.BorderColor	 = VColor::FromBYTERGBA(220, 223, 255, 255);
@@ -629,8 +585,7 @@ VSliderTheme *VElementUITheme::GetSilderTheme()
 
 	return Theme;
 }
-VCircleScrollBarTheme *VElementUITheme::GetScrollBarTheme()
-{
+VCircleScrollBarTheme *VElementUITheme::GetScrollBarTheme() {
 	VCircleScrollBarTheme *Theme = new VCircleScrollBarTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(255, 255, 255, 255);
@@ -658,8 +613,7 @@ VCircleScrollBarTheme *VElementUITheme::GetScrollBarTheme()
 
 	return Theme;
 }
-VRadioButtonTheme *VElementUITheme::GetRadioTheme()
-{
+VRadioButtonTheme *VElementUITheme::GetRadioTheme() {
 	VRadioButtonTheme *Theme = new VRadioButtonTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(255, 255, 255, 255);
@@ -687,8 +641,7 @@ VRadioButtonTheme *VElementUITheme::GetRadioTheme()
 
 	return Theme;
 }
-VViewScrollerButtonTheme *VElementUITheme::GetViewScrollerButtonTheme()
-{
+VViewScrollerButtonTheme *VElementUITheme::GetViewScrollerButtonTheme() {
 	VViewScrollerButtonTheme *Theme = new VViewScrollerButtonTheme;
 
 	Theme->StaticTheme.BackgroundColor			 = VColor::FromBYTERGBA(255, 255, 255, 255);
@@ -716,8 +669,7 @@ VViewScrollerButtonTheme *VElementUITheme::GetViewScrollerButtonTheme()
 
 	return Theme;
 }
-VViewLabelTheme *VElementUITheme::GetViewLabelTheme()
-{
+VViewLabelTheme *VElementUITheme::GetViewLabelTheme() {
 	VViewLabelTheme *Theme = new VViewLabelTheme;
 	Theme->BorderColor	   = VColor::FromBYTERGBA(220, 223, 230, 255);
 	Theme->BackgroundColor = VColor::FromBYTERGBA(255, 255, 255, 255);

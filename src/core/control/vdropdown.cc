@@ -2,25 +2,20 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-bool VDropContext::IsGroup()
-{
+namespace Core {
+bool VDropContext::IsGroup() {
 	return false;
 }
-bool VDropGroup::IsGroup()
-{
+bool VDropGroup::IsGroup() {
 	return true;
 }
-VDropDownContenxt::VDropDownContenxt(VUIObject *Object) : VUIObject(Object)
-{
+VDropDownContenxt::VDropDownContenxt(VUIObject *Object) : VUIObject(Object) {
 	Theme = new VDropDownContextTheme(
 		*(static_cast<VDropDownContextTheme *>(GetTargetTheme(VUIThemeType::VDropDownContext))));
 
 	SetDropContextView();
 }
-VDropDownContenxt::VDropDownContenxt(const int &Width, const int &Height, VUIObject *Parent) : VUIObject(Parent)
-{
+VDropDownContenxt::VDropDownContenxt(const int &Width, const int &Height, VUIObject *Parent) : VUIObject(Parent) {
 	Theme = new VDropDownContextTheme(
 		*(static_cast<VDropDownContextTheme *>(GetTargetTheme(VUIThemeType::VDropDownContext))));
 
@@ -28,12 +23,10 @@ VDropDownContenxt::VDropDownContenxt(const int &Width, const int &Height, VUIObj
 
 	Resize(Width, Height);
 }
-VDropDownContenxt::~VDropDownContenxt()
-{
+VDropDownContenxt::~VDropDownContenxt() {
 	delete Theme;
 }
-void VDropDownContenxt::SetDropContextView()
-{
+void VDropDownContenxt::SetDropContextView() {
 	SetShadowStats(true);
 	SetShadowColor(Theme->ShadowColor);
 	SetShadowRadius(Theme->ShadowPixel);
@@ -45,16 +38,12 @@ void VDropDownContenxt::SetDropContextView()
 	ViewLabel->GetHorizontalScrollerInstance()->Hide();
 	ViewLabel->GetVerticalScrollerInstance()->Hide();
 }
-void VDropDownContenxt::Resize(const int &Width, const int &Height)
-{
+void VDropDownContenxt::Resize(const int &Width, const int &Height) {
 	ViewLabel->Resize(Width, Height);
 
-	if (Height > ViewLabel->GetViewRegion().GetHeight())
-	{
+	if (Height > ViewLabel->GetViewRegion().GetHeight()) {
 		ViewLabel->SetViewRegion({Width, Height});
-	}
-	else
-	{
+	} else {
 		ViewLabel->SetViewRegion({Width, ViewLabel->GetViewRegion().GetHeight()});
 	}
 
@@ -63,32 +52,25 @@ void VDropDownContenxt::Resize(const int &Width, const int &Height)
 	ViewLabel->GetHorizontalScrollerInstance()->Hide();
 	ViewLabel->GetVerticalScrollerInstance()->Hide();
 }
-VDropDownContextTheme *VDropDownContenxt::GetTheme()
-{
+VDropDownContextTheme *VDropDownContenxt::GetTheme() {
 	return Theme;
 }
-void VDropDownContenxt::SetTheme(VDropDownContextTheme *TargetTheme)
-{
+void VDropDownContenxt::SetTheme(VDropDownContextTheme *TargetTheme) {
 	Theme = TargetTheme;
 }
-void VDropDownContenxt::SetLayout()
-{
-	if (Context.empty())
-	{
+void VDropDownContenxt::SetLayout() {
+	if (Context.empty()) {
 		return;
 	}
 
 	int Y = 20;
 
-	for (auto &Instance : Context)
-	{
-		if (Instance->Instance != nullptr)
-		{
+	for (auto &Instance : Context) {
+		if (Instance->Instance != nullptr) {
 			delete Instance->Instance;
 		}
 
-		if (Instance->IsGroup())
-		{
+		if (Instance->IsGroup()) {
 			Instance->Instance	  = new VTextLabel(ViewLabel);
 			VTextLabel *TextLabel = static_cast<VTextLabel *>(Instance->Instance);
 
@@ -101,9 +83,7 @@ void VDropDownContenxt::SetLayout()
 			TextLabel->ResizeByText();
 
 			Y += Theme->GroupFont->GetTextSize() + 12;
-		}
-		else
-		{
+		} else {
 			Instance->Instance		= new VPushButton(ViewLabel);
 			VPushButton *PushButton = static_cast<VPushButton *>(Instance->Instance);
 
@@ -135,41 +115,31 @@ void VDropDownContenxt::SetLayout()
 		}
 	}
 
-	if (!Context[Context.size() - 1]->IsGroup())
-	{
+	if (!Context[Context.size() - 1]->IsGroup()) {
 		Y -= 28;
-	}
-	else
-	{
+	} else {
 		Y -= 12;
 	}
 
 	ViewLabel->Resize(GetWidth(), GetHeight());
-	if (Y + 10 > GetHeight())
-	{
+	if (Y + 10 > GetHeight()) {
 		ViewLabel->SetViewRegion({GetWidth(), Y + 10});
-	}
-	else
-	{
+	} else {
 		ViewLabel->SetViewRegion({GetWidth(), GetHeight()});
 	}
 
 	ViewLabel->GetHorizontalScrollerInstance()->Hide();
 	ViewLabel->GetVerticalScrollerInstance()->Hide();
 }
-void VDropDownContenxt::ButtonSignalEmit(VAbstractButton *Button)
-{
-	for (auto &Instance : Context)
-	{
-		if (Instance->Instance == Button)
-		{
+void VDropDownContenxt::ButtonSignalEmit(VAbstractButton *Button) {
+	for (auto &Instance : Context) {
+		if (Instance->Instance == Button) {
 			Instance->OnTrigger.Emit(Instance);
 		}
 	}
 }
 
-void VDropDownContenxt::OnPaint(VCanvasPainter *Painter)
-{
+void VDropDownContenxt::OnPaint(VCanvasPainter *Painter) {
 	VPenBrush	BorderPen(Theme->BorderColor, CallWidgetGetRenderHandle(), Theme->BorderThickness);
 	VSolidBrush FillBrush(Theme->BackgroundColor, CallWidgetGetRenderHandle());
 
@@ -180,8 +150,7 @@ void VDropDownContenxt::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-VDropDown::VDropDown(VUIObject *Parent) : VAbstractButton(Parent)
-{
+VDropDown::VDropDown(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme		 = new VDropDownTheme(*(static_cast<VDropDownTheme *>(GetTargetTheme(VUIThemeType::VDropDown))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 	Complex		 = new VDropDownContenxt(GetWidth(), 250, Parent);
@@ -198,8 +167,7 @@ VDropDown::VDropDown(VUIObject *Parent) : VAbstractButton(Parent)
 
 	Update();
 }
-VDropDown::VDropDown(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VDropDown::VDropDown(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme		 = new VDropDownTheme(*(static_cast<VDropDownTheme *>(GetTargetTheme(VUIThemeType::VDropDown))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 	Complex		 = new VDropDownContenxt(GetWidth(), 250, Parent);
@@ -218,26 +186,22 @@ VDropDown::VDropDown(const int &Width, const int &Height, VUIObject *Parent) : V
 
 	Update();
 }
-VDropDown::~VDropDown() noexcept
-{
+VDropDown::~VDropDown() noexcept {
 	delete Theme;
 	delete Interpolator;
 }
-void VDropDown::Resize(const int &Width, const int &Height)
-{
+void VDropDown::Resize(const int &Width, const int &Height) {
 	VUIObject::Resize(Width, Height);
 
 	Complex->Resize(Width, 250);
 	Complex->Move(GetX(), GetY() + GetHeight() + 4);
 }
-void VDropDown::Move(const int &X, const int &Y)
-{
+void VDropDown::Move(const int &X, const int &Y) {
 	VUIObject::Move(X, Y);
 
 	Complex->Move(GetX(), GetY() + GetHeight() + 4);
 }
-VRect VDropDown::GetRegion()
-{
+VRect VDropDown::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -245,8 +209,7 @@ VRect VDropDown::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VDropDown::OnPaint(VCanvasPainter *Painter)
-{
+void VDropDown::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -263,15 +226,12 @@ void VDropDown::OnPaint(VCanvasPainter *Painter)
 						Theme->LabelFont, &TextBrush);
 
 	VCanvasPainter *Icon;
-	if (InSelect)
-	{
+	if (InSelect) {
 		Icon =
 			VNativeIcon::DropDownDownIcon(Theme->IconColor, 15, 8, CallWidgetGetRenderHandle(), Theme->IconThickness);
 		Painter->DrawCanvas({GetWidth() - 25, GetHeight() / 2 - 4, GetWidth() - 10, GetHeight() / 2 + 4}, Icon,
 							{0, 0, 15, 8}, 1.f);
-	}
-	else
-	{
+	} else {
 		Icon = VNativeIcon::DropDownUpIcon(Theme->IconColor, 15, 8, CallWidgetGetRenderHandle(), Theme->IconThickness);
 		Painter->DrawCanvas({GetWidth() - 25, GetHeight() / 2 - 4, GetWidth() - 10, GetHeight() / 2 + 4}, Icon,
 							{0, 0, 15, 8}, 1.f);
@@ -282,20 +242,15 @@ void VDropDown::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-void VDropDown::SetTheme(Core::VDropDownTheme *NewTheme)
-{
+void VDropDown::SetTheme(Core::VDropDownTheme *NewTheme) {
 	Theme = NewTheme;
 }
-VDropDownTheme *VDropDown::GetTheme()
-{
+VDropDownTheme *VDropDown::GetTheme() {
 	return Theme;
 }
-void VDropDown::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VDropDown::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -318,36 +273,29 @@ void VDropDown::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
-void VDropDown::AddContext(VDropContextBase *Context)
-{
+void VDropDown::AddContext(VDropContextBase *Context) {
 	Context->OnTrigger.Connect(this, &VDropDown::ContextOnClicked);
 	Complex->Context.push_back(Context);
 	Complex->SetLayout();
 }
-void VDropDown::ContextOnClicked(VDropContextBase *Context)
-{
+void VDropDown::ContextOnClicked(VDropContextBase *Context) {
 	OnSelectContext	 = Context;
 	Theme->PlainText = Context->Text;
 	ComplexReset();
 
 	ContextChanged.Emit(Context);
 }
-void VDropDown::ContextDialogAnimationEnd()
-{
-	if (!InSelect)
-	{
+void VDropDown::ContextDialogAnimationEnd() {
+	if (!InSelect) {
 		Complex->Hide();
 		Complex->Move(Complex->GetX(), GetY() + GetHeight() + 10);
 	}
 }
-void VDropDown::ComplexReset()
-{
+void VDropDown::ComplexReset() {
 	InSelect = false;
 
 	InAnimation = true;
@@ -365,10 +313,8 @@ void VDropDown::ComplexReset()
 	ComplexOpacityAnimation->Start();
 }
 
-void VDropDown::LeftClickedDown()
-{
-	if (!InSelect)
-	{
+void VDropDown::LeftClickedDown() {
+	if (!InSelect) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -390,19 +336,14 @@ void VDropDown::LeftClickedDown()
 
 		ComplexPositionAnimation->Start();
 		ComplexOpacityAnimation->Start();
-	}
-	else
-	{
+	} else {
 		ComplexReset();
 	}
 }
-void VDropDown::LeftClickedUp()
-{
+void VDropDown::LeftClickedUp() {
 }
-void VDropDown::GotMouseFocus()
-{
-	if (!InSelect)
-	{
+void VDropDown::GotMouseFocus() {
+	if (!InSelect) {
 		InSelect = false;
 
 		InAnimation = true;
@@ -414,10 +355,8 @@ void VDropDown::GotMouseFocus()
 		AnimationFrameTimer.Start(0);
 	}
 }
-void VDropDown::LostMouseFocus()
-{
-	if (!InSelect)
-	{
+void VDropDown::LostMouseFocus() {
+	if (!InSelect) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -429,26 +368,21 @@ void VDropDown::LostMouseFocus()
 		Update();
 	}
 }
-void VDropDown::OnMessage(VMessage *Message)
-{
-	if (Message->GetType() == VMessageType::KillFocusMessage && InSelect)
-	{
+void VDropDown::OnMessage(VMessage *Message) {
+	if (Message->GetType() == VMessageType::KillFocusMessage && InSelect) {
 		ComplexReset();
 	}
-	if (Message->GetType() == VMessageType::MouseClickedMessage)
-	{
+	if (Message->GetType() == VMessageType::MouseClickedMessage) {
 		auto MouseMessage = static_cast<VMouseClickedMessage *>(Message);
 
 		if (MouseMessage->ClickedKey == Left && MouseMessage->ClickedMethod == Down &&
 			!MouseMessage->MousePosition.InsideRectangle(GetRegion()) &&
-			!MouseMessage->MousePosition.InsideRectangle(Complex->GetRegion()))
-		{
+			!MouseMessage->MousePosition.InsideRectangle(Complex->GetRegion())) {
 			ComplexReset();
 		}
 	}
 }
-VDropDownContenxt *VDropDown::GetComplex()
-{
+VDropDownContenxt *VDropDown::GetComplex() {
 	return Complex;
 }
 

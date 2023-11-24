@@ -8,11 +8,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VPushButton : public VAbstractButton
-{
+class VPushButton : public VAbstractButton {
 protected:
 	VPushButtonTheme *Theme;
 

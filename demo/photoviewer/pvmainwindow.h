@@ -3,8 +3,7 @@
 #include "../../include/vml/vml.h"
 #include "../../include/vml/vmlwidget.h"
 
-struct PVFileReadingProject
-{
+struct PVFileReadingProject {
 	std::vector<std::wstring> FileList;
 
 	unsigned int LocalViewingFile = 0;
@@ -12,8 +11,7 @@ struct PVFileReadingProject
 	double LocalScalePercent = 1.f;
 };
 
-class VDragbleImageLabel : public Core::VDragControlBase
-{
+class VDragbleImageLabel : public Core::VDragControlBase {
 private:
 	Core::VImage *ViewImage;
 
@@ -23,17 +21,14 @@ public:
 	void SetImage(Core::VImage *Image);
 	void OnPaint(Core::VCanvasPainter *Painter) override;
 
-	~VDragbleImageLabel()
-	{
-		if (ViewImage != nullptr)
-		{
+	~VDragbleImageLabel() {
+		if (ViewImage != nullptr) {
 			delete ViewImage;
 		}
 	}
 };
 
-class PVMainWindow : public VML::VMLMainWindow
-{
+class PVMainWindow : public VML::VMLMainWindow {
 private:
 	bool InWorking = false;
 

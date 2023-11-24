@@ -1,20 +1,17 @@
 #include "../../include/win32base/vwin32base.h"
 
-namespace Win32Core
-{
+namespace Win32Core {
 std::vector<VWin32Msg> VWin32MsgStack;
 
 bool VWin32Mutex = false;
 
 HWND VLastWindowHandle;
 
-LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter, LPARAM lParameter)
-{
+LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter, LPARAM lParameter) {
 	VWin32Msg RawWin32Msg{};
 	bool	  flag = false;
 
-	switch (MessageType)
-	{
+	switch (MessageType) {
 	case WM_ERASEBKGND: {
 		return 0;
 	}
@@ -28,24 +25,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -68,24 +60,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -108,24 +95,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -148,24 +130,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -188,24 +165,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -228,24 +200,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -268,24 +235,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -366,24 +328,19 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 		RawWin32Msg.mbutton = false;
 		RawWin32Msg.rbutton = false;
 
-		if (wParameter & MK_CONTROL)
-		{
+		if (wParameter & MK_CONTROL) {
 			RawWin32Msg.ctrl = true;
 		}
-		if (wParameter & MK_LBUTTON)
-		{
+		if (wParameter & MK_LBUTTON) {
 			RawWin32Msg.lbutton = true;
 		}
-		if (wParameter & MK_MBUTTON)
-		{
+		if (wParameter & MK_MBUTTON) {
 			RawWin32Msg.mbutton = true;
 		}
-		if (wParameter & MK_RBUTTON)
-		{
+		if (wParameter & MK_RBUTTON) {
 			RawWin32Msg.rbutton = true;
 		}
-		if (wParameter & MK_SHIFT)
-		{
+		if (wParameter & MK_SHIFT) {
 			RawWin32Msg.shift = true;
 		}
 
@@ -423,10 +380,8 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 	}
 	}
 
-	if (flag)
-	{
-		while (VWin32Mutex)
-		{
+	if (flag) {
+		while (VWin32Mutex) {
 			Sleep(1);
 		}
 
@@ -439,8 +394,7 @@ LRESULT CALLBACK VWin32ProcFnc(HWND Handle, UINT MessageType, WPARAM wParameter,
 
 	return DefWindowProc(Handle, MessageType, wParameter, lParameter);
 }
-void VWin32MsgThread(const int &Width, const int &Height, LPCWSTR WindowTitle, LPCWSTR ClassName, HWND ParentWindow)
-{
+void VWin32MsgThread(const int &Width, const int &Height, LPCWSTR WindowTitle, LPCWSTR ClassName, HWND ParentWindow) {
 	auto InstanceHandle = (HINSTANCE)GetModuleHandle(NULL);
 
 	WNDCLASSEX WindowClass;
@@ -476,18 +430,14 @@ void VWin32MsgThread(const int &Width, const int &Height, LPCWSTR WindowTitle, L
 
 	VLastWindowHandle = WindowHandle;
 
-	while (GetMessage(&WinMsg, 0, 0, 0))
-	{
+	while (GetMessage(&WinMsg, 0, 0, 0)) {
 		TranslateMessage(&WinMsg);
 		DispatchMessage(&WinMsg);
 	}
 }
-bool VPeekMessage(VWin32Msg *MsgStructure)
-{
-	if (!VWin32MsgStack.empty())
-	{
-		while (VWin32Mutex)
-		{
+bool VPeekMessage(VWin32Msg *MsgStructure) {
+	if (!VWin32MsgStack.empty()) {
+		while (VWin32Mutex) {
 			Sleep(1);
 		}
 
@@ -505,13 +455,12 @@ bool VPeekMessage(VWin32Msg *MsgStructure)
 
 	return false;
 }
-HWND VWin32CreateWindow(const int &Width, const int &Height, LPCWSTR WindowTitle, LPCWSTR ClassName, HWND ParentWindow)
-{
+HWND VWin32CreateWindow(const int &Width, const int &Height, LPCWSTR WindowTitle, LPCWSTR ClassName,
+						HWND ParentWindow) {
 	std::thread Thread(VWin32MsgThread, Width, Height, WindowTitle, ClassName, ParentWindow);
 	Thread.detach();
 
-	while (VLastWindowHandle == NULL)
-	{
+	while (VLastWindowHandle == NULL) {
 		Sleep(1);
 	}
 

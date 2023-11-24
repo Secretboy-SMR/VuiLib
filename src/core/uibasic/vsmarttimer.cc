@@ -2,29 +2,21 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VSmartTimer::VSmartTimer(Core::VUIObject *Parent) : VUIObject(Parent)
-{
+VSmartTimer::VSmartTimer(Core::VUIObject *Parent) : VUIObject(Parent) {
 }
-void VSmartTimer::Start(const unsigned long &TimerDuraction)
-{
-	if (!StartClock)
-	{
+void VSmartTimer::Start(const unsigned long &TimerDuraction) {
+	if (!StartClock) {
 		VBasicTimer::Start(TimerDuraction);
 
 		StartClock = true;
-	}
-	else
-	{
+	} else {
 		VBasicTimer::Start(TimerDuraction);
 	}
 }
-void VSmartTimer::CheckFrame()
-{
-	if (End() && StartClock)
-	{
+void VSmartTimer::CheckFrame() {
+	if (End() && StartClock) {
 		StartClock = false;
 
 		OnTime.Emit();

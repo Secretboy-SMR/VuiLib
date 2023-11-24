@@ -8,10 +8,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-struct VDropContextBase
-{
+namespace Core {
+struct VDropContextBase {
 	virtual bool IsGroup() = 0;
 
 	VUIObject *Instance = nullptr;
@@ -19,17 +17,14 @@ struct VDropContextBase
 
 	VSignal<VDropContextBase *> OnTrigger;
 };
-struct VDropContext : public VDropContextBase
-{
+struct VDropContext : public VDropContextBase {
 	bool IsGroup() override;
 };
-struct VDropGroup : public VDropContextBase
-{
+struct VDropGroup : public VDropContextBase {
 	bool IsGroup() override;
 };
 
-class VDropDownContenxt : public VUIObject
-{
+class VDropDownContenxt : public VUIObject {
 public:
 	explicit VDropDownContenxt(VUIObject *Object);
 	explicit VDropDownContenxt(const int &Width, const int &Height, VUIObject *Parent);
@@ -59,8 +54,7 @@ private:
 	VViewLabel			  *ViewLabel;
 	VDropDownContextTheme *Theme;
 };
-class VDropDown : public VAbstractButton
-{
+class VDropDown : public VAbstractButton {
 public:
 	void LeftClickedDown() override;
 	void LeftClickedUp() override;

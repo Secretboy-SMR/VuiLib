@@ -12,15 +12,13 @@
 #pragma comment(lib, "ws2_32.lib")
 
 #define _CHECK_RETURN_VALUE_(Exp)                                                                                      \
-	if (Exp)                                                                                                           \
-	{                                                                                                                  \
+	if (Exp) {                                                                                                         \
 	}
 
 #define LOCAL_CLIENT_VERSION 0x10100
 #define SERVER_PORT			 8008
 
-struct ChatPackHeader
-{
+struct ChatPackHeader {
 	int ChatVersion;
 	int UserNameLength;
 };
@@ -30,8 +28,7 @@ struct ChatPackHeader
 #define USER_ALREADY_EXISTS 3
 #define BANNED				4
 
-struct ChatBackPack
-{
+struct ChatBackPack {
 	int ServerCheckCode;
 	int MaxUserAmount;
 };
@@ -39,29 +36,25 @@ struct ChatBackPack
 #define CLIENT_DISCONNECT 0
 #define CLIENT_NEWMESSAGE 1
 
-struct ClientOperationPack
-{
+struct ClientOperationPack {
 	int OperationCode;
 	int MessageLength;
 };
 
-struct ChatUser
-{
+struct ChatUser {
 	SOCKET *UserSock;
 };
 
 #define REMOVED	   0
 #define NEWMESSAGE 1
 
-struct ServerContact
-{
+struct ServerContact {
 	int Operation;
 	int MessageLength;
 	int UserNameLength;
 };
 
-int ThrowError(const char *ErrorInfo)
-{
+int ThrowError(const char *ErrorInfo) {
 	printf("%s\n", ErrorInfo);
 
 	WSACleanup();
@@ -69,46 +62,42 @@ int ThrowError(const char *ErrorInfo)
 	return -1;
 }
 
-template <class Type> std::tuple<Type *, bool> RecData(SOCKET Socket, const int &Length, const int &RecvFlag)
-{
+template <class Type>
+std::tuple<Type *, bool> RecData(SOCKET Socket, const int &Length, const int &RecvFlag) {
 	char *Data = new char[Length];
 
-	if (recv(Socket, Data, Length, RecvFlag) != Length)
-	{
+	if (recv(Socket, Data, Length, RecvFlag) != Length) {
 		return {nullptr, false};
 	}
 
 	return {(Type *)Data, true};
 }
-template <class Type> std::tuple<Type *, bool> RecData(SOCKET Socket, const int &RecvFlag)
-{
+template <class Type>
+std::tuple<Type *, bool> RecData(SOCKET Socket, const int &RecvFlag) {
 	char *Data = new char[sizeof(Type)];
 
-	if (recv(Socket, Data, sizeof(Type), RecvFlag) != sizeof(Type))
-	{
+	if (recv(Socket, Data, sizeof(Type), RecvFlag) != sizeof(Type)) {
 		return {nullptr, false};
 	}
 
 	return {(Type *)Data, true};
 }
-template <class Type> void SendData(SOCKET Socket, Type *Ptr, const int &Flag)
-{
+template <class Type>
+void SendData(SOCKET Socket, Type *Ptr, const int &Flag) {
 	send(Socket, (char *)Ptr, sizeof(Type), Flag);
 }
-template <class Type> void SendData(SOCKET Socket, Type *Ptr, const int &Length, const int &Flag)
-{
+template <class Type>
+void SendData(SOCKET Socket, Type *Ptr, const int &Length, const int &Flag) {
 	send(Socket, (char *)Ptr, Length, Flag);
 }
 
-struct ChatMessage
-{
+struct ChatMessage {
 	std::wstring TimeString;
 	std::wstring UserNameString;
 	std::wstring MessageString;
 };
 
-class ChatRoomClient : public VML::VMLMainWindow
-{
+class ChatRoomClient : public VML::VMLMainWindow {
 private:
 	SOCKET ClientSocket;
 
@@ -124,37 +113,31 @@ private:
 	std::vector<ChatMessage> Messages;
 
 private:
-	bool JudgetEmpty()
-	{
+	bool JudgetEmpty() {
 		auto EdtiorInstance = this->operator[](L"main-widget")[L"main-ui"][L"editor"].Get<Core::VEditor>();
 		auto PlainText		= EdtiorInstance->GetPlainText();
 
-		if (PlainText.empty())
-		{
+		if (PlainText.empty()) {
 			return true;
 		}
 
 		bool Flag = true;
-		for (auto Character : PlainText)
-		{
-			if (Character != L'\n' && Character != L'\r' && Character != L'\t' && Character != L' ')
-			{
+		for (auto Character : PlainText) {
+			if (Character != L'\n' && Character != L'\r' && Character != L'\t' && Character != L' ') {
 				Flag = false;
 			}
 		}
 
 		return Flag;
 	}
-	void FirstContact()
-	{
+	void FirstContact() {
 		auto		   UserNameLength = UserName.size() + 1;
 		ChatPackHeader PackHeader{LOCAL_CLIENT_VERSION, UserNameLength};
 
 		SendData<ChatPackHeader>(ClientSocket, &PackHeader, 0);
 		SendData<char>(ClientSocket, (char *)UserName.c_str(), UserNameLength, 0);
 		auto BackHeader = RecData<ChatBackPack>(ClientSocket, 0);
-		if (!std::get<1>(BackHeader))
-		{
+		if (!std::get<1>(BackHeader)) {
 			shutdown(ClientSocket, 2);
 
 			exit(-1);
@@ -162,8 +145,7 @@ private:
 
 		auto BackPack = std::get<0>(BackHeader);
 
-		if (BackPack->ServerCheckCode == SUCCESS)
-		{
+		if (BackPack->ServerCheckCode == SUCCESS) {
 			this->operator[](L"main-widget")[L"login-interface"].Get()->Hide();
 			this->operator[](L"main-widget")[L"main-ui"].Get()->Show();
 
@@ -171,24 +153,19 @@ private:
 				int TimeOut = 400;
 				setsockopt(ClientSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&TimeOut, sizeof(int));
 
-				while (true)
-				{
+				while (true) {
 					auto ServerContactPack = RecData<ServerContact>(ClientSocket, 0);
-					if (std::get<1>(ServerContactPack))
-					{
+					if (std::get<1>(ServerContactPack)) {
 						auto Contact = std::get<0>(ServerContactPack);
 
-						if (Contact->Operation == NEWMESSAGE)
-						{
+						if (Contact->Operation == NEWMESSAGE) {
 							auto Message = RecData<char>(ClientSocket, Contact->MessageLength, 0);
 
-							if (std::get<1>(Message))
-							{
+							if (std::get<1>(Message)) {
 								auto MessageString = std::get<0>(Message);
 								auto UserName	   = RecData<char>(ClientSocket, Contact->UserNameLength, 0);
 
-								if (std::get<1>(UserName))
-								{
+								if (std::get<1>(UserName)) {
 									auto UserNameString = std::get<0>(UserName);
 									printf("<%s> : %s\n", UserNameString, MessageString);
 
@@ -215,12 +192,10 @@ private:
 						}
 					}
 
-					if (MessageNeedSend)
-					{
+					if (MessageNeedSend) {
 						MessageNeedSend = false;
 
-						if (JudgetEmpty())
-						{
+						if (JudgetEmpty()) {
 							continue;
 						}
 
@@ -234,8 +209,7 @@ private:
 
 						char *MessageString = new char[MessageCppObject.size() + 1];
 
-						for (int Count = 0; Count < MessageCppObject.size() + 1; ++Count)
-						{
+						for (int Count = 0; Count < MessageCppObject.size() + 1; ++Count) {
 							MessageString[Count] = MessageCppObject[Count];
 						}
 
@@ -250,27 +224,21 @@ private:
 			});
 
 			WebSocketThread.detach();
-		}
-		else if (BackPack->ServerCheckCode == ERROR_VERSION)
-		{
+		} else if (BackPack->ServerCheckCode == ERROR_VERSION) {
 			this->operator[](L"main-widget")[L"login-interface"][L"login-block"][L"error-text"]
 				.Get<Core::VTextLabel>()
 				->SetPlainText(L"The version of client is not compatible with the server's");
 
 			shutdown(ClientSocket, 2);
 			closesocket(ClientSocket);
-		}
-		else if (BackPack->ServerCheckCode == USER_ALREADY_EXISTS)
-		{
+		} else if (BackPack->ServerCheckCode == USER_ALREADY_EXISTS) {
 			this->operator[](L"main-widget")[L"login-interface"][L"login-block"][L"error-text"]
 				.Get<Core::VTextLabel>()
 				->SetPlainText(L"The user name already exists!");
 
 			shutdown(ClientSocket, 2);
 			closesocket(ClientSocket);
-		}
-		else if (BackPack->ServerCheckCode == BANNED)
-		{
+		} else if (BackPack->ServerCheckCode == BANNED) {
 			this->operator[](L"main-widget")[L"login-interface"][L"login-block"][L"error-text"]
 				.Get<Core::VTextLabel>()
 				->SetPlainText(L"You have been be banned from this server!");
@@ -279,8 +247,7 @@ private:
 			closesocket(ClientSocket);
 		}
 	}
-	void LoginToServer()
-	{
+	void LoginToServer() {
 		_bstr_t IPAddress = this->operator[](L"main-widget")[L"login-interface"][L"login-block"][L"server-ip-editor"]
 								.Get<Core::VLineEditor>()
 								->GetPlainText()
@@ -306,8 +273,7 @@ private:
 						  "0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.]"
 						  "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4]["
 						  "0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
-		if (!std::regex_match(IP, IPRegx))
-		{
+		if (!std::regex_match(IP, IPRegx)) {
 			auto Host = gethostbyname(IP.c_str());
 			IP		  = inet_ntoa(*(struct in_addr *)Host->h_addr_list[0]);
 		}
@@ -320,8 +286,7 @@ private:
 		Address.sin_family = AF_INET;
 		Address.sin_port   = atoi(Port.c_str());
 		Address.sin_addr   = InAddress;
-		if (connect(ClientSocket, (PSOCKADDR)&Address, sizeof(SOCKADDR_IN)) != 0)
-		{
+		if (connect(ClientSocket, (PSOCKADDR)&Address, sizeof(SOCKADDR_IN)) != 0) {
 			this->operator[](L"main-widget")[L"login-interface"][L"login-block"][L"error-text"]
 				.Get<Core::VTextLabel>()
 				->SetPlainText(L"Failed to connect to server!");
@@ -331,20 +296,16 @@ private:
 
 		FirstContact();
 	}
-	void SendChatMessage()
-	{
+	void SendChatMessage() {
 		MessageNeedSend = true;
 	}
-	void CheckFrame() override
-	{
+	void CheckFrame() override {
 		VMLMainWindow::CheckFrame();
 
-		if (ResetMessageLabel)
-		{
+		if (ResetMessageLabel) {
 			ResetMessageLabel = false;
 
-			for (auto &Message : Messages)
-			{
+			for (auto &Message : Messages) {
 				auto EdtiorInstance = this->operator[](L"main-widget")[L"main-ui"][L"chat-editor"].Get<Core::VEditor>();
 				auto PlainText		= EdtiorInstance->GetPlainText();
 
@@ -389,8 +350,8 @@ public:
 	ChatRoomClient(Core::VApplication *App)
 		: VMLMainWindow(App), UserBrush(Core::VColor::White, CallWidgetGetStaticRenderHandle()),
 		  TimeBrush(Core::VColor(1.f, 1.f, 1.f, 0.31f), CallWidgetGetStaticRenderHandle()),
-		  MessageBrush(Core::VColor(1.f, 1.f, 1.f, 0.52f), CallWidgetGetStaticRenderHandle()), ResetMessageLabel(false)
-	{
+		  MessageBrush(Core::VColor(1.f, 1.f, 1.f, 0.52f), CallWidgetGetStaticRenderHandle()),
+		  ResetMessageLabel(false) {
 		static WSADATA WSAData;
 		_CHECK_RETURN_VALUE_(WSAStartup(MAKEWORD(2, 2), &WSAData));
 
@@ -402,15 +363,13 @@ public:
 		LoadVML(L"./mainui.xml", VML::VMLParserParseMode::FromFile);
 
 		ClientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		if (!ClientSocket)
-		{
+		if (!ClientSocket) {
 			exit(-1);
 		}
 	}
 };
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	ChatRoomClient	   Client(&App);
 

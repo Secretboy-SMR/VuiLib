@@ -2,36 +2,28 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
-VMLPropertyValue VMLNode::GetProperty(const VString &Type)
-{
+namespace VML {
+VMLPropertyValue VMLNode::GetProperty(const VString &Type) {
 	VMLPropertyValue Value = NodeValue.find(Type)->second;
 
 	return Value;
 }
-bool VMLNode::PropertyExsit(const VString &Type)
-{
-	if (NodeValue.find(Type) != NodeValue.end())
-	{
+bool VMLNode::PropertyExsit(const VString &Type) {
+	if (NodeValue.find(Type) != NodeValue.end()) {
 		return true;
 	}
 
 	return false;
 }
 bool VMLParser::CheckParameter(const std::vector<VMLPropertyValue>	 &CheckedObject,
-							   std::initializer_list<VMLPropertyType> CheckedList)
-{
-	if (CheckedObject.size() != CheckedList.size())
-	{
+							   std::initializer_list<VMLPropertyType> CheckedList) {
+	if (CheckedObject.size() != CheckedList.size()) {
 		return false;
 	}
 
 	auto Iterator = CheckedList.begin();
-	for (int Count = 0; Count < CheckedObject.size(); ++Count)
-	{
-		if (CheckedObject[Count].PropertyType != *Iterator)
-		{
+	for (int Count = 0; Count < CheckedObject.size(); ++Count) {
+		if (CheckedObject[Count].PropertyType != *Iterator) {
 			return false;
 		}
 
@@ -40,17 +32,14 @@ bool VMLParser::CheckParameter(const std::vector<VMLPropertyValue>	 &CheckedObje
 
 	return true;
 }
-void VMLParser::ThrowError(VMLParserResult *Result, const VString &ErrorString)
-{
+void VMLParser::ThrowError(VMLParserResult *Result, const VString &ErrorString) {
 	(*Result).ParserStatus = VMLParserStatus::Error;
 	(*Result).ErrorInfo.push_back({ErrorString, static_cast<int>(BaseLine + ParserLexical->get_line() + 1)});
 }
-VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
-{
+VMLPropertyValue VMLParser::ToPropertyValue(const VString &String) {
 	VString ValueString = String.Split(1, String.Size() - 2);
 
-	if (ValueString[0] == L'$')
-	{
+	if (ValueString[0] == L'$') {
 		VMLPropertyValue Value;
 		Value.PropertyType = VMLPropertyType::VariableCall;
 
@@ -63,20 +52,17 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 		auto GrammarCheckToken = VariableParameterLexical->get_token();
 
-		if (GrammarCheckToken.token_string != L"(" || GrammarCheckToken.cache_token == EOF_TOKEN)
-		{
+		if (GrammarCheckToken.token_string != L"(" || GrammarCheckToken.cache_token == EOF_TOKEN) {
 			return Value;
 		}
 
 		Value.PropertyType = VMLPropertyType::VariableDefine;
 
 		VString PropertyValue;
-		while (!VariableParameterLexical->is_eof())
-		{
+		while (!VariableParameterLexical->is_eof()) {
 			auto CacheToken = VariableParameterLexical->get_token();
 
-			if (CacheToken.cache_token != CONST_STRING)
-			{
+			if (CacheToken.cache_token != CONST_STRING) {
 				CacheToken.token_string.insert(CacheToken.token_string.begin(), L'\"');
 				CacheToken.token_string.insert(CacheToken.token_string.end(), L'\"');
 			}
@@ -84,20 +70,17 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 			PropertyValue	 = CacheToken.token_string;
 			auto TokenString = VariableParameterLexical->get_token().token_string;
 
-			if (TokenString == L".")
-			{
+			if (TokenString == L".") {
 				VMLPropertyValue ObjectCallValue;
 
 				ObjectCallValue.PropertyType = VMLPropertyType::ObjectCallParameter;
 
 				VString PropertyValue;
-				while (!VariableParameterLexical->is_eof())
-				{
+				while (!VariableParameterLexical->is_eof()) {
 					ObjectCallValue.PropertyAsObjectCallParameter.push_back(CacheToken.token_string);
 
 					CacheToken = VariableParameterLexical->get_token();
-					if (CacheToken.token_string != L"." || CacheToken.token_string == L")")
-					{
+					if (CacheToken.token_string != L"." || CacheToken.token_string == L")") {
 						break;
 					}
 
@@ -105,43 +88,34 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 				}
 
 				Value.NativeCallParameter.push_back(ObjectCallValue);
-			}
-			else if (TokenString != L"," || TokenString == L")")
-			{
+			} else if (TokenString != L"," || TokenString == L")") {
 				Value.NativeCallParameter.push_back(ToPropertyValue(PropertyValue));
 				PropertyValue.clear();
 
 				break;
-			}
-			else
-			{
+			} else {
 				Value.NativeCallParameter.push_back(ToPropertyValue(PropertyValue));
 			}
 
 			PropertyValue.clear();
 		}
 
-		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::IntValue}))
-		{
+		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::IntValue})) {
 			Value.VariableType = VMLVariableType::IntType;
 		}
-		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::StringValue}))
-		{
+		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::StringValue})) {
 			Value.VariableType = VMLVariableType::StringType;
 		}
-		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::DoubleValue}))
-		{
+		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::DoubleValue})) {
 			Value.VariableType = VMLVariableType::DoubleType;
 		}
-		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::BooleanValue}))
-		{
+		if (CheckParameter(Value.VariableInitValue, {VMLPropertyType::BooleanValue})) {
 			Value.VariableType = VMLVariableType::BooleanType;
 		}
 
 		return Value;
 	}
-	if (ValueString[0] == L'@')
-	{
+	if (ValueString[0] == L'@') {
 		VMLPropertyValue Value;
 		Value.PropertyType = VMLPropertyType::NativeCall;
 
@@ -154,18 +128,15 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 		auto GrammarCheckToken = NativeCallLexical->get_token();
 
-		if (GrammarCheckToken.token_string != L"(" || GrammarCheckToken.cache_token == EOF_TOKEN)
-		{
+		if (GrammarCheckToken.token_string != L"(" || GrammarCheckToken.cache_token == EOF_TOKEN) {
 			return Value;
 		}
 
 		VString PropertyValue;
-		while (!NativeCallLexical->is_eof())
-		{
+		while (!NativeCallLexical->is_eof()) {
 			auto CacheToken = NativeCallLexical->get_token();
 
-			if (CacheToken.cache_token != CONST_STRING)
-			{
+			if (CacheToken.cache_token != CONST_STRING) {
 				CacheToken.token_string.insert(CacheToken.token_string.begin(), L'\"');
 				CacheToken.token_string.insert(CacheToken.token_string.end(), L'\"');
 			}
@@ -174,20 +145,17 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 			auto TokenString = NativeCallLexical->get_token().token_string;
 
-			if (TokenString == L".")
-			{
+			if (TokenString == L".") {
 				VMLPropertyValue ObjectCallValue;
 
 				ObjectCallValue.PropertyType = VMLPropertyType::ObjectCallParameter;
 
 				VString PropertyValue;
-				while (!NativeCallLexical->is_eof())
-				{
+				while (!NativeCallLexical->is_eof()) {
 					ObjectCallValue.PropertyAsObjectCallParameter.push_back(CacheToken.token_string);
 
 					CacheToken = NativeCallLexical->get_token();
-					if (CacheToken.token_string != L"." || CacheToken.token_string == L")")
-					{
+					if (CacheToken.token_string != L"." || CacheToken.token_string == L")") {
 						break;
 					}
 
@@ -195,16 +163,12 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 				}
 
 				Value.NativeCallParameter.push_back(ObjectCallValue);
-			}
-			else if (TokenString != L"," || TokenString == L")")
-			{
+			} else if (TokenString != L"," || TokenString == L")") {
 				Value.NativeCallParameter.push_back(ToPropertyValue(PropertyValue));
 				PropertyValue.clear();
 
 				break;
-			}
-			else
-			{
+			} else {
 				Value.NativeCallParameter.push_back(ToPropertyValue(PropertyValue));
 			}
 
@@ -213,8 +177,7 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 		return Value;
 	}
-	if (ValueString[0] == L'-')
-	{
+	if (ValueString[0] == L'-') {
 		auto SpiltString = ValueString.Split(1, ValueString.size() - 1);
 
 		bool DotExsit = false;
@@ -222,25 +185,17 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 		VMLPropertyValue Value;
 		VMLPropertyType	 Type = VMLPropertyType::IntValue;
 
-		for (auto &Character : SpiltString)
-		{
-			if (!(Character >= L'0' && Character <= L'9'))
-			{
-				if (Character == L'.')
-				{
-					if (!DotExsit)
-					{
+		for (auto &Character : SpiltString) {
+			if (!(Character >= L'0' && Character <= L'9')) {
+				if (Character == L'.') {
+					if (!DotExsit) {
 						DotExsit = true;
 
 						Type = VMLPropertyType::DoubleValue;
-					}
-					else
-					{
+					} else {
 						Type = VMLPropertyType::StringValue;
 					}
-				}
-				else
-				{
+				} else {
 					Type = VMLPropertyType::StringValue;
 				}
 			}
@@ -248,8 +203,7 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 		Value.PropertyType = Type;
 
-		switch (Type)
-		{
+		switch (Type) {
 		case VMLPropertyType::IntValue: {
 			Value.PropertyAsInt = _wtoi(ValueString.CStyleString());
 			break;
@@ -267,16 +221,14 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 		return Value;
 	}
 
-	if (ValueString == L"true")
-	{
+	if (ValueString == L"true") {
 		VMLPropertyValue Value;
 		Value.PropertyAsBool = true;
 		Value.PropertyType	 = VMLPropertyType::BooleanValue;
 
 		return Value;
 	}
-	if (ValueString == L"false")
-	{
+	if (ValueString == L"false") {
 		VMLPropertyValue Value;
 		Value.PropertyAsBool = false;
 		Value.PropertyType	 = VMLPropertyType::BooleanValue;
@@ -289,25 +241,17 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 	bool DotExsit = false;
 
-	for (auto &Character : ValueString)
-	{
-		if (!(Character >= L'0' && Character <= L'9'))
-		{
-			if (Character == L'.')
-			{
-				if (!DotExsit)
-				{
+	for (auto &Character : ValueString) {
+		if (!(Character >= L'0' && Character <= L'9')) {
+			if (Character == L'.') {
+				if (!DotExsit) {
 					DotExsit = true;
 
 					Type = VMLPropertyType::DoubleValue;
-				}
-				else
-				{
+				} else {
 					Type = VMLPropertyType::StringValue;
 				}
-			}
-			else
-			{
+			} else {
 				DotExsit = true;
 				Type	 = VMLPropertyType::StringValue;
 			}
@@ -316,8 +260,7 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 	Value.PropertyType = Type;
 
-	switch (Type)
-	{
+	switch (Type) {
 	case VMLPropertyType::IntValue: {
 		Value.PropertyAsInt = _wtoi(ValueString.CStyleString());
 		break;
@@ -334,10 +277,8 @@ VMLPropertyValue VMLParser::ToPropertyValue(const VString &String)
 
 	return Value;
 }
-VMLParser::VMLParser(const VString &VMLString, VMLParserParseMode VMLParserMode, const int &Line)
-{
-	switch (VMLParserMode)
-	{
+VMLParser::VMLParser(const VString &VMLString, VMLParserParseMode VMLParserMode, const int &Line) {
+	switch (VMLParserMode) {
 	case VMLParserParseMode::FromString: {
 		FilePath = VMLString;
 
@@ -347,13 +288,10 @@ VMLParser::VMLParser(const VString &VMLString, VMLParserParseMode VMLParserMode,
 		break;
 	}
 	case VMLParserParseMode::FromFile: {
-		if (VKits::VParserHelper::FileExist(VMLString))
-		{
+		if (VKits::VParserHelper::FileExist(VMLString)) {
 			ParserLexical = new VKits::seal_lexical(VKits::VParserHelper::ReadFromFile(VMLString));
 			BaseLine	  = Line;
-		}
-		else
-		{
+		} else {
 			FileExist = false;
 		}
 
@@ -367,25 +305,19 @@ VMLParser::VMLParser(const VString &VMLString, VMLParserParseMode VMLParserMode,
 	}
 	}
 }
-VMLParser::~VMLParser()
-{
+VMLParser::~VMLParser() {
 	delete ParserLexical;
 }
-VMLParserResult VMLParser::ParseVML()
-{
+VMLParserResult VMLParser::ParseVML() {
 	VMLParserResult ParseResult;
 
-	if (FilePath.find(L"/") != -1)
-	{
+	if (FilePath.find(L"/") != -1) {
 		ParseResult.FilePath = FilePath.Split(0, FilePath.find_last_of(L"/"));
-	}
-	else
-	{
+	} else {
 		ParseResult.FilePath = FilePath.Split(0, FilePath.find_last_of(L"\\"));
 	}
 
-	if (!FileExist)
-	{
+	if (!FileExist) {
 		ParseResult.ErrorInfo.push_back({L"Target file dosen't exists!", 0});
 		ParseResult.ParserStatus = VMLParserStatus::Failed;
 
@@ -396,18 +328,15 @@ VMLParserResult VMLParser::ParseVML()
 
 	int ChildrenSequence = 0;
 
-	while (!ParserLexical->is_eof())
-	{
+	while (!ParserLexical->is_eof()) {
 		Token = ParserLexical->get_token();
 
-		if (Token.cache_token == EOF_TOKEN)
-		{
+		if (Token.cache_token == EOF_TOKEN) {
 			break;
 		}
 
 		// If the Begin of the Code Isn't '<' That Certain Error
-		if (Token.cache_token != LESS_THAN_TOKEN)
-		{
+		if (Token.cache_token != LESS_THAN_TOKEN) {
 			ThrowError(&ParseResult, L"Unknown Token : \"" + Token.token_string + L"\", did you mean \"<\"?");
 
 			break;
@@ -418,19 +347,15 @@ VMLParserResult VMLParser::ParseVML()
 		bool BreakTokenTrigger = false;
 
 		// Skip Comment
-		if (Token.token_string == L"!")
-		{
+		if (Token.token_string == L"!") {
 			bool EndFlag = false;
 
 			// Parse Node Property
-			while (!ParserLexical->is_eof())
-			{
+			while (!ParserLexical->is_eof()) {
 				Token = ParserLexical->get_token();
 
-				if (Token.token_string == L"--")
-				{
-					if (!BreakTokenTrigger)
-					{
+				if (Token.token_string == L"--") {
+					if (!BreakTokenTrigger) {
 						BreakTokenTrigger = true;
 
 						continue;
@@ -438,8 +363,7 @@ VMLParserResult VMLParser::ParseVML()
 
 					Token = ParserLexical->get_token();
 
-					if (Token.token_string != L">")
-					{
+					if (Token.token_string != L">") {
 						ThrowError(&ParseResult, L"Unknown Character \"" + Token.token_string + L"\"");
 					}
 
@@ -449,8 +373,7 @@ VMLParserResult VMLParser::ParseVML()
 				}
 			}
 
-			if (!EndFlag)
-			{
+			if (!EndFlag) {
 				ThrowError(&ParseResult, L"Could Not Find the Match End Block of the Comment");
 
 				return ParseResult;
@@ -459,15 +382,13 @@ VMLParserResult VMLParser::ParseVML()
 			continue;
 		}
 
-		if (Token.cache_token != UNKNOW_TOKEN)
-		{
+		if (Token.cache_token != UNKNOW_TOKEN) {
 			ThrowError(&ParseResult, L"Unknown Token : \"" + Token.token_string + L"\".");
 
 			break;
 		}
 
-		if (ParseResult.Nodes.find(Token.token_string) != ParseResult.Nodes.end())
-		{
+		if (ParseResult.Nodes.find(Token.token_string) != ParseResult.Nodes.end()) {
 			ThrowError(&ParseResult, L"The VML node \"" + Token.token_string + L"\" already exists!");
 
 			return ParseResult;
@@ -484,16 +405,13 @@ VMLParserResult VMLParser::ParseVML()
 		VString PropertyName;
 
 		// Parse Node Property
-		while (!ParserLexical->is_eof())
-		{
+		while (!ParserLexical->is_eof()) {
 			Token = ParserLexical->get_token();
 
-			if (Token.token_string == L"/")
-			{
+			if (Token.token_string == L"/") {
 				Token = ParserLexical->get_token();
 
-				if (Token.token_string != L">")
-				{
+				if (Token.token_string != L">") {
 					ThrowError(&ParseResult, L"Unknown token : \"" + Token.token_string + L"\", did you mean \">\"?");
 
 					return ParseResult;
@@ -510,14 +428,12 @@ VMLParserResult VMLParser::ParseVML()
 
 				break;
 			}
-			if (Token.token_string == L">")
-			{
+			if (Token.token_string == L">") {
 				EndFlag = true;
 
 				break;
 			}
-			if (Token.cache_token != UNKNOW_TOKEN)
-			{
+			if (Token.cache_token != UNKNOW_TOKEN) {
 				ThrowError(&ParseResult, L"Unknown token : \"" + Token.token_string + L"\".");
 
 				return ParseResult;
@@ -527,8 +443,7 @@ VMLParserResult VMLParser::ParseVML()
 
 			// Skip White Space
 			Token = ParserLexical->get_token();
-			if (Token.cache_token != EQUAL_SIGN_TOKEN)
-			{
+			if (Token.cache_token != EQUAL_SIGN_TOKEN) {
 				ThrowError(&ParseResult, L"Unknown Token : \"" + Token.token_string + L"\", did you mean \"=\"?");
 
 				return ParseResult;
@@ -536,8 +451,7 @@ VMLParserResult VMLParser::ParseVML()
 
 			Token = ParserLexical->get_token();
 
-			if (Token.cache_token != CONST_STRING)
-			{
+			if (Token.cache_token != CONST_STRING) {
 				ThrowError(&ParseResult, L"Unknown Token : \"" + Token.token_string +
 											 L"\" (All of the key value should be included by string).");
 
@@ -550,16 +464,14 @@ VMLParserResult VMLParser::ParseVML()
 			NewNode.NodeValue.insert(std::pair<VString, VMLPropertyValue>(PropertyName, Property));
 		}
 
-		if (!EndFlag)
-		{
+		if (!EndFlag) {
 			ThrowError(&ParseResult,
 					   L"The end symbol \">\" lost, maybe you need to add \">\" at the end of this scope.");
 
 			return ParseResult;
 		}
 
-		if (ScopeEndFlag)
-		{
+		if (ScopeEndFlag) {
 			continue;
 		}
 
@@ -574,20 +486,16 @@ VMLParserResult VMLParser::ParseVML()
 		auto EndPosition   = 0;
 
 		auto ChildStartLine = ParserLexical->get_line() + BaseLine;
-		while (!ParserLexical->is_eof())
-		{
+		while (!ParserLexical->is_eof()) {
 			Token = ParserLexical->get_token();
 
-			if (Token.token_string == L"/")
-			{
+			if (Token.token_string == L"/") {
 				auto ViewToken = ParserLexical->view_token();
-				if (ViewToken.token_string == L">")
-				{
+				if (ViewToken.token_string == L">") {
 					--LeftBracketCount;
 				}
 			}
-			if (Token.token_string == L"<")
-			{
+			if (Token.token_string == L"<") {
 				NewNode.BlockEnd = ParserLexical->get_index();
 
 				EndPosition = ParserLexical->get_index() - 1;
@@ -596,19 +504,15 @@ VMLParserResult VMLParser::ParseVML()
 				bool BreakTokenTrigger = false;
 
 				// Skip Comment
-				if (Token.token_string == L"!")
-				{
+				if (Token.token_string == L"!") {
 					bool EndFlag = false;
 
 					// Parse Node Property
-					while (!ParserLexical->is_eof())
-					{
+					while (!ParserLexical->is_eof()) {
 						Token = ParserLexical->get_token();
 
-						if (Token.token_string == L"--")
-						{
-							if (!BreakTokenTrigger)
-							{
+						if (Token.token_string == L"--") {
+							if (!BreakTokenTrigger) {
 								BreakTokenTrigger = true;
 
 								continue;
@@ -616,8 +520,7 @@ VMLParserResult VMLParser::ParseVML()
 
 							Token = ParserLexical->get_token();
 
-							if (Token.token_string != L">")
-							{
+							if (Token.token_string != L">") {
 								ThrowError(&ParseResult, L"Unknown Character \"" + Token.token_string + L"\"");
 							}
 
@@ -627,8 +530,7 @@ VMLParserResult VMLParser::ParseVML()
 						}
 					}
 
-					if (!EndFlag)
-					{
+					if (!EndFlag) {
 						ThrowError(&ParseResult, L"Could not find the match end block of the comment, "
 												 L"maybe you need "
 												 L"add \"-->\" at the end of the comment.");
@@ -638,13 +540,10 @@ VMLParserResult VMLParser::ParseVML()
 
 					continue;
 				}
-				if (Token.token_string == L"/")
-				{
-					if (LeftBracketCount == 0)
-					{
+				if (Token.token_string == L"/") {
+					if (LeftBracketCount == 0) {
 						Token = ParserLexical->get_token();
-						if (Token.token_string != NewNode.NodeTag)
-						{
+						if (Token.token_string != NewNode.NodeTag) {
 							ThrowError(&ParseResult, L"Could not find the match end block of \"" + NewNode.NodeTag +
 														 L"\", maybe you need to add \"</" + NewNode.NodeTag +
 														 L"> at the end of this scope.");
@@ -654,8 +553,7 @@ VMLParserResult VMLParser::ParseVML()
 
 						Token = ParserLexical->get_token();
 
-						if (Token.cache_token != MORE_THAN_TOKEN)
-						{
+						if (Token.cache_token != MORE_THAN_TOKEN) {
 							ThrowError(&ParseResult,
 									   L"Unknown Token : \"" + Token.token_string + L"\", did you mean \">\"?");
 
@@ -667,37 +565,30 @@ VMLParserResult VMLParser::ParseVML()
 						break;
 					}
 					--LeftBracketCount;
-				}
-				else
-				{
+				} else {
 					++LeftBracketCount;
 				}
 			}
 		}
 
-		if (StartPosition != EndPosition)
-		{
+		if (StartPosition != EndPosition) {
 			SubContent = ParserLexical->get_buffer().substr(StartPosition, EndPosition - StartPosition - 1);
 		}
 
-		if (!SubContent.empty())
-		{
+		if (!SubContent.empty()) {
 			VMLParser *SubContentParser = new VMLParser(SubContent, VMLParserParseMode::FromString, ChildStartLine);
 			auto	   Result			= SubContentParser->ParseVML();
 
-			if (Result.ParserStatus == VMLParserStatus::Error)
-			{
+			if (Result.ParserStatus == VMLParserStatus::Error) {
 				ParseResult.ParserStatus = VMLParserStatus::Error;
 
-				for (auto &ErrorInfo : Result.ErrorInfo)
-				{
+				for (auto &ErrorInfo : Result.ErrorInfo) {
 					ParseResult.ErrorInfo.push_back(ErrorInfo);
 				}
 
 				return ParseResult;
 			}
-			for (auto &ChildrenNode : Result.Nodes)
-			{
+			for (auto &ChildrenNode : Result.Nodes) {
 				NewNode.ChildrenNodes.insert(std::pair<VString, VMLNode>(ChildrenNode.first, ChildrenNode.second));
 			}
 		}
@@ -708,8 +599,7 @@ VMLParserResult VMLParser::ParseVML()
 
 		ParseResult.Nodes.insert(std::pair<VString, VMLNode>(NewNode.NodeTag, NewNode));
 
-		if (!EndFlag)
-		{
+		if (!EndFlag) {
 			ThrowError(&ParseResult, L"The end symbol \"<\" lost, maybe you need to add \"</" + NewNode.NodeTag +
 										 L">\" at the end of this scope.");
 

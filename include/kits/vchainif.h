@@ -1,9 +1,7 @@
 #pragma once
 
-namespace VKits
-{
-typedef class VChainIfJudgement
-{
+namespace VKits {
+typedef class VChainIfJudgement {
 public:
 	VChainIfJudgement(const bool &Invalid);
 

@@ -5,22 +5,17 @@
 
 #pragma comment(lib, "comsuppw")
 
-void VStudioApp::MinisizeWindow()
-{
+void VStudioApp::MinisizeWindow() {
 	ShowWindow(GetLocalWinId(), SW_MINIMIZE);
 }
-void VStudioApp::MaxsizeWindow()
-{
+void VStudioApp::MaxsizeWindow() {
 	Maximize = !Maximize;
 
 	auto MaxsizeButton = operator[](L"main-widget")[L"max-size-button"].Get<Core::VPushButton>();
 
-	if (Maximize)
-	{
+	if (Maximize) {
 		ShowWindow(GetLocalWinId(), SW_MAXIMIZE);
-	}
-	else
-	{
+	} else {
 		ShowWindow(GetLocalWinId(), SW_RESTORE);
 	}
 
@@ -28,10 +23,8 @@ void VStudioApp::MaxsizeWindow()
 	MaxsizeButton->GetTheme()->LabelFont->SetParagraphAlignment(
 		Core::VFontParagraphAlignment::DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 }
-void VStudioApp::ExitApp()
-{
-	if (InViewing)
-	{
+void VStudioApp::ExitApp() {
+	if (InViewing) {
 		operator[](L"main-widget")[L"start-vml-view-button"].Get<Core::VPushButton>()->SetPlainText(L"\ueea3");
 		operator[](L"main-widget")[L"start-vml-view-button"]
 			.Get<Core::VPushButton>()
@@ -50,10 +43,8 @@ void VStudioApp::ExitApp()
 
 	exit(0);
 }
-void VStudioApp::SaveFile()
-{
-	if (FileSaved)
-	{
+void VStudioApp::SaveFile() {
+	if (FileSaved) {
 		std::ofstream FileStream(CodeFilePath);
 		auto		  PlainText = CodeEditor->GetPlainText();
 
@@ -64,12 +55,10 @@ void VStudioApp::SaveFile()
 		auto   Result	= CodeConvert.to_bytes(PlainText);
 		size_t Position = 0;
 
-		while (true)
-		{
+		while (true) {
 			Position = Result.find('\r', Position);
 
-			if (Position == -1)
-			{
+			if (Position == -1) {
 				break;
 			}
 
@@ -87,15 +76,13 @@ void VStudioApp::SaveFile()
 		SetTitle();
 	}
 }
-void VStudioApp::CreateVMLFile()
-{
+void VStudioApp::CreateVMLFile() {
 	LPWSTR	FilePath = new WCHAR[MAX_PATH];
 	HRESULT OperationResult;
 
 	std::thread FileDialogThread(
 		[&](LPWSTR FilePath, HRESULT *OperationResult) -> void {
-			if (CoInitialize(NULL))
-			{
+			if (CoInitialize(NULL)) {
 				;
 			}
 
@@ -115,8 +102,7 @@ void VStudioApp::CreateVMLFile()
 
 			*OperationResult = FileDialog->Show(GetLocalWinId());
 
-			if (SUCCEEDED((*OperationResult)))
-			{
+			if (SUCCEEDED((*OperationResult))) {
 				IShellItem *SellItem;
 				FileDialog->GetResult(&SellItem);
 
@@ -139,14 +125,12 @@ void VStudioApp::CreateVMLFile()
 
 	FileDialogThread.join();
 
-	if (SUCCEEDED(OperationResult))
-	{
+	if (SUCCEEDED(OperationResult)) {
 		FileName		  = GetFileName(FilePath);
 		CodeFilePath	  = FilePath;
 		CodeWorkspacePath = GetWorkspacePath(FilePath);
 
-		if (_waccess(CodeWorkspacePath.c_str(), 06) != 0)
-		{
+		if (_waccess(CodeWorkspacePath.c_str(), 06) != 0) {
 			PopFailureDialog(L"Can not open target file", L"The file can't be created!");
 
 			return;
@@ -155,8 +139,7 @@ void VStudioApp::CreateVMLFile()
 		HANDLE FileHandle =
 			CreateFile(CodeFilePath.c_str(), GENERIC_ALL, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 
-		if (FileHandle == INVALID_HANDLE_VALUE)
-		{
+		if (FileHandle == INVALID_HANDLE_VALUE) {
 			PopFailureDialog(L"Can not open target file", L"The file can't be created!");
 
 			return;
@@ -173,45 +156,33 @@ void VStudioApp::CreateVMLFile()
 		CodeEditor->SetPlainText(VKits::VParserHelper::ReadFromFile(CodeFilePath, VKits::VDocumentEncoding::UTF8));
 
 		InEditMode = true;
-	}
-	else
-	{
+	} else {
 		PopFailureDialog(L"Can not open target file", L"The file can't be open!");
 	}
 }
-void VStudioApp::SetTitle()
-{
-	if (FileSaved)
-	{
+void VStudioApp::SetTitle() {
+	if (FileSaved) {
 		operator[](L"main-widget")[L"caption"][L"title"].Get<Core::VTextLabel>()->SetPlainText(L"VStudio (" + FileName +
 																							   L")*");
-	}
-	else if (InViewing)
-	{
+	} else if (InViewing) {
 		operator[](L"main-widget")[L"caption"][L"title"].Get<Core::VTextLabel>()->SetPlainText(L"VStudio (" + FileName +
 																							   L") [Viewing]");
-	}
-	else
-	{
+	} else {
 		operator[](L"main-widget")[L"caption"][L"title"].Get<Core::VTextLabel>()->SetPlainText(L"VStudio (" + FileName +
 																							   L")");
 	}
 }
-void VStudioApp::CodeChanged(const std::wstring &)
-{
-	if (InEditMode)
-	{
+void VStudioApp::CodeChanged(const std::wstring &) {
+	if (InEditMode) {
 		FileSaved = true;
 
 		SetTitle();
 	}
 }
-void VStudioApp::CheckFrame()
-{
+void VStudioApp::CheckFrame() {
 	VML::VMLMainWindow::CheckFrame();
 
-	if (!ThreadCurrentRunning && InViewing)
-	{
+	if (!ThreadCurrentRunning && InViewing) {
 		InViewing = false;
 
 		operator[](L"main-widget")[L"start-vml-view-button"].Get<Core::VPushButton>()->SetPlainText(L"\ueea3");
@@ -227,8 +198,7 @@ void VStudioApp::CheckFrame()
 		SetTitle();
 	}
 }
-void VStudioApp::PopFailureDialog(const std::wstring Title, const std::wstring Text)
-{
+void VStudioApp::PopFailureDialog(const std::wstring Title, const std::wstring Text) {
 	auto ErrorInfoWidget = operator[](L"main-widget")[L"run-failed-note"].Get();
 
 	ErrorInfoWidget->Move(ErrorInfoWidget->GetX(), 55);
@@ -245,8 +215,7 @@ void VStudioApp::PopFailureDialog(const std::wstring Title, const std::wstring T
 
 	NoteBoxAnimaitonTimer.Start(2000);
 }
-void VStudioApp::PopSyntaxErrorDialog(const std::wstring Title, const std::wstring Text)
-{
+void VStudioApp::PopSyntaxErrorDialog(const std::wstring Title, const std::wstring Text) {
 	auto ErrorInfoWidget = operator[](L"main-widget")[L"view-failed-note"].Get();
 
 	ErrorInfoWidget->Move(ErrorInfoWidget->GetX(), GetHeight() - 20 - 123 - 40);
@@ -261,24 +230,18 @@ void VStudioApp::PopSyntaxErrorDialog(const std::wstring Title, const std::wstri
 
 	SyntaxBoxAnimaitonTimer.Start(2000);
 }
-void VStudioApp::StartVMLView()
-{
-	if (!InEditMode)
-	{
+void VStudioApp::StartVMLView() {
+	if (!InEditMode) {
 		PopFailureDialog(L"Can not start VML view", L"Not valid VML file found!");
-	}
-	else
-	{
+	} else {
 		SaveFile();
 		std::wstring CommandLine = L"./viewer.exe " + std::wstring(L"\"") + CodeFilePath + L"\"";
 
-		if (!InViewing)
-		{
+		if (!InViewing) {
 			VML::VMLParser GrammarChecker(CodeEditor->GetPlainText());
 			auto		   ParseResult = GrammarChecker.ParseVML();
 
-			if (ParseResult.ParserStatus != VML::VMLParserStatus::Ok)
-			{
+			if (ParseResult.ParserStatus != VML::VMLParserStatus::Ok) {
 				PopSyntaxErrorDialog(L"Failed to start view", L"Syntax Error (line " +
 																  std::to_wstring(ParseResult.ErrorInfo[0].Line) +
 																  L") : " + ParseResult.ErrorInfo[0].ErrorString);
@@ -287,8 +250,7 @@ void VStudioApp::StartVMLView()
 			}
 
 			if (CreateProcess(NULL, (LPWSTR)CommandLine.c_str(), NULL, NULL, TRUE, 0, NULL, NULL, &StartupInfo,
-							  &ProcessInfo))
-			{
+							  &ProcessInfo)) {
 				std::thread PatchThread([&]() -> void {
 					ThreadCurrentRunning = true;
 
@@ -311,9 +273,7 @@ void VStudioApp::StartVMLView()
 
 				InViewing = true;
 			}
-		}
-		else
-		{
+		} else {
 			InViewing = false;
 
 			operator[](L"main-widget")[L"start-vml-view-button"].Get<Core::VPushButton>()->SetPlainText(L"\ueea3");
@@ -335,8 +295,7 @@ void VStudioApp::StartVMLView()
 		SetTitle();
 	}
 }
-void VStudioApp::ExecInfoBoxAnimation()
-{
+void VStudioApp::ExecInfoBoxAnimation() {
 	auto ErrorInfoWidget = operator[](L"main-widget")[L"run-failed-note"].Get();
 
 	operator[](L"main-widget")[L"run-failed-note"][L"run-out-animation"]
@@ -345,8 +304,7 @@ void VStudioApp::ExecInfoBoxAnimation()
 	operator[](L"main-widget")[L"run-failed-note"][L"run-out-animation"].Get<Core::VPositionAnimation>()->Start();
 	operator[](L"main-widget")[L"run-failed-note"][L"fade-out-animation"].Get<Core::VOpacityAnimation>()->Start();
 }
-void VStudioApp::ExecSyntaxBoxAnimation()
-{
+void VStudioApp::ExecSyntaxBoxAnimation() {
 	auto ErrorInfoWidget = operator[](L"main-widget")[L"view-failed-note"].Get();
 
 	operator[](L"main-widget")[L"view-failed-note"][L"run-out-animation"]
@@ -355,27 +313,23 @@ void VStudioApp::ExecSyntaxBoxAnimation()
 	operator[](L"main-widget")[L"view-failed-note"][L"run-out-animation"].Get<Core::VPositionAnimation>()->Start();
 	operator[](L"main-widget")[L"view-failed-note"][L"fade-out-animation"].Get<Core::VOpacityAnimation>()->Start();
 }
-std::wstring VStudioApp::GetFileName(const std::wstring &FilePath)
-{
+std::wstring VStudioApp::GetFileName(const std::wstring &FilePath) {
 	int SliptPosition = static_cast<int>(FilePath.find_last_of(L"\\")) + 1;
 
 	return FilePath.substr(SliptPosition, FilePath.size() - SliptPosition);
 }
-std::wstring VStudioApp::GetWorkspacePath(const std::wstring &FilePath)
-{
+std::wstring VStudioApp::GetWorkspacePath(const std::wstring &FilePath) {
 	int SliptPosition = static_cast<int>(FilePath.find_last_of(L"\\")) + 1;
 
 	return FilePath.substr(0, SliptPosition);
 }
-void VStudioApp::OpenFile()
-{
+void VStudioApp::OpenFile() {
 	LPWSTR	FilePath = new WCHAR[MAX_PATH];
 	HRESULT OperationResult;
 
 	std::thread FileDialogThread(
 		[](LPWSTR FilePath, HRESULT *OperationResult) -> void {
-			if (CoInitialize(NULL))
-			{
+			if (CoInitialize(NULL)) {
 				;
 			}
 
@@ -397,8 +351,7 @@ void VStudioApp::OpenFile()
 			FileDialog->ClearClientData();
 			FileDialog->Close(*OperationResult);
 
-			if (SUCCEEDED((*OperationResult)))
-			{
+			if (SUCCEEDED((*OperationResult))) {
 				IShellItem *SellItem;
 				FileDialog->GetResult(&SellItem);
 
@@ -421,8 +374,7 @@ void VStudioApp::OpenFile()
 
 	FileDialogThread.join();
 
-	if (SUCCEEDED(OperationResult) && _waccess(FilePath, 06) == 0)
-	{
+	if (SUCCEEDED(OperationResult) && _waccess(FilePath, 06) == 0) {
 		FileName		  = GetFileName(FilePath);
 		CodeFilePath	  = FilePath;
 		CodeWorkspacePath = GetWorkspacePath(FilePath);
@@ -436,17 +388,14 @@ void VStudioApp::OpenFile()
 		CodeEditor->SetPlainText(VKits::VParserHelper::ReadFromFile(CodeFilePath, VKits::VDocumentEncoding::UTF8));
 
 		InEditMode = true;
-	}
-	else
-	{
+	} else {
 		PopFailureDialog(L"Can not open target file", L"The file can't be open!");
 	}
 }
 
 VStudioApp::VStudioApp(Core::VApplication *App)
 	: VMLMainWindow(App), NoteBoxAnimaitonTimer(this), SyntaxBoxAnimaitonTimer(this),
-	  VMLHighlighter(CallWidgetGetStaticRenderHandle(), Core::VBuiltInHightlighterTheme::FleetDark)
-{
+	  VMLHighlighter(CallWidgetGetStaticRenderHandle(), Core::VBuiltInHightlighterTheme::FleetDark) {
 	AddFontResource(L"./vml-editor-plus/font/vml-editor-plus.ttf");
 	AddFontResource(L"./vml-editor-plus/font/icomoon.ttf");
 
@@ -455,8 +404,7 @@ VStudioApp::VStudioApp(Core::VApplication *App)
 	ThreadCurrentRunning = false;
 
 	SetQuitEvent([&]() -> bool {
-		if (InViewing)
-		{
+		if (InViewing) {
 			operator[](L"main-widget")[L"start-vml-view-button"].Get<Core::VPushButton>()->SetPlainText(L"\ueea3");
 			operator[](L"main-widget")[L"start-vml-view-button"]
 				.Get<Core::VPushButton>()
@@ -502,8 +450,7 @@ VStudioApp::VStudioApp(Core::VApplication *App)
 }
 VStudioApp::VStudioApp(Core::VApplication *App, const std::wstring &FilePath)
 	: VMLMainWindow(App), NoteBoxAnimaitonTimer(this), SyntaxBoxAnimaitonTimer(this),
-	  VMLHighlighter(CallWidgetGetStaticRenderHandle(), Core::VBuiltInHightlighterTheme::FleetDark)
-{
+	  VMLHighlighter(CallWidgetGetStaticRenderHandle(), Core::VBuiltInHightlighterTheme::FleetDark) {
 	wchar_t LocalPath[MAX_PATH + 1] = {0};
 	GetModuleFileName(NULL, LocalPath, MAX_PATH);
 
@@ -519,8 +466,7 @@ VStudioApp::VStudioApp(Core::VApplication *App, const std::wstring &FilePath)
 	ProcessInfo = PROCESS_INFORMATION{};
 
 	SetQuitEvent([&]() -> bool {
-		if (InViewing)
-		{
+		if (InViewing) {
 			operator[](L"main-widget")[L"start-vml-view-button"].Get<Core::VPushButton>()->SetPlainText(L"\ueea3");
 			operator[](L"main-widget")[L"start-vml-view-button"]
 				.Get<Core::VPushButton>()
@@ -563,8 +509,7 @@ VStudioApp::VStudioApp(Core::VApplication *App, const std::wstring &FilePath)
 
 	Show();
 
-	if (_waccess(FilePath.c_str(), 06) == 0)
-	{
+	if (_waccess(FilePath.c_str(), 06) == 0) {
 		FileName		  = GetFileName(FilePath);
 		CodeFilePath	  = FilePath;
 		CodeWorkspacePath = GetWorkspacePath(FilePath);
@@ -578,42 +523,33 @@ VStudioApp::VStudioApp(Core::VApplication *App, const std::wstring &FilePath)
 		CodeEditor->SetPlainText(VKits::VParserHelper::ReadFromFile(CodeFilePath, VKits::VDocumentEncoding::UTF8));
 
 		InEditMode = true;
-	}
-	else
-	{
+	} else {
 		PopFailureDialog(L"Can not open target file", L"The file can't be open!");
 	}
 }
 
-bool VStudioApp::CatchMessage(Core::VMessage *Message)
-{
-	if (Message->GetType() == Core::VMessageType::KeyClickedMessage && Message->Win32ID == WM_KEYDOWN && InEditMode)
-	{
+bool VStudioApp::CatchMessage(Core::VMessage *Message) {
+	if (Message->GetType() == Core::VMessageType::KeyClickedMessage && Message->Win32ID == WM_KEYDOWN && InEditMode) {
 		auto KeyClickedMessage = static_cast<Core::VKeyClickedMessage *>(Message);
-		if (KeyClickedMessage->KeyVKCode == 'S' && (GetAsyncKeyState(VK_CONTROL) & 0x8000))
-		{
+		if (KeyClickedMessage->KeyVKCode == 'S' && (GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
 			SaveFile();
 
 			return true;
 		}
-		if (KeyClickedMessage->KeyVKCode == VK_F5)
-		{
+		if (KeyClickedMessage->KeyVKCode == VK_F5) {
 			StartVMLView();
 
 			return true;
 		}
 	}
-	if (Message->GetType() == Core::VMessageType::UnknowMessage && Message->Win32ID == WM_SIZE)
-	{
+	if (Message->GetType() == Core::VMessageType::UnknowMessage && Message->Win32ID == WM_SIZE) {
 		auto MaxsizeButton = operator[](L"main-widget")[L"max-size-button"].Get<Core::VPushButton>();
 
-		if (Message->wParameter == SIZE_MAXIMIZED)
-		{
+		if (Message->wParameter == SIZE_MAXIMIZED) {
 			MaxsizeButton->SetPlainText(L"\ue904");
 			MaxsizeButton->SetTextSize(12);
 		}
-		if (Message->wParameter == SIZE_RESTORED)
-		{
+		if (Message->wParameter == SIZE_RESTORED) {
 			MaxsizeButton->SetPlainText(L"\ue903");
 			MaxsizeButton->SetTextSize(100);
 		}
@@ -628,13 +564,11 @@ bool VStudioApp::CatchMessage(Core::VMessage *Message)
 	return false;
 }
 
-VStudioApp::~VStudioApp()
-{
+VStudioApp::~VStudioApp() {
 	RemoveFontResource(L"./vml-editor-plus/font/vml-editor-plus.ttf");
 	RemoveFontResource(L"./vml-editor-plus/font/icomoon.ttf");
 
-	if (ThreadCurrentRunning)
-	{
+	if (ThreadCurrentRunning) {
 		TerminateProcess(ProcessInfo.hProcess, 4);
 
 		CloseHandle(ProcessInfo.hProcess);

@@ -1,18 +1,16 @@
 #include "./include/core/control/vdropdown.h"
 #include "./include/vml/vmlwidget.h"
 
-void Test(Core::VDropContextBase *Context)
-{
+void Test(Core::VDropContextBase *Context) {
 	MessageBox(NULL, Context->Text.CStyleString(), Context->Text.CStyleString(), MB_OK);
 }
 
-int main()
-{
+int main() {
 	//	Core::VElementUITheme ElementStyle;
 
 	auto Application = Core::VApplication();
 
-	auto MainWindow = VML::VMLMainWindow(1000, 800, &Application);
+	auto MainWindow	  = VML::VMLMainWindow(1000, 800, &Application);
 	auto DropDownTest = new Core::VDropDown(400, 40, &MainWindow);
 
 	Core::VDropGroup GroupTest;

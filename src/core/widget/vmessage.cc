@@ -2,32 +2,26 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VMessage::VMessage(VMessageType Type) : MessageType(Type)
-{
+namespace Core {
+VMessage::VMessage(VMessageType Type) : MessageType(Type) {
 }
 VBlurCombinationOnRend::VBlurCombinationOnRend(HWND TriggerWidget, const VRect &RepaintRegion)
-	: VMessage(VMessageType::RepaintMessage)
-{
+	: VMessage(VMessageType::RepaintMessage) {
 	DirtyRectangle = RepaintRegion;
 
 	MessageTriggerWidget = TriggerWidget;
 }
-VFreeSourceMessage::VFreeSourceMessage(HWND TriggerWidget) : VMessage(VMessageType::FreeResourceMessage)
-{
+VFreeSourceMessage::VFreeSourceMessage(HWND TriggerWidget) : VMessage(VMessageType::FreeResourceMessage) {
 	MessageTriggerWidget = TriggerWidget;
 }
-VMouseMoveMessage::VMouseMoveMessage(HWND TriggerWidget, int X, int Y) : VMessage(VMessageType::MouseMoveMessage)
-{
+VMouseMoveMessage::VMouseMoveMessage(HWND TriggerWidget, int X, int Y) : VMessage(VMessageType::MouseMoveMessage) {
 	MousePosition.X = X;
 	MousePosition.Y = Y;
 
 	MessageTriggerWidget = TriggerWidget;
 }
 VMouseWheelMessage::VMouseWheelMessage(HWND TriggerWidget, int X, int Y, short WheelParameter)
-	: VMessage(VMessageType::MouseWheelMessage)
-{
+	: VMessage(VMessageType::MouseWheelMessage) {
 	MousePosition.X = X;
 	MousePosition.Y = Y;
 
@@ -37,8 +31,7 @@ VMouseWheelMessage::VMouseWheelMessage(HWND TriggerWidget, int X, int Y, short W
 }
 VMouseClickedMessage::VMouseClickedMessage(HWND TriggerWidget, int X, int Y, VMouseClickedFlag ClickedFlag,
 										   VMouseKeyFlag Key)
-	: VMessage(VMessageType::MouseClickedMessage)
-{
+	: VMessage(VMessageType::MouseClickedMessage) {
 	MousePosition.X = X;
 	MousePosition.Y = Y;
 
@@ -49,8 +42,7 @@ VMouseClickedMessage::VMouseClickedMessage(HWND TriggerWidget, int X, int Y, VMo
 }
 VKeyClickedMessage::VKeyClickedMessage(HWND TriggerWidget, byte VKCode, bool PrevDown, bool Extened,
 									   VkeyClickedFlag Stats)
-	: VMessage(VMessageType::KeyClickedMessage)
-{
+	: VMessage(VMessageType::KeyClickedMessage) {
 	KeyVKCode	= VKCode;
 	KeyPrevDown = PrevDown;
 	KeyExtened	= Extened;
@@ -59,45 +51,38 @@ VKeyClickedMessage::VKeyClickedMessage(HWND TriggerWidget, byte VKCode, bool Pre
 	MessageTriggerWidget = TriggerWidget;
 }
 VRepaintMessage::VRepaintMessage(HWND TriggerWidget, const VRect &RepaintRegion)
-	: VMessage(VMessageType::RepaintMessage)
-{
+	: VMessage(VMessageType::RepaintMessage) {
 	DirtyRectangle = RepaintRegion;
 
 	MessageTriggerWidget = TriggerWidget;
 }
 VGetRepaintAeraMessage::VGetRepaintAeraMessage(HWND TriggerWidget, VRect &RepaintRegions)
-	: VMessage(VMessageType::GetRepaintAeraMessage)
-{
+	: VMessage(VMessageType::GetRepaintAeraMessage) {
 	RepaintAera = &RepaintRegions;
 
 	MessageTriggerWidget = TriggerWidget;
 }
-VGetRepaintAeraMessage::~VGetRepaintAeraMessage()
-{
+VGetRepaintAeraMessage::~VGetRepaintAeraMessage() {
 }
-VIMECharMessage::VIMECharMessage(HWND TriggerWidget, wchar_t CharInputed) : VMessage(VMessageType::IMECharMessage)
-{
+VIMECharMessage::VIMECharMessage(HWND TriggerWidget, wchar_t CharInputed) : VMessage(VMessageType::IMECharMessage) {
 	IMEChar = CharInputed;
 
 	MessageTriggerWidget = TriggerWidget;
 }
 VCheckFocusMessage::VCheckFocusMessage(HWND TriggerWidget, const VPoint &Point, void *MessageObject,
 									   const bool &MouseClick)
-	: VMessage(VMessageType::CheckLocalFocusMessage)
-{
+	: VMessage(VMessageType::CheckLocalFocusMessage) {
 	FocusPoint = Point;
 
 	Click				 = MouseClick;
 	MessageTriggerWidget = TriggerWidget;
 	Object				 = MessageObject;
 }
-VKillFocusMessage::VKillFocusMessage(HWND TriggerWidget) : VMessage(VMessageType::KillFocusMessage)
-{
+VKillFocusMessage::VKillFocusMessage(HWND TriggerWidget) : VMessage(VMessageType::KillFocusMessage) {
 	MessageTriggerWidget = TriggerWidget;
 }
 
-VQuitWindowMessage::VQuitWindowMessage(HWND TriggerWidget) : VMessage(VMessageType::QuitWindowMessage)
-{
+VQuitWindowMessage::VQuitWindowMessage(HWND TriggerWidget) : VMessage(VMessageType::QuitWindowMessage) {
 	MessageTriggerWidget = TriggerWidget;
 }
 

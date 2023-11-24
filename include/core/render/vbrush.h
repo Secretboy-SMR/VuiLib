@@ -13,14 +13,12 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VPenBrush class:
  *	Description : This brush is used to draw border color
  */
-class VPenBrush
-{
+class VPenBrush {
 public:
 	/*
 	 * VPenBrush constructor:
@@ -82,8 +80,7 @@ private:
  * VSolidBrush class:
  *	Description : This brush is used to draw fill color in a geometry shape
  */
-class VSolidBrush
-{
+class VSolidBrush {
 public:
 	/*
 	 * VSolidBrush constructor:
@@ -118,8 +115,7 @@ private:
  * VBitmapBrush class:
  *	Description
  */
-class VBitmapBrush
-{
+class VBitmapBrush {
 public:
 	/*
    * VBitmapBrush constructor:

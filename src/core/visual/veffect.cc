@@ -4,43 +4,34 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VBasicEffect::VBasicEffect()
-{
+namespace Core {
+VBasicEffect::VBasicEffect() {
 }
 
-VGassuinBlurEffect::VGassuinBlurEffect(const float &BlurRadius)
-{
+VGassuinBlurEffect::VGassuinBlurEffect(const float &BlurRadius) {
 	Radius = BlurRadius;
 }
-void VGassuinBlurEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image)
-{
+void VGassuinBlurEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image) {
 	ID2D1Bitmap *Bitmap;
 	Image->GetDXObject()->GetBitmap(&Bitmap);
 
 	Core::VImage ImageWrapper(Bitmap);
 	ImageWrapper.ApplyGassBlur(Radius, RenderHandle);
 }
-void VGassuinBlurEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image)
-{
+void VGassuinBlurEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image) {
 	Image->ApplyGassBlur(Radius, RenderHandle);
 }
-void VGassuinBlurEffect::SetRadius(const float &BlurRadius)
-{
+void VGassuinBlurEffect::SetRadius(const float &BlurRadius) {
 	Radius = BlurRadius;
 }
-float VGassuinBlurEffect::GetRadius() const
-{
+float VGassuinBlurEffect::GetRadius() const {
 	return Radius;
 }
 
-VExposureEffect::VExposureEffect(const float &ExposureValue)
-{
+VExposureEffect::VExposureEffect(const float &ExposureValue) {
 	Exposure = ExposureValue;
 }
-void VExposureEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image)
-{
+void VExposureEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image) {
 	ID2D1Bitmap *Bitmap;
 	Image->GetDXObject()->GetBitmap(&Bitmap);
 
@@ -88,19 +79,15 @@ void VExposureEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanv
 
 		Bitmap->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-		while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-		{
+		while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 		}
-		while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-		{
+		while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 		}
-		while (!Output.ReleaseAndGetAddressOf())
-		{
+		while (!Output.ReleaseAndGetAddressOf()) {
 		}
 	}
 }
-void VExposureEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image)
-{
+void VExposureEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image) {
 	ID2D1Bitmap *Bitmap;
 	Bitmap = Image->GetDirectXObject();
 
@@ -148,23 +135,18 @@ void VExposureEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImag
 
 		Bitmap->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-		while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-		{
+		while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 		}
-		while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-		{
+		while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 		}
-		while (!Output.ReleaseAndGetAddressOf())
-		{
+		while (!Output.ReleaseAndGetAddressOf()) {
 		}
 	}
 }
 
-VGrayScaleEffect::VGrayScaleEffect()
-{
+VGrayScaleEffect::VGrayScaleEffect() {
 }
-void VGrayScaleEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image)
-{
+void VGrayScaleEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image) {
 	ID2D1Bitmap *Bitmap;
 	Image->GetDXObject()->GetBitmap(&Bitmap);
 
@@ -211,19 +193,15 @@ void VGrayScaleEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCan
 
 		Bitmap->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-		while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-		{
+		while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 		}
-		while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-		{
+		while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 		}
-		while (!Output.ReleaseAndGetAddressOf())
-		{
+		while (!Output.ReleaseAndGetAddressOf()) {
 		}
 	}
 }
-void VGrayScaleEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image)
-{
+void VGrayScaleEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image) {
 	ID2D1Bitmap *Bitmap;
 	Bitmap = Image->GetDirectXObject();
 
@@ -270,24 +248,19 @@ void VGrayScaleEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VIma
 
 		Bitmap->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-		while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-		{
+		while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 		}
-		while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-		{
+		while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 		}
-		while (!Output.ReleaseAndGetAddressOf())
-		{
+		while (!Output.ReleaseAndGetAddressOf()) {
 		}
 	}
 }
 
-VSepiaEffect::VSepiaEffect(const float &SepiaIntensity)
-{
+VSepiaEffect::VSepiaEffect(const float &SepiaIntensity) {
 	Intensity = SepiaIntensity;
 }
-void VSepiaEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image)
-{
+void VSepiaEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasPainter *Image) {
 	ID2D1Bitmap *Bitmap;
 	Image->GetDXObject()->GetBitmap(&Bitmap);
 
@@ -335,19 +308,15 @@ void VSepiaEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VCanvasP
 
 		Bitmap->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-		while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-		{
+		while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 		}
-		while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-		{
+		while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 		}
-		while (!Output.ReleaseAndGetAddressOf())
-		{
+		while (!Output.ReleaseAndGetAddressOf()) {
 		}
 	}
 }
-void VSepiaEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image)
-{
+void VSepiaEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *Image) {
 	ID2D1Bitmap *Bitmap;
 	Bitmap = Image->GetDirectXObject();
 
@@ -395,14 +364,11 @@ void VSepiaEffect::ApplyEffect(const VRenderHandle &RenderHandle, Core::VImage *
 
 		Bitmap->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-		while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-		{
+		while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 		}
-		while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-		{
+		while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 		}
-		while (!Output.ReleaseAndGetAddressOf())
-		{
+		while (!Output.ReleaseAndGetAddressOf()) {
 		}
 	}
 }

@@ -6,10 +6,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VImage::VImage(const VImage &Image) : DirectXBitmap(Image.DirectXBitmap.Object)
-{
+namespace Core {
+VImage::VImage(const VImage &Image) : DirectXBitmap(Image.DirectXBitmap.Object) {
 }
 VImage::VImage(const int &Width, const int &Height, const VRenderHandle &RenderHandle)
 	: DirectXBitmap(RenderHandle.Allocator){VLIB_REPORT_IF_FAILED_INFO(
@@ -22,8 +20,7 @@ VImage::VImage(const int &Width, const int &Height, const VRenderHandle &RenderH
 
 		  )} VImage::VImage(const int &Width, const int &Height, const VSurfaceAlphaMode &AlphaMode,
 							const VRenderHandle &RenderHandle)
-	: DirectXBitmap(RenderHandle.Allocator)
-{
+	: DirectXBitmap(RenderHandle.Allocator) {
 	VLIB_REPORT_IF_FAILED_INFO(
 		RenderHandle._IRenderTarget->CreateBitmap(
 			D2D1::SizeU(Width, Height),
@@ -33,8 +30,7 @@ VImage::VImage(const int &Width, const int &Height, const VRenderHandle &RenderH
 
 	);
 }
-VImage::VImage(const VString &FilePath, const VRenderHandle &RenderHandle) : DirectXBitmap(RenderHandle.Allocator)
-{
+VImage::VImage(const VString &FilePath, const VRenderHandle &RenderHandle) : DirectXBitmap(RenderHandle.Allocator) {
 	IWICBitmapDecoder	  *IWICDecoder	 = nullptr;
 	IWICBitmapFrameDecode *IWICFrame	 = nullptr;
 	IWICFormatConverter	  *IWICConverter = nullptr;
@@ -69,25 +65,20 @@ VImage::VImage(const VString &FilePath, const VRenderHandle &RenderHandle) : Dir
 	VDXObjectSafeFree(&IWICFrame);
 	VDXObjectSafeFree(&IWICConverter);
 }
-VImage::VImage(ID2D1Bitmap *IBitmap) : DirectXBitmap(IBitmap)
-{
+VImage::VImage(ID2D1Bitmap *IBitmap) : DirectXBitmap(IBitmap) {
 }
-VImage::~VImage()
-{
+VImage::~VImage() {
 	VDXObjectSafeFree(&DirectXBitmap.Object);
 }
 
-int VImage::GetWidth() const
-{
+int VImage::GetWidth() const {
 	return DirectXBitmap.Get()->GetSize().width;
 }
-int VImage::GetHeight() const
-{
+int VImage::GetHeight() const {
 	return DirectXBitmap.Get()->GetSize().height;
 }
 
-void VImage::ApplyGassBlur(const int &Radius, const VRenderHandle &RenderHandle)
-{
+void VImage::ApplyGassBlur(const int &Radius, const VRenderHandle &RenderHandle) {
 	Microsoft::WRL::ComPtr<ID2D1Effect>		   BlurEffect;
 	Microsoft::WRL::ComPtr<ID2D1DeviceContext> DeviceContext;
 	Microsoft::WRL::ComPtr<ID2D1Image>		   BlurOutput;
@@ -132,20 +123,16 @@ void VImage::ApplyGassBlur(const int &Radius, const VRenderHandle &RenderHandle)
 
 	DirectXBitmap.Get()->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-	while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-	{
+	while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 	}
-	while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-	{
+	while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 	}
-	while (!BlurOutput.ReleaseAndGetAddressOf())
-	{
+	while (!BlurOutput.ReleaseAndGetAddressOf()) {
 	}
 }
 
 void VImage::ApplyShadowEffect(const float &ShadowRadius, const VColor &ShadowColor, const VRenderHandle &RenderHandle,
-							   VPoint *Offset)
-{
+							   VPoint *Offset) {
 	Microsoft::WRL::ComPtr<ID2D1Effect>		   BlurEffect	 = nullptr;
 	Microsoft::WRL::ComPtr<ID2D1DeviceContext> DeviceContext = nullptr;
 	Microsoft::WRL::ComPtr<ID2D1Image>		   BlurOutput	 = nullptr;
@@ -171,8 +158,7 @@ void VImage::ApplyShadowEffect(const float &ShadowRadius, const VColor &ShadowCo
 
 	DeviceContext->GetImageLocalBounds(EffectOutput.Get(), &OutputRectangle);
 
-	if (Offset != nullptr)
-	{
+	if (Offset != nullptr) {
 		*Offset = {static_cast<int>(OutputRectangle.left), static_cast<int>(OutputRectangle.top)};
 	}
 
@@ -199,26 +185,21 @@ void VImage::ApplyShadowEffect(const float &ShadowRadius, const VColor &ShadowCo
 
 	DirectXBitmap.Get()->CopyFromRenderTarget(&OriginPoint, ResultRenderTarget.Get(), &Rect);
 
-	while (!ResultDeviceContext.ReleaseAndGetAddressOf())
-	{
+	while (!ResultDeviceContext.ReleaseAndGetAddressOf()) {
 	}
-	while (!ResultRenderTarget.ReleaseAndGetAddressOf())
-	{
+	while (!ResultRenderTarget.ReleaseAndGetAddressOf()) {
 	}
-	while (!BlurOutput.ReleaseAndGetAddressOf())
-	{
+	while (!BlurOutput.ReleaseAndGetAddressOf()) {
 	}
 }
 
-const bool VImage::IsValidBitmapFile(const VString &FilePath)
-{
+const bool VImage::IsValidBitmapFile(const VString &FilePath) {
 	IWICBitmapDecoder	  *IWICDecoder	 = nullptr;
 	IWICBitmapFrameDecode *IWICFrame	 = nullptr;
 	IWICFormatConverter	  *IWICConverter = nullptr;
 
 	HRESULT Result = CoCreateInstance(CLSID_WICBmpDecoder, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&IWICDecoder));
-	if (FAILED(Result))
-	{
+	if (FAILED(Result)) {
 		VDXObjectSafeFree(&IWICDecoder);
 		VDXObjectSafeFree(&IWICFrame);
 
@@ -227,8 +208,7 @@ const bool VImage::IsValidBitmapFile(const VString &FilePath)
 
 	Result = VDirectXIWICImagingFactory.GetInstance()->CreateDecoderFromFilename(
 		FilePath.CStyleString(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &IWICDecoder);
-	if (FAILED(Result))
-	{
+	if (FAILED(Result)) {
 		VDXObjectSafeFree(&IWICDecoder);
 		VDXObjectSafeFree(&IWICFrame);
 
@@ -236,8 +216,7 @@ const bool VImage::IsValidBitmapFile(const VString &FilePath)
 	}
 
 	Result = IWICDecoder->GetFrame(0, &IWICFrame);
-	if (FAILED(Result))
-	{
+	if (FAILED(Result)) {
 		VDXObjectSafeFree(&IWICDecoder);
 		VDXObjectSafeFree(&IWICFrame);
 		VDXObjectSafeFree(&IWICConverter);
@@ -249,8 +228,7 @@ const bool VImage::IsValidBitmapFile(const VString &FilePath)
 
 	Result = IWICConverter->Initialize(IWICFrame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 0.0f,
 									   WICBitmapPaletteTypeCustom);
-	if (FAILED(Result))
-	{
+	if (FAILED(Result)) {
 		VDXObjectSafeFree(&IWICDecoder);
 		VDXObjectSafeFree(&IWICFrame);
 		VDXObjectSafeFree(&IWICConverter);
@@ -265,8 +243,7 @@ const bool VImage::IsValidBitmapFile(const VString &FilePath)
 	return true;
 }
 
-VColor VImage::GetPixel(const int &X, const int &Y, const VRenderHandle &RenderHandle) const
-{
+VColor VImage::GetPixel(const int &X, const int &Y, const VRenderHandle &RenderHandle) const {
 	VLIB_CHECK_REPORT(!(X >= 0 && Y >= 0), L"Invalid pixel position was specified");
 
 	ID2D1DeviceContext	   *DeviceContext;

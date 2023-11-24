@@ -37,8 +37,7 @@ const wchar_t *vstring_convert(const char *OriginString);
 /**
  * @brief : The wrapper of the STL string
  */
-class VString : public VProxyString
-{
+class VString : public VProxyString {
 public:
 	/**
 	 * @brief : The iterator

@@ -8,19 +8,15 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VKits
-{
-enum class VDocumentEncoding
-{
+namespace VKits {
+enum class VDocumentEncoding {
 	UTF8,
 	UTF16
 };
 
-class VParserHelper
-{
+class VParserHelper {
 public:
-	VParserHelper()
-	{
+	VParserHelper() {
 	}
 
 	static VString ReadFromFile(const VString &FilePath, VDocumentEncoding DocumentEncoding = VDocumentEncoding::UTF8);

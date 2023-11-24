@@ -16,8 +16,7 @@
 #define LOCAL_SERVER_VERSION 0x10100
 #define SERVER_PORT			 8008
 
-struct ChatPackHeader
-{
+struct ChatPackHeader {
 	int ChatVersion;
 	int UserNameLength;
 };
@@ -27,8 +26,7 @@ struct ChatPackHeader
 #define USER_ALREADY_EXSITS 3
 #define BANNED				4
 
-struct ChatBackPack
-{
+struct ChatBackPack {
 	int ServerCheckCode;
 	int MaxUserAmount;
 };
@@ -36,29 +34,25 @@ struct ChatBackPack
 #define CLIENT_DISCONNECT 0
 #define CLIENT_NEWMESSAGE 1
 
-struct ClientOperationPack
-{
+struct ClientOperationPack {
 	int OperationCode;
 	int MessageLength;
 };
 
-struct ChatUser
-{
+struct ChatUser {
 	SOCKET *UserSock;
 };
 
 #define REMOVED	   0
 #define NEWMESSAGE 1
 
-struct ServerContact
-{
+struct ServerContact {
 	int Operation;
 	int MessageLength;
 	int UserNameLength;
 };
 
-int ThrowError(const char *ErrorInfo)
-{
+int ThrowError(const char *ErrorInfo) {
 	printf("%s\n", ErrorInfo);
 
 	WSACleanup();
@@ -66,22 +60,18 @@ int ThrowError(const char *ErrorInfo)
 	return -1;
 }
 
-void PrintInfo(const char *FormatString)
-{
+void PrintInfo(const char *FormatString) {
 	printf("[Server info] : %s\n", FormatString);
 }
-void PrintInfo(const char *FormatString, const char *List, ...)
-{
+void PrintInfo(const char *FormatString, const char *List, ...) {
 	printf("[Server info] : ");
 	printf(FormatString, List);
 	printf("\n");
 }
-void ThreadPrintInfo(int ThreadID, const char *FormatString)
-{
+void ThreadPrintInfo(int ThreadID, const char *FormatString) {
 	printf("[Server thread %d] : %s\n", ThreadID, FormatString);
 }
-void ThreadPrintInfo(int ThreadID, const char *FormatString, const char *List, ...)
-{
+void ThreadPrintInfo(int ThreadID, const char *FormatString, const char *List, ...) {
 	printf("[Server thread %d] : ", ThreadID);
 	printf(FormatString, List);
 	printf("\n");
@@ -89,49 +79,44 @@ void ThreadPrintInfo(int ThreadID, const char *FormatString, const char *List, .
 
 #define MAX_USER 40
 
-template <class Type> std::tuple<Type *, bool> RecData(SOCKET Socket, const int &Length, const int &RecvFlag)
-{
+template <class Type>
+std::tuple<Type *, bool> RecData(SOCKET Socket, const int &Length, const int &RecvFlag) {
 	char *Data	 = new char[Length];
 	auto  Result = recv(Socket, Data, Length, RecvFlag);
 
-	if (Result != Length && Result != 0)
-	{
+	if (Result != Length && Result != 0) {
 		return {nullptr, true};
 	}
-	if (Result == 0)
-	{
+	if (Result == 0) {
 		return {nullptr, false};
 	}
 
 	return {(Type *)Data, true};
 }
-template <class Type> std::tuple<Type *, bool> RecData(SOCKET Socket, const int &RecvFlag)
-{
+template <class Type>
+std::tuple<Type *, bool> RecData(SOCKET Socket, const int &RecvFlag) {
 	char *Data	 = new char[sizeof(Type)];
 	auto  Result = recv(Socket, Data, sizeof(Type), RecvFlag);
 
-	if (Result != sizeof(Type) && Result > 0)
-	{
+	if (Result != sizeof(Type) && Result > 0) {
 		return {nullptr, true};
 	}
-	if (Result <= 0)
-	{
+	if (Result <= 0) {
 		return {nullptr, false};
 	}
 
 	return {(Type *)Data, true};
 }
-template <class Type> void SendData(SOCKET Socket, Type *Ptr, const int &Flag)
-{
+template <class Type>
+void SendData(SOCKET Socket, Type *Ptr, const int &Flag) {
 	send(Socket, (char *)Ptr, sizeof(Type), Flag);
 }
-template <class Type> void SendData(SOCKET Socket, Type *Ptr, const int &Length, const int &Flag)
-{
+template <class Type>
+void SendData(SOCKET Socket, Type *Ptr, const int &Length, const int &Flag) {
 	send(Socket, (char *)Ptr, Length, Flag);
 }
 
-int main()
-{
+int main() {
 	WSAData							 Data;
 	std::map<const char *, ChatUser> UserPool;
 	std::vector<std::string>		 BlackList;
@@ -139,8 +124,7 @@ int main()
 	_CHECK_RETURN_VALUE_(WSAStartup(MAKEWORD(2, 2), &Data));
 
 	SOCKET ServerSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (!ServerSocket)
-	{
+	if (!ServerSocket) {
 		return ThrowError("Fatal error : Failed to create server web socket!");
 	}
 
@@ -149,13 +133,11 @@ int main()
 
 	SOCKADDR_IN SocketAddress{AF_INET, 8008, Address};
 
-	if (bind(ServerSocket, (sockaddr *)&SocketAddress, sizeof(SOCKADDR_IN)) != 0)
-	{
+	if (bind(ServerSocket, (sockaddr *)&SocketAddress, sizeof(SOCKADDR_IN)) != 0) {
 		return ThrowError("Fatal error : Failed to bind port!");
 	}
 
-	if (listen(ServerSocket, MAX_USER) != 0)
-	{
+	if (listen(ServerSocket, MAX_USER) != 0) {
 		return ThrowError("Fatal error : Failed to listen at socket!");
 	}
 
@@ -163,20 +145,17 @@ int main()
 	PrintInfo("LOCAL SERVER VERISON {0x%x}", (const char *)LOCAL_SERVER_VERSION);
 	PrintInfo("SERVER LISTEN AT PORT {%d}", (const char *)SERVER_PORT);
 
-	for (int ThreadCount = 0; ThreadCount < MAX_USER; ++ThreadCount)
-	{
+	for (int ThreadCount = 0; ThreadCount < MAX_USER; ++ThreadCount) {
 		std::thread SockThread(
 			[&](const int &ThreadID) -> void {
-				while (true)
-				{
+				while (true) {
 					ThreadPrintInfo(ThreadID, "Thread started!");
 
 					int			SOCKADDR_StructureLength = sizeof(SOCKADDR);
 					SOCKADDR_IN ClientAddress{};
 					SOCKET ClientSocket = accept(ServerSocket, (PSOCKADDR)&ClientAddress, &SOCKADDR_StructureLength);
 
-					if (ClientSocket == INVALID_SOCKET)
-					{
+					if (ClientSocket == INVALID_SOCKET) {
 						ThreadPrintInfo(ThreadID, "Error : Failed to accept a connection!");
 					}
 
@@ -186,8 +165,7 @@ int main()
 					char		   *Buffer = new char[sizeof(ChatPackHeader)];
 
 					auto RecResult = RecData<ChatPackHeader>(ClientSocket, 0);
-					if (!std::get<1>(RecResult))
-					{
+					if (!std::get<1>(RecResult)) {
 						ThreadPrintInfo(ThreadID, "Error : Unexpected EOF, the connection with "
 												  "client will shutdown!");
 						shutdown(ClientSocket, 2);
@@ -198,8 +176,7 @@ int main()
 
 					auto Header = std::get<0>(RecResult);
 
-					if (Header->ChatVersion != LOCAL_SERVER_VERSION)
-					{
+					if (Header->ChatVersion != LOCAL_SERVER_VERSION) {
 						ThreadPrintInfo(ThreadID,
 										"Error : Received Incompatible client version {0x%x}, send "
 										"the error pack to "
@@ -216,8 +193,7 @@ int main()
 					}
 
 					auto UserNameWebPack = RecData<char>(ClientSocket, Header->UserNameLength, 0);
-					if (!std::get<1>(UserNameWebPack))
-					{
+					if (!std::get<1>(UserNameWebPack)) {
 						ThreadPrintInfo(ThreadID, "Error : Unexpected EOF, the connection with "
 												  "client will shutdown!");
 						shutdown(ClientSocket, 2);
@@ -227,8 +203,7 @@ int main()
 					}
 
 					auto UserName = std::get<0>(UserNameWebPack);
-					if (UserPool.find(UserName) != UserPool.end())
-					{
+					if (UserPool.find(UserName) != UserPool.end()) {
 						ThreadPrintInfo(ThreadID, "NEW USER {%s} ALREADY EXSITS, DISCONNECT!", (const char *)UserName);
 
 						ChatBackPack ServerBackPack{USER_ALREADY_EXSITS, -1};
@@ -253,10 +228,8 @@ int main()
 
 					bool Flag = false;
 
-					for (auto &BannedIP : BlackList)
-					{
-						if (BannedIP == IPAddress)
-						{
+					for (auto &BannedIP : BlackList) {
+						if (BannedIP == IPAddress) {
 							ThreadPrintInfo(
 								ThreadID,
 								"USER CONNECTED : {%s:%d} has been be banned, refuse the connection with server!",
@@ -273,8 +246,7 @@ int main()
 						}
 					}
 
-					if (Flag)
-					{
+					if (Flag) {
 						continue;
 					}
 
@@ -283,11 +255,9 @@ int main()
 
 					ThreadPrintInfo(ThreadID, "Sent success back pack to user {%s}", (const char *)UserName);
 
-					while (true)
-					{
+					while (true) {
 						auto OperatPack = RecData<ClientOperationPack>(ClientSocket, 0);
-						if (!std::get<1>(OperatPack))
-						{
+						if (!std::get<1>(OperatPack)) {
 							ThreadPrintInfo(ThreadID, "User {%s} disconnected", (const char *)UserName);
 							shutdown(ClientSocket, 2);
 							closesocket(ClientSocket);
@@ -298,8 +268,7 @@ int main()
 						}
 
 						auto ClientOperation = std::get<0>(OperatPack);
-						if (ClientOperation->OperationCode == CLIENT_DISCONNECT)
-						{
+						if (ClientOperation->OperationCode == CLIENT_DISCONNECT) {
 							ThreadPrintInfo(ThreadID, "User {%s} disconnected", (const char *)UserName);
 							shutdown(ClientSocket, 2);
 							closesocket(ClientSocket);
@@ -309,8 +278,7 @@ int main()
 							break;
 						}
 
-						if (ClientOperation->OperationCode == CLIENT_NEWMESSAGE)
-						{
+						if (ClientOperation->OperationCode == CLIENT_NEWMESSAGE) {
 							ThreadPrintInfo(ThreadID,
 											"User {%s} try to send message, now trying to received "
 											"message from client...",
@@ -318,8 +286,7 @@ int main()
 
 							auto UserSentMessage = RecData<char>(ClientSocket, ClientOperation->MessageLength, 0);
 
-							if (!std::get<1>(UserSentMessage))
-							{
+							if (!std::get<1>(UserSentMessage)) {
 								ThreadPrintInfo(ThreadID,
 												"Error : User {%s} tried to send message, but server "
 												"received "
@@ -343,8 +310,7 @@ int main()
 
 							ServerContact ServerContactPack{NEWMESSAGE, ClientOperation->MessageLength, UserNameLength};
 
-							for (auto &User : UserPool)
-							{
+							for (auto &User : UserPool) {
 								SendData<ServerContact>(*User.second.UserSock, &ServerContactPack, 0);
 								SendData<char>(*User.second.UserSock, UserMessage, ClientOperation->MessageLength, 0);
 								SendData<char>(*User.second.UserSock, UserName, UserNameLength, 0);
@@ -362,13 +328,11 @@ int main()
 
 	std::string Command;
 
-	while (true)
-	{
+	while (true) {
 		printf("Server > ");
 		std::cin >> Command;
 
-		if (Command == "ban")
-		{
+		if (Command == "ban") {
 			printf("IP to ban > ");
 			std::cin >> Command;
 
@@ -376,15 +340,12 @@ int main()
 
 			BlackList.push_back(Command);
 		}
-		if (Command == "unban")
-		{
+		if (Command == "unban") {
 			printf("IP to unban > ");
 			std::cin >> Command;
 
-			for (auto Iterator = BlackList.begin(); Iterator != BlackList.end(); ++Iterator)
-			{
-				if (Command == *Iterator)
-				{
+			for (auto Iterator = BlackList.begin(); Iterator != BlackList.end(); ++Iterator) {
+				if (Command == *Iterator) {
 					BlackList.erase(Iterator);
 
 					break;
@@ -393,10 +354,8 @@ int main()
 
 			printf("Unbanned %s successfully!\n", Command.c_str());
 		}
-		if (Command == "online-list")
-		{
-			for (auto &Iterator : UserPool)
-			{
+		if (Command == "online-list") {
+			for (auto &Iterator : UserPool) {
 				printf("%s - ONLINE \n", Iterator.first);
 			}
 		}

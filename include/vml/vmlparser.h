@@ -9,23 +9,19 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
-enum class VMLParserStatus
-{
+namespace VML {
+enum class VMLParserStatus {
 	Ok,
 	Error,
 	Failed
 };
 
-struct VMLParserError
-{
+struct VMLParserError {
 	VString ErrorString;
 	int		Line;
 };
 
-enum class VMLPropertyType
-{
+enum class VMLPropertyType {
 	IntValue,
 	StringValue,
 	DoubleValue,
@@ -36,8 +32,7 @@ enum class VMLPropertyType
 	VariableCall
 };
 
-enum class VMLVariableType
-{
+enum class VMLVariableType {
 	UndefineType,
 	StringType,
 	IntType,
@@ -45,8 +40,7 @@ enum class VMLVariableType
 	BooleanType
 };
 
-struct VMLPropertyValue
-{
+struct VMLPropertyValue {
 	VString PropertyName = L"";
 
 	VMLPropertyType PropertyType = VMLPropertyType::IntValue;
@@ -64,8 +58,7 @@ struct VMLPropertyValue
 	std::vector<VMLPropertyValue> VariableInitValue;
 };
 
-struct VMLNode
-{
+struct VMLNode {
 	VString								NodeTag;
 	std::map<VString, VMLPropertyValue> NodeValue;
 
@@ -79,22 +72,19 @@ struct VMLNode
 	bool			 PropertyExsit(const VString &Type);
 };
 
-struct VMLParserResult
-{
+struct VMLParserResult {
 	VString						FilePath;
 	std::vector<VMLParserError> ErrorInfo;
 	std::map<VString, VMLNode>	Nodes;
 	VMLParserStatus				ParserStatus = VMLParserStatus::Ok;
 };
 
-enum class VMLParserParseMode
-{
+enum class VMLParserParseMode {
 	FromFile,
 	FromString
 };
 
-class VMLParser
-{
+class VMLParser {
 private:
 	VKits::seal_lexical *ParserLexical = nullptr;
 	VString				 FilePath;

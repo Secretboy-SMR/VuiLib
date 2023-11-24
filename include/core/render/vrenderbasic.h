@@ -32,8 +32,7 @@ VLIB_BEGIN_NAMESPACE
  */
 #define VRENDER_HELPER
 
-namespace Core
-{
+namespace Core {
 /*
  * VDXObjectSafeFree function:
  *	Description : This function provide a safely way to release DirectX object
@@ -45,10 +44,9 @@ namespace Core
  *					parameter as a pointer which isn't refer to a COM object, it will make the
  *					function crash
  */
-template <class Type> void VDXObjectSafeFree(Type **Object) VRENDER_HELPER
-{
-	if (*Object)
-	{
+template <class Type>
+void VDXObjectSafeFree(Type **Object) VRENDER_HELPER {
+	if (*Object) {
 		(*Object)->Release();
 
 		*Object = NULL;
@@ -59,8 +57,7 @@ template <class Type> void VDXObjectSafeFree(Type **Object) VRENDER_HELPER
  * VSurfaceAlphaMode enum:
  *	Description : This enum describe how to deal with alpha on a surface
  */
-enum VSurfaceAlphaMode
-{
+enum VSurfaceAlphaMode {
 	/*
    * Alpha mode should be determined implicitly. Some target surfaces do not
    * supply or imply this

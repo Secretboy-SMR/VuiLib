@@ -11,10 +11,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
-enum class VMLObjectType
-{
+namespace VML {
+enum class VMLObjectType {
 	PushButton,
 	ImageLabel,
 	TextLabel,
@@ -44,8 +42,7 @@ enum class VMLObjectType
 	UserDefine
 };
 
-struct VMLObject
-{
+struct VMLObject {
 	Core::VUIObject *UIObject;
 
 	VString VMLID;
@@ -65,27 +62,23 @@ struct VMLObject
 	void				 SetStyleSheet(VSS::VSSBasicSelector *Selector);
 };
 
-enum class VMLWidgetVMLLoadStats
-{
+enum class VMLWidgetVMLLoadStats {
 	Ok,
 	Failed,
 	InvalidAstTree
 };
 
-struct VMLWidgetLoadResult
-{
+struct VMLWidgetLoadResult {
 	VMLWidgetVMLLoadStats Status = VMLWidgetVMLLoadStats::Ok;
 
 	VString FailedMessage;
 };
 
-struct VMLWidgetVMLObjectList
-{
+struct VMLWidgetVMLObjectList {
 	std::vector<VMLObject *> Objects;
 };
 
-class VMLFinder
-{
+class VMLFinder {
 private:
 	std::vector<VMLObject *> ObjectList;
 	VMLObject				*OriginObject;
@@ -101,8 +94,8 @@ public:
 	VMLFinder		 Get(const VString &ChildrenId);
 	bool			 IsValid();
 
-	template <class Type = Core::VUIObject> Type *Get()
-	{
+	template <class Type = Core::VUIObject>
+	Type *Get() {
 		return static_cast<Type *>(OriginObject->UIObject);
 	}
 

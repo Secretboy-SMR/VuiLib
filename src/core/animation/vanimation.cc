@@ -4,11 +4,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VBasicAnimation::VBasicAnimation(Core::VAnimationCurve *Curve, const int &Duration)
-{
+VBasicAnimation::VBasicAnimation(Core::VAnimationCurve *Curve, const int &Duration) {
 	AnimationCurve = Curve;
 
 	AnimationX = 0;
@@ -16,37 +14,30 @@ VBasicAnimation::VBasicAnimation(Core::VAnimationCurve *Curve, const int &Durati
 }
 
 VPositionAnimation::VPositionAnimation(Core::VUIObject *Parent, Core::VAnimationCurve *Curve, const double &Duration)
-	: Animation(Curve, Duration), VUIObject(Parent)
-{
+	: Animation(Curve, Duration), VUIObject(Parent) {
 }
 
 VPositionAnimation::VPositionAnimation(VUIObject *Parent, VAnimationCurve *Curve, const double &Duration,
 									   const VPoint &Target)
-	: Animation(Curve, Duration), VUIObject(Parent)
-{
+	: Animation(Curve, Duration), VUIObject(Parent) {
 	TargetPoint = Target;
 }
 
-void VPositionAnimation::SetTargetPosition(const VPoint &Target)
-{
+void VPositionAnimation::SetTargetPosition(const VPoint &Target) {
 	TargetPoint = Target;
 }
-void VPositionAnimation::SetCurve(VAnimationCurve *Curve)
-{
-	if (Animation.AnimationCurve != nullptr)
-	{
+void VPositionAnimation::SetCurve(VAnimationCurve *Curve) {
+	if (Animation.AnimationCurve != nullptr) {
 		delete Animation.AnimationCurve;
 	}
 
 	Animation.AnimationCurve = Curve;
 }
-void VPositionAnimation::SetDuration(const int &Duration)
-{
+void VPositionAnimation::SetDuration(const int &Duration) {
 	Animation.DeltaX = 16.f / double(Duration);
 }
 
-void VPositionAnimation::Start()
-{
+void VPositionAnimation::Start() {
 	SourcePoint = {GetParent()->GetX(), GetParent()->GetY()};
 
 	InAnimation			 = true;
@@ -55,19 +46,15 @@ void VPositionAnimation::Start()
 	Timer.Start(12);
 }
 
-void VPositionAnimation::Pause()
-{
+void VPositionAnimation::Pause() {
 	InAnimation = false;
 }
 
-void VPositionAnimation::CheckFrame()
-{
-	if (Timer.End())
-	{
+void VPositionAnimation::CheckFrame() {
+	if (Timer.End()) {
 		Timer.Start(12);
 
-		if (InAnimation && Animation.AnimationX < 1)
-		{
+		if (InAnimation && Animation.AnimationX < 1) {
 			double Percent = Animation.AnimationCurve->CurveFunction(Animation.AnimationX);
 
 			GetParent()->Move(SourcePoint.X + (TargetPoint.X - SourcePoint.X) * Percent,
@@ -75,13 +62,10 @@ void VPositionAnimation::CheckFrame()
 
 			Animation.AnimationX += Animation.DeltaX;
 
-			if (Animation.AnimationX >= 1.f)
-			{
+			if (Animation.AnimationX >= 1.f) {
 				GetParent()->Move(TargetPoint.X, TargetPoint.Y);
 			}
-		}
-		else if (InAnimation)
-		{
+		} else if (InAnimation) {
 			InAnimation = false;
 			AnimationEnd.Emit();
 		}
@@ -89,59 +73,47 @@ void VPositionAnimation::CheckFrame()
 }
 
 VGeometryAnimation::VGeometryAnimation(Core::VUIObject *Parent, Core::VAnimationCurve *Curve, const double &Duration)
-	: Animation(Curve, Duration), VUIObject(Parent)
-{
+	: Animation(Curve, Duration), VUIObject(Parent) {
 }
 
 VGeometryAnimation::VGeometryAnimation(VUIObject *Parent, VAnimationCurve *Curve, const double &Duration,
 									   const VPoint &Target)
-	: Animation(Curve, Duration), VUIObject(Parent)
-{
+	: Animation(Curve, Duration), VUIObject(Parent) {
 	TargetPoint = Target;
 }
 
-void VGeometryAnimation::SetTargetSize(const VPoint &Target)
-{
+void VGeometryAnimation::SetTargetSize(const VPoint &Target) {
 	TargetPoint = Target;
 }
-void VGeometryAnimation::SetCurve(VAnimationCurve *Curve)
-{
+void VGeometryAnimation::SetCurve(VAnimationCurve *Curve) {
 	Animation.AnimationCurve = Curve;
 }
-void VGeometryAnimation::SetDuration(const int &Duration)
-{
+void VGeometryAnimation::SetDuration(const int &Duration) {
 	Animation.DeltaX = 16.f / double(Duration);
 }
 
-void VGeometryAnimation::Start()
-{
+void VGeometryAnimation::Start() {
 	SourcePoint			 = {GetParent()->GetWidth(), GetParent()->GetHeight()};
 	InAnimation			 = true;
 	Animation.AnimationX = 0;
 }
 
-void VGeometryAnimation::Pause()
-{
+void VGeometryAnimation::Pause() {
 	InAnimation = false;
 }
 
-void VGeometryAnimation::CheckFrame()
-{
-	if (Timer.End())
-	{
+void VGeometryAnimation::CheckFrame() {
+	if (Timer.End()) {
 		Timer.Start(12);
 
-		if (InAnimation && Animation.AnimationX < 1)
-		{
+		if (InAnimation && Animation.AnimationX < 1) {
 			double Percent = Animation.AnimationCurve->CurveFunction(Animation.AnimationX);
 
 			GetParent()->Resize(SourcePoint.X + (TargetPoint.X - SourcePoint.X) * Percent,
 								SourcePoint.Y + (TargetPoint.Y - SourcePoint.Y) * Percent);
 
 			Animation.AnimationX += Animation.DeltaX;
-		}
-		else if (InAnimation)
-		{
+		} else if (InAnimation) {
 			InAnimation = false;
 			AnimationEnd.Emit();
 		}
@@ -149,36 +121,29 @@ void VGeometryAnimation::CheckFrame()
 }
 
 VOpacityAnimation::VOpacityAnimation(Core::VUIObject *Parent, Core::VAnimationCurve *Curve, const double &Duration)
-	: Animation(Curve, Duration), VUIObject(Parent)
-{
+	: Animation(Curve, Duration), VUIObject(Parent) {
 }
 
 VOpacityAnimation::VOpacityAnimation(VUIObject *Parent, VAnimationCurve *Curve, const double &Duration,
 									 const double &Target)
-	: Animation(Curve, Duration), VUIObject(Parent)
-{
+	: Animation(Curve, Duration), VUIObject(Parent) {
 	TargetValue = Target;
 }
 
-void VOpacityAnimation::SetTargetValue(const double &Target)
-{
+void VOpacityAnimation::SetTargetValue(const double &Target) {
 	TargetValue = Target;
 }
-void VOpacityAnimation::SetCurve(VAnimationCurve *Curve)
-{
-	if (Animation.AnimationCurve != nullptr)
-	{
+void VOpacityAnimation::SetCurve(VAnimationCurve *Curve) {
+	if (Animation.AnimationCurve != nullptr) {
 		delete Animation.AnimationCurve;
 	}
 	Animation.AnimationCurve = Curve;
 }
-void VOpacityAnimation::SetDuration(const int &Duration)
-{
+void VOpacityAnimation::SetDuration(const int &Duration) {
 	Animation.DeltaX = 16.f / double(Duration);
 }
 
-void VOpacityAnimation::Start()
-{
+void VOpacityAnimation::Start() {
 	SourceValue = GetParent()->GetTransparency();
 	InAnimation = true;
 
@@ -187,32 +152,25 @@ void VOpacityAnimation::Start()
 	Animation.AnimationX = 0;
 }
 
-void VOpacityAnimation::Pause()
-{
+void VOpacityAnimation::Pause() {
 	InAnimation = false;
 }
 
-void VOpacityAnimation::CheckFrame()
-{
-	if (Timer.End())
-	{
+void VOpacityAnimation::CheckFrame() {
+	if (Timer.End()) {
 		Timer.Start(12);
 
-		if (InAnimation && Animation.AnimationX < 1)
-		{
+		if (InAnimation && Animation.AnimationX < 1) {
 			double Percent = Animation.AnimationCurve->CurveFunction(Animation.AnimationX);
 
 			GetParent()->SetTransparency((SourceValue + (TargetValue - SourceValue) * Percent));
 
 			Animation.AnimationX += Animation.DeltaX;
 
-			if (Animation.AnimationX >= 1)
-			{
+			if (Animation.AnimationX >= 1) {
 				GetParent()->SetTransparency(TargetValue);
 			}
-		}
-		else if (InAnimation)
-		{
+		} else if (InAnimation) {
 			InAnimation = false;
 			AnimationEnd.Emit();
 		}

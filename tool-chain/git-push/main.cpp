@@ -5,28 +5,24 @@
 
 #pragma comment(lib, "vuilib.lib")
 
-int main()
-{
+int main() {
 	using namespace Core;
 
 	VML::VMLParser		 Parser(VStr("./workflow.xml"), VML::VMLParserParseMode::FromFile);
 	VML::VMLParserResult Result = Parser.ParseVML();
-	if (Result.ParserStatus != VML::VMLParserStatus::Ok)
-	{
+	if (Result.ParserStatus != VML::VMLParserStatus::Ok) {
 		VFmt::Print(VStr("Failed to parse \"workflow.xml\"!\n"));
 
 		return -1;
 	}
 	auto StartupNode = Result.Nodes["workflow"].ChildrenNodes["startup"];
 	if (VKits::VIf(StartupNode.PropertyExsit(VStr("text")))
-			.Judge(StartupNode.GetProperty(VStr("text")).PropertyType == VML::VMLPropertyType::StringValue))
-	{
+			.Judge(StartupNode.GetProperty(VStr("text")).PropertyType == VML::VMLPropertyType::StringValue)) {
 		VFmt::Print("From Project Configure : {}\n", StartupNode.GetProperty(VStr("text")).PropertyAsString);
 	}
 	auto SysNode = Result.Nodes["workflow"].ChildrenNodes["sys"];
 	if (VKits::VIf(SysNode.PropertyExsit(VStr("command")))
-			.Judge(SysNode.GetProperty(VStr("command")).PropertyType == VML::VMLPropertyType::StringValue))
-	{
+			.Judge(SysNode.GetProperty(VStr("command")).PropertyType == VML::VMLPropertyType::StringValue)) {
 		bstr_t Convertor(SysNode.GetProperty(VStr("command")).PropertyAsString.CStyleString());
 		system((char *)Convertor);
 
@@ -37,16 +33,13 @@ int main()
 	VString RepoBranch;
 	if (VKits::VIf(GitRepo.PropertyExsit(VStr("repos-name")) && GitRepo.PropertyExsit(VStr("branch")))
 			.Judge(GitRepo.GetProperty(VStr("repos-name")).PropertyType == VML::VMLPropertyType::StringValue &&
-				   GitRepo.GetProperty(VStr("branch")).PropertyType == VML::VMLPropertyType::StringValue))
-	{
+				   GitRepo.GetProperty(VStr("branch")).PropertyType == VML::VMLPropertyType::StringValue)) {
 		RepoName   = GitRepo.GetProperty(VStr("repos-name")).PropertyAsString;
 		RepoBranch = GitRepo.GetProperty(VStr("branch")).PropertyAsString;
 
 		VFmt::Print("Git Repository at <{}>[{}]\n", GitRepo.GetProperty(VStr("repos-name")).PropertyAsString,
 					GitRepo.GetProperty(VStr("branch")).PropertyAsString);
-	}
-	else
-	{
+	} else {
 		VFmt::Print("Git-Autor failed : Unable to find the correct \"git-repository\" node in \"workflow.xml\".");
 
 		return -1;
@@ -64,8 +57,7 @@ int main()
 											 {9, ":construction: working"}};
 
 	VFmt::Print("{}\n", VString().Fill('-', 40));
-	for (auto &Mapping : CommentMapping)
-	{
+	for (auto &Mapping : CommentMapping) {
 		VFmt::Print("[{}] {}\n", Mapping.first, Mapping.second);
 	}
 	VFmt::Print("{}\nCommit Type : ", VString().Fill('-', 40));

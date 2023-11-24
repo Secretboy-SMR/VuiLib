@@ -2,39 +2,32 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 VApplication *VLib_Application = nullptr;
 
-VApplication::~VApplication()
-{
+VApplication::~VApplication() {
 	VUIObject::~VUIObject();
 
-	for (auto &ThemeInstance : ThemeList)
-	{
+	for (auto &ThemeInstance : ThemeList) {
 		delete ThemeInstance;
 	}
 
 	ThemeList.clear();
 }
-VApplication::VApplication() : VUIObject(nullptr)
-{
+VApplication::VApplication() : VUIObject(nullptr) {
 	InitTheme();
 }
-VMessage *VApplication::PatchEvent()
-{
+VMessage *VApplication::PatchEvent() {
 	VMessage *ResultEvent = nullptr;
 
 	Win32Core::VWin32Msg Win32Message{};
 	auto				 Result = Win32Core::VPeekMessage(&Win32Message);
 
-	if (!Result)
-	{
+	if (!Result) {
 		return nullptr;
 	}
 
-	switch (Win32Message.message)
-	{
+	switch (Win32Message.message) {
 	case WM_LBUTTONUP: {
 		ResultEvent = new VMouseClickedMessage(Win32Message.wHandle, Win32Message.x, Win32Message.y,
 											   VMouseClickedFlag::Up, VMouseKeyFlag::Left);
@@ -141,8 +134,7 @@ VMessage *VApplication::PatchEvent()
 
 	return nullptr;
 }
-void VApplication::InitTheme()
-{
+void VApplication::InitTheme() {
 	ThemeList.push_back(new VPushButtonTheme);
 	ThemeList.push_back(new VMainWindowTheme);
 	ThemeList.push_back(new VImageLabelTheme);
@@ -159,12 +151,10 @@ void VApplication::InitTheme()
 	ThemeList.push_back(new VDropDownContextTheme);
 	ThemeList.push_back(new VDropDownTheme);
 }
-void VApplication::ProcessEvent(Core::VMessage *PatchedMessage)
-{
+void VApplication::ProcessEvent(Core::VMessage *PatchedMessage) {
 	PatchedMessage = PatchEvent();
 
-	while (PatchedMessage != nullptr)
-	{
+	while (PatchedMessage != nullptr) {
 		SysProcessMessage(PatchedMessage);
 
 		delete PatchedMessage;
@@ -172,16 +162,13 @@ void VApplication::ProcessEvent(Core::VMessage *PatchedMessage)
 		PatchedMessage = PatchEvent();
 	}
 }
-std::vector<VBasicUITheme *> VApplication::GetApplicationTheme()
-{
+std::vector<VBasicUITheme *> VApplication::GetApplicationTheme() {
 	return ThemeList;
 }
-int VApplication::Exec()
-{
+int VApplication::Exec() {
 	VMessage *PatchedMessage = nullptr;
 
-	while (true)
-	{
+	while (true) {
 		ProcessEvent(PatchedMessage);
 		CheckAllFrame(true);
 
@@ -190,23 +177,18 @@ int VApplication::Exec()
 
 	return -1;
 }
-bool VApplication::IsApplication()
-{
+bool VApplication::IsApplication() {
 	return true;
 }
-void VApplication::SetTheme(VBasicUITheme *Theme)
-{
-	for (int Count = 0; Count < ThemeList.size(); ++Count)
-	{
-		if (ThemeList[Count]->GetThemeType() == Theme->GetThemeType())
-		{
+void VApplication::SetTheme(VBasicUITheme *Theme) {
+	for (int Count = 0; Count < ThemeList.size(); ++Count) {
+		if (ThemeList[Count]->GetThemeType() == Theme->GetThemeType()) {
 			delete ThemeList[Count];
 
 			ThemeList.erase(ThemeList.begin() + Count);
 			ThemeList.insert(ThemeList.begin() + Count, Theme);
 
-			for (auto &Objects : ObjectKernel.ChildObjectContainer)
-			{
+			for (auto &Objects : ObjectKernel.ChildObjectContainer) {
 				Objects->Update();
 			}
 
@@ -214,8 +196,7 @@ void VApplication::SetTheme(VBasicUITheme *Theme)
 		}
 	}
 }
-void VApplication::SetTheme(VThemeAbstract *Theme)
-{
+void VApplication::SetTheme(VThemeAbstract *Theme) {
 	SetTheme(Theme->GetMainWindowTheme());
 	SetTheme(Theme->GetTextLabelTheme());
 	SetTheme(Theme->GetPushButtonTheme());

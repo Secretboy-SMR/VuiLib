@@ -5,10 +5,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-class VCanvas : public VUIObject
-{
+namespace Core {
+class VCanvas : public VUIObject {
 public:
 	void SetFps(const int &Fps);
 

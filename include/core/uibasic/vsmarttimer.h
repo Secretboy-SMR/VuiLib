@@ -6,10 +6,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-class VSmartTimer : public VBasicTimer, public VUIObject
-{
+namespace Core {
+class VSmartTimer : public VBasicTimer, public VUIObject {
 private:
 	bool StartClock = false;
 

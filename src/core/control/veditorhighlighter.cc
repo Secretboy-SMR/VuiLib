@@ -7,10 +7,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VHightlighterTheme::VHightlighterTheme(const VRenderHandle &StaticRenderHandle)
-{
+namespace Core {
+VHightlighterTheme::VHightlighterTheme(const VRenderHandle &StaticRenderHandle) {
 	BackgroundColor = Core::VColor(VKits::VSSColorHelper::HexToColor(L"#282C34"));
 	KeyWorldColor	= Core::VColor(VKits::VSSColorHelper::HexToColor(L"#D19A66"));
 	StringColor		= Core::VColor(VKits::VSSColorHelper::HexToColor(L"#98C379"));
@@ -40,8 +38,7 @@ VHightlighterTheme::VHightlighterTheme(const VRenderHandle &StaticRenderHandle)
 
 	FontFamily = L"Consolas";
 }
-VHightlighterTheme::VHightlighterTheme(const VHightlighterTheme &Theme)
-{
+VHightlighterTheme::VHightlighterTheme(const VHightlighterTheme &Theme) {
 	BackgroundColor = Core::VColor(VKits::VSSColorHelper::HexToColor(L"#282C34"));
 	KeyWorldColor	= Theme.KeyWorldColor;
 	StringColor		= Theme.StringColor;
@@ -71,10 +68,9 @@ VHightlighterTheme::VHightlighterTheme(const VHightlighterTheme &Theme)
 
 	FontFamily = Theme.FontFamily;
 }
-VHightlighterTheme::VHightlighterTheme(const VRenderHandle &StaticRenderHandle, const VBuiltInHightlighterTheme &Theme)
-{
-	if (Theme == VBuiltInHightlighterTheme::OneDarkPro)
-	{
+VHightlighterTheme::VHightlighterTheme(const VRenderHandle			   &StaticRenderHandle,
+									   const VBuiltInHightlighterTheme &Theme) {
+	if (Theme == VBuiltInHightlighterTheme::OneDarkPro) {
 		BackgroundColor = Core::VColor(VKits::VSSColorHelper::HexToColor(L"#282C34"));
 		KeyWorldColor	= Core::VColor(VKits::VSSColorHelper::HexToColor(L"#D19A66"));
 		StringColor		= Core::VColor(VKits::VSSColorHelper::HexToColor(L"#98C379"));
@@ -104,8 +100,7 @@ VHightlighterTheme::VHightlighterTheme(const VRenderHandle &StaticRenderHandle, 
 
 		FontFamily = L"Consolas";
 	}
-	if (Theme == VBuiltInHightlighterTheme::FleetDark)
-	{
+	if (Theme == VBuiltInHightlighterTheme::FleetDark) {
 		BackgroundColor = Core::VColor(VKits::VSSColorHelper::HexToColor(L"#181818"));
 		KeyWorldColor	= Core::VColor(VKits::VSSColorHelper::HexToColor(L"#AF9CFF"));
 		StringColor		= Core::VColor(VKits::VSSColorHelper::HexToColor(L"#E394DC"));
@@ -136,8 +131,7 @@ VHightlighterTheme::VHightlighterTheme(const VRenderHandle &StaticRenderHandle, 
 		FontFamily = L"Consolas";
 	}
 }
-VHightlighterTheme::~VHightlighterTheme()
-{
+VHightlighterTheme::~VHightlighterTheme() {
 	delete SymbolBrush;
 	delete StringBrush;
 	delete KeyWorldBrush;
@@ -147,53 +141,38 @@ VHightlighterTheme::~VHightlighterTheme()
 	delete CommentBrush;
 }
 
-VVMLHighlighter::VVMLHighlighter(VEditor *Editor) : HighlightTheme(Editor->CallWidgetGetStaticRenderHandle())
-{
+VVMLHighlighter::VVMLHighlighter(VEditor *Editor) : HighlightTheme(Editor->CallWidgetGetStaticRenderHandle()) {
 	BindEditor(Editor);
 }
-int VVMLHighlighter::CountSpace(VML::VMLNode Node, const int &PreSpaceCount)
-{
+int VVMLHighlighter::CountSpace(VML::VMLNode Node, const int &PreSpaceCount) {
 	auto Caret = Editor->GetCaret();
 
-	if (Node.BlockStart <= Caret.CaretStart && Node.BlockEnd > Caret.CaretStart)
-	{
-		if (!Node.ChildrenNodes.empty())
-		{
-			for (auto &SubNode : Node.ChildrenNodes)
-			{
+	if (Node.BlockStart <= Caret.CaretStart && Node.BlockEnd > Caret.CaretStart) {
+		if (!Node.ChildrenNodes.empty()) {
+			for (auto &SubNode : Node.ChildrenNodes) {
 				auto ChildSpace = CountSpace(SubNode.second, PreSpaceCount + 1);
-				if (ChildSpace != -1)
-				{
+				if (ChildSpace != -1) {
 					return ChildSpace;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			return PreSpaceCount + 1;
 		}
-	}
-	else
-	{
+	} else {
 		return -1;
 	}
 
 	return -1;
 }
-VVMLHighlighter::VVMLHighlighter(const VRenderHandle &StaticRenderHandle) : HighlightTheme(StaticRenderHandle)
-{
+VVMLHighlighter::VVMLHighlighter(const VRenderHandle &StaticRenderHandle) : HighlightTheme(StaticRenderHandle) {
 }
 VVMLHighlighter::VVMLHighlighter(const VRenderHandle &StaticRenderHandle, const VBuiltInHightlighterTheme &Theme)
-	: HighlightTheme(StaticRenderHandle, Theme)
-{
+	: HighlightTheme(StaticRenderHandle, Theme) {
 }
-VVMLHighlighter::VVMLHighlighter(const VHightlighterTheme &Theme) : HighlightTheme(Theme)
-{
+VVMLHighlighter::VVMLHighlighter(const VHightlighterTheme &Theme) : HighlightTheme(Theme) {
 }
-void VVMLHighlighter::BindEditor(VEditor *TargetEditor)
-{
-	if (Editor == TargetEditor)
-	{
+void VVMLHighlighter::BindEditor(VEditor *TargetEditor) {
+	if (Editor == TargetEditor) {
 		return;
 	}
 
@@ -221,46 +200,34 @@ void VVMLHighlighter::BindEditor(VEditor *TargetEditor)
 	TargetEditor->PushNewCharacter.Connect(this, &VVMLHighlighter::NewCharacter);
 	TargetEditor->TextClicked.Connect(this, &VVMLHighlighter::MouseClicked);
 }
-void VVMLHighlighter::CheckInputChar(const wchar_t &NewChar, bool *Flag)
-{
+void VVMLHighlighter::CheckInputChar(const wchar_t &NewChar, bool *Flag) {
 	auto Caret = Editor->GetCaret();
 
-	if (NewChar == L'\"')
-	{
+	if (NewChar == L'\"') {
 		auto Text = Editor->GetPlainText();
 
-		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'\"')
-		{
+		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'\"') {
 			*Flag = true;
-		}
-		else if (Text.size() > Caret.CaretStart - 1)
-		{
+		} else if (Text.size() > Caret.CaretStart - 1) {
 			*Flag = false;
 		}
 	}
-	if (NewChar == L'>')
-	{
+	if (NewChar == L'>') {
 		auto Text = Editor->GetPlainText();
 
-		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'<')
-		{
+		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'<') {
 			*Flag = true;
-		}
-		else if (Text.size() > Caret.CaretStart - 1)
-		{
+		} else if (Text.size() > Caret.CaretStart - 1) {
 			*Flag = false;
 		}
 	}
-	if (NewChar == L'\b' && Editor->GetPlainText().size() > Caret.CaretStart && Caret.CaretStart - 1 >= 0)
-	{
+	if (NewChar == L'\b' && Editor->GetPlainText().size() > Caret.CaretStart && Caret.CaretStart - 1 >= 0) {
 		auto Text = Editor->GetPlainText();
 
-		if (Text[Caret.CaretStart - 1] == L'\"' && Text[Caret.CaretStart] == L'\"')
-		{
+		if (Text[Caret.CaretStart - 1] == L'\"' && Text[Caret.CaretStart] == L'\"') {
 			Text.Erase(Text.begin() + Caret.CaretStart);
 		}
-		if (Text[Caret.CaretStart - 1] == L'<' && Text[Caret.CaretStart] == L'>')
-		{
+		if (Text[Caret.CaretStart - 1] == L'<' && Text[Caret.CaretStart] == L'>') {
 			Text.Erase(Text.begin() + Caret.CaretStart);
 		}
 
@@ -268,35 +235,28 @@ void VVMLHighlighter::CheckInputChar(const wchar_t &NewChar, bool *Flag)
 		Editor->SetCaret(Caret);
 	}
 }
-void VVMLHighlighter::NewCharacter(const wchar_t &NewChar)
-{
+void VVMLHighlighter::NewCharacter(const wchar_t &NewChar) {
 	auto Caret = Editor->GetCaret();
 
-	if (NewChar == L'\"')
-	{
+	if (NewChar == L'\"') {
 		auto OldCaret = Caret;
 		auto Text	  = Editor->GetPlainText();
 
-		if (Text.size() > Caret.CaretStart)
-		{
-			if (Text[Caret.CaretStart] != L'\"')
-			{
+		if (Text.size() > Caret.CaretStart) {
+			if (Text[Caret.CaretStart] != L'\"') {
 				Text.Insert(Text.begin() + Caret.CaretStart, L'\"');
 
 				Editor->SetPlainText(Text);
 				Editor->SetCaret(Caret);
 			}
-		}
-		else
-		{
+		} else {
 			Text.Insert(Text.begin() + Caret.CaretStart, L'\"');
 
 			Editor->SetPlainText(Text);
 			Editor->SetCaret(Caret);
 		}
 	}
-	if (NewChar == L'<')
-	{
+	if (NewChar == L'<') {
 		auto Text = Editor->GetPlainText();
 
 		Text.Insert(Text.begin() + Caret.CaretStart, L'>');
@@ -304,8 +264,7 @@ void VVMLHighlighter::NewCharacter(const wchar_t &NewChar)
 		Editor->SetPlainText(Text);
 		Editor->SetCaret(Caret);
 	}
-	if (NewChar == L'\n')
-	{
+	if (NewChar == L'\n') {
 		IDWriteTextLayout				*TextLayout = Editor->GetTextLayout();
 		DWRITE_TEXT_METRICS				 TextMetrics;
 		std::vector<DWRITE_LINE_METRICS> LineMetrics;
@@ -321,13 +280,11 @@ void VVMLHighlighter::NewCharacter(const wchar_t &NewChar)
 		UINT32 NextLinePosition = 0;
 		UINT32 LineCount		= static_cast<UINT32>(LineMetrics.size());
 		UINT32 CodePosition		= 0;
-		for (; Line < LineCount; ++Line)
-		{
+		for (; Line < LineCount; ++Line) {
 			LinePosition	 = NextLinePosition;
 			NextLinePosition = LinePosition + LineMetrics[Line].length;
 
-			if (NextLinePosition > Editor->GetCaret().CaretStart)
-			{
+			if (NextLinePosition > Editor->GetCaret().CaretStart) {
 				break;
 			}
 
@@ -340,10 +297,8 @@ void VVMLHighlighter::NewCharacter(const wchar_t &NewChar)
 		UINT32 StringIndex	   = LeadingPosition;
 		UINT32 AlignCharCount  = 0;
 
-		while (true)
-		{
-			if (PlainText[StringIndex] != L'\t')
-			{
+		while (true) {
+			if (PlainText[StringIndex] != L'\t') {
 				break;
 			}
 
@@ -351,8 +306,7 @@ void VVMLHighlighter::NewCharacter(const wchar_t &NewChar)
 		}
 	}
 }
-void VVMLHighlighter::RenderColor(const VString &PlainText)
-{
+void VVMLHighlighter::RenderColor(const VString &PlainText) {
 	VKits::seal_lexical Lexical(PlainText);
 	auto				Token	  = Lexical.get_token();
 	auto				LastToken = Token;
@@ -361,33 +315,26 @@ void VVMLHighlighter::RenderColor(const VString &PlainText)
 	Editor->TextEffect.clear();
 	Editor->TextStyle.clear();
 
-	while (!Lexical.is_eof())
-	{
+	while (!Lexical.is_eof()) {
 		DWRITE_TEXT_RANGE Range;
 		Range.startPosition = Lexical.get_index() - Token.token_string.size();
 		Range.length		= Token.token_string.size() == 1 ? 1 : Token.token_string.size() + 1;
 
 		if (Token.cache_token == LESS_THAN_TOKEN || Token.cache_token == MORE_THAN_TOKEN ||
-			Token.cache_token == EQUAL_SIGN_TOKEN || Token.cache_token == SLASH_TOKEN)
-		{
-			if (Token.cache_token == LESS_THAN_TOKEN)
-			{
+			Token.cache_token == EQUAL_SIGN_TOKEN || Token.cache_token == SLASH_TOKEN) {
+			if (Token.cache_token == LESS_THAN_TOKEN) {
 				LastToken = Token;
 				Token	  = Lexical.view_token();
 			}
 
-			if (Token.cache_token == EXCLAMATION_MARK && LastToken.cache_token == LESS_THAN_TOKEN)
-			{
-				while (!Lexical.is_eof())
-				{
+			if (Token.cache_token == EXCLAMATION_MARK && LastToken.cache_token == LESS_THAN_TOKEN) {
+				while (!Lexical.is_eof()) {
 					Token = Lexical.get_token();
 
-					if (Token.cache_token == DOUBLE_MINUS_TOKEN)
-					{
+					if (Token.cache_token == DOUBLE_MINUS_TOKEN) {
 						Token = Lexical.get_token();
 
-						if (Token.cache_token == MORE_THAN_TOKEN)
-						{
+						if (Token.cache_token == MORE_THAN_TOKEN) {
 							break;
 						}
 					}
@@ -399,9 +346,7 @@ void VVMLHighlighter::RenderColor(const VString &PlainText)
 					(ID2D1Effect *)HighlightTheme.CommentBrush->GetDxBrush(), Range));
 				Editor->TextStyle.push_back(std::pair<DWRITE_FONT_STYLE, DWRITE_TEXT_RANGE>(
 					DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC, Range));
-			}
-			else
-			{
+			} else {
 				Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 					(ID2D1Effect *)HighlightTheme.SymbolBrush->GetDxBrush(), Range));
 			}
@@ -411,40 +356,31 @@ void VVMLHighlighter::RenderColor(const VString &PlainText)
 			continue;
 		}
 		if (Token.cache_token == UNKNOW_TOKEN &&
-			(LastToken.cache_token == LESS_THAN_TOKEN || LastToken.cache_token == SLASH_TOKEN))
-		{
+			(LastToken.cache_token == LESS_THAN_TOKEN || LastToken.cache_token == SLASH_TOKEN)) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.LabelBrush->GetDxBrush(), Range));
-		}
-		else if (Token.cache_token == UNKNOW_TOKEN)
-		{
+		} else if (Token.cache_token == UNKNOW_TOKEN) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.KeyWorldBrush->GetDxBrush(), Range));
 
-			if (Token.token_string == L"type")
-			{
+			if (Token.token_string == L"type") {
 				InType = true;
 			}
 		}
-		if (Token.cache_token == CONST_STRING)
-		{
+		if (Token.cache_token == CONST_STRING) {
 			Range.length += 1;
 
-			if (Token.token_string.find(L"@") == VString::npos)
-			{
+			if (Token.token_string.find(L"@") == VString::npos) {
 				Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 					(ID2D1Effect *)HighlightTheme.StringBrush->GetDxBrush(), Range));
 
-				if (InType)
-				{
+				if (InType) {
 					InType = false;
 
 					Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 						(ID2D1Effect *)HighlightTheme.TypeBrush->GetDxBrush(), Range));
 				}
-			}
-			else
-			{
+			} else {
 				Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 					(ID2D1Effect *)HighlightTheme.MetaCallBrush->GetDxBrush(), Range));
 			}
@@ -456,27 +392,21 @@ void VVMLHighlighter::RenderColor(const VString &PlainText)
 
 	Editor->ResetTextLayout();
 }
-void VVMLHighlighter::MouseClicked(const int &TextPosition)
-{
-	if (!DoubleClickTimer.End())
-	{
+void VVMLHighlighter::MouseClicked(const int &TextPosition) {
+	if (!DoubleClickTimer.End()) {
 		VKits::seal_lexical Lexical(Editor->GetPlainText());
-		auto				Token  = Lexical.get_token();
+		auto				Token = Lexical.get_token();
 
-		while (!Lexical.is_eof())
-		{
+		while (!Lexical.is_eof()) {
 			DWRITE_TEXT_RANGE Range;
 			Range.startPosition = Lexical.get_index() - Token.token_string.size();
 			Range.length = Range.startPosition + (Token.token_string.size() == 1 ? 1 : Token.token_string.size());
 
-			if (TextPosition >= Range.startPosition && TextPosition <= Range.length)
-			{
-				if (Token.cache_token == CONST_STRING)
-				{
+			if (TextPosition >= Range.startPosition && TextPosition <= Range.length) {
+				if (Token.cache_token == CONST_STRING) {
 					VKits::seal_lexical SubLexical(Token.token_string.substr(1, Token.token_string.size() - 2));
 
-					while (!SubLexical.is_eof())
-					{
+					while (!SubLexical.is_eof()) {
 						Token = SubLexical.get_token();
 
 						DWRITE_TEXT_RANGE SubRange;
@@ -486,8 +416,7 @@ void VVMLHighlighter::MouseClicked(const int &TextPosition)
 						SubRange.length =
 							SubRange.startPosition + (Token.token_string.size() == 1 ? 1 : Token.token_string.size());
 
-						if (TextPosition >= SubRange.startPosition && TextPosition <= SubRange.length)
-						{
+						if (TextPosition >= SubRange.startPosition && TextPosition <= SubRange.length) {
 							auto Caret = Editor->GetCaret();
 
 							Caret.CaretStart  = SubRange.startPosition;
@@ -500,9 +429,7 @@ void VVMLHighlighter::MouseClicked(const int &TextPosition)
 							break;
 						}
 					}
-				}
-				else
-				{
+				} else {
 					auto Caret = Editor->GetCaret();
 
 					Caret.CaretStart  = Range.startPosition;
@@ -519,30 +446,22 @@ void VVMLHighlighter::MouseClicked(const int &TextPosition)
 
 			Token = Lexical.get_token();
 		}
-	}
-	else
-	{
+	} else {
 		DoubleClickTimer.Start(500);
 	}
 }
-VVSSHighlighter::VVSSHighlighter(const VRenderHandle &StaticRenderHandle) : HighlightTheme(StaticRenderHandle)
-{
+VVSSHighlighter::VVSSHighlighter(const VRenderHandle &StaticRenderHandle) : HighlightTheme(StaticRenderHandle) {
 }
 VVSSHighlighter::VVSSHighlighter(const VRenderHandle &StaticRenderHandle, const VBuiltInHightlighterTheme &Theme)
-	: HighlightTheme(StaticRenderHandle, Theme)
-{
+	: HighlightTheme(StaticRenderHandle, Theme) {
 }
-VVSSHighlighter::VVSSHighlighter(VEditor *Editor) : HighlightTheme(Editor->CallWidgetGetStaticRenderHandle())
-{
+VVSSHighlighter::VVSSHighlighter(VEditor *Editor) : HighlightTheme(Editor->CallWidgetGetStaticRenderHandle()) {
 	BindEditor(Editor);
 }
-VVSSHighlighter::VVSSHighlighter(const VHightlighterTheme &Theme) : HighlightTheme(Theme)
-{
+VVSSHighlighter::VVSSHighlighter(const VHightlighterTheme &Theme) : HighlightTheme(Theme) {
 }
-void VVSSHighlighter::BindEditor(VEditor *TargetEditor)
-{
-	if (Editor == TargetEditor)
-	{
+void VVSSHighlighter::BindEditor(VEditor *TargetEditor) {
+	if (Editor == TargetEditor) {
 		return;
 	}
 
@@ -566,29 +485,22 @@ void VVSSHighlighter::BindEditor(VEditor *TargetEditor)
 	TargetEditor->PushNewCharacter.Connect(this, &VVSSHighlighter::NewCharacter);
 	TargetEditor->TextClicked.Connect(this, &VVSSHighlighter::MouseClicked);
 }
-void VVSSHighlighter::CheckInputChar(const wchar_t &NewChar, bool *Flag)
-{
+void VVSSHighlighter::CheckInputChar(const wchar_t &NewChar, bool *Flag) {
 	auto Caret = Editor->GetCaret();
 
-	if (NewChar == L'}')
-	{
+	if (NewChar == L'}') {
 		auto Text = Editor->GetPlainText();
 
-		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'{')
-		{
+		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'{') {
 			*Flag = true;
-		}
-		else if (Text.size() > Caret.CaretStart - 1)
-		{
+		} else if (Text.size() > Caret.CaretStart - 1) {
 			*Flag = false;
 		}
 	}
-	if (NewChar == L'\b' && Editor->GetPlainText().size() > Caret.CaretStart && Caret.CaretStart - 1 >= 0)
-	{
+	if (NewChar == L'\b' && Editor->GetPlainText().size() > Caret.CaretStart && Caret.CaretStart - 1 >= 0) {
 		auto Text = Editor->GetPlainText();
 
-		if (Text[Caret.CaretStart - 1] == L'{' && Text[Caret.CaretStart] == L'}')
-		{
+		if (Text[Caret.CaretStart - 1] == L'{' && Text[Caret.CaretStart] == L'}') {
 			Text.Erase(Text.begin() + Caret.CaretStart);
 		}
 
@@ -596,12 +508,10 @@ void VVSSHighlighter::CheckInputChar(const wchar_t &NewChar, bool *Flag)
 		Editor->SetCaret(Caret);
 	}
 }
-void VVSSHighlighter::NewCharacter(const wchar_t &NewChar)
-{
+void VVSSHighlighter::NewCharacter(const wchar_t &NewChar) {
 	auto Caret = Editor->GetCaret();
 
-	if (NewChar == L'{')
-	{
+	if (NewChar == L'{') {
 		auto Text = Editor->GetPlainText();
 
 		Text.Insert(Text.begin() + Caret.CaretStart, L'}');
@@ -609,12 +519,10 @@ void VVSSHighlighter::NewCharacter(const wchar_t &NewChar)
 		Editor->SetPlainText(Text);
 		Editor->SetCaret(Caret);
 	}
-	if (NewChar == L'*')
-	{
+	if (NewChar == L'*') {
 		auto Text = Editor->GetPlainText();
 
-		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'/')
-		{
+		if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'/') {
 			Text.Insert(Caret.CaretStart, L"*/");
 
 			Editor->SetPlainText(Text);
@@ -622,8 +530,7 @@ void VVSSHighlighter::NewCharacter(const wchar_t &NewChar)
 		}
 	}
 }
-void VVSSHighlighter::RenderColor(const VString &PlainText)
-{
+void VVSSHighlighter::RenderColor(const VString &PlainText) {
 	VKits::seal_lexical Lexical(PlainText, false);
 	auto				Token	  = Lexical.get_token();
 	auto				LastToken = Token;
@@ -632,76 +539,55 @@ void VVSSHighlighter::RenderColor(const VString &PlainText)
 	Editor->TextEffect.clear();
 	Editor->TextStyle.clear();
 
-	while (!Lexical.is_eof())
-	{
+	while (!Lexical.is_eof()) {
 		DWRITE_TEXT_RANGE Range;
 		Range.startPosition = Lexical.get_index() - Token.token_string.size();
 		Range.length		= Token.token_string.size() == 1 ? 1 : Token.token_string.size();
 
-		if (Token.cache_token == BIG_LEFT_BRACKETS)
-		{
+		if (Token.cache_token == BIG_LEFT_BRACKETS) {
 			InBlock = true;
 		}
-		if (Token.cache_token == BIG_RIGHT_BRACKETS)
-		{
+		if (Token.cache_token == BIG_RIGHT_BRACKETS) {
 			InBlock = false;
 		}
 		if (Token.cache_token == BIG_LEFT_BRACKETS || Token.cache_token == BIG_RIGHT_BRACKETS ||
 			Token.cache_token == RIGHT_BRACKETS || Token.cache_token == LEFT_BRACKETS ||
-			Token.cache_token == SEMICOLON_TOKEN)
-		{
+			Token.cache_token == SEMICOLON_TOKEN) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.IgnoreGrayBrush->GetDxBrush(), Range));
 		}
-		if (Token.cache_token == UNKNOW_TOKEN && LastToken.cache_token == CONST_NUMBER)
-		{
+		if (Token.cache_token == UNKNOW_TOKEN && LastToken.cache_token == CONST_NUMBER) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.KeyWorldBrush->GetDxBrush(), Range));
-		}
-		else if (Token.cache_token == UNKNOW_TOKEN && LastToken.cache_token == DOT_TOKEN)
-		{
+		} else if (Token.cache_token == UNKNOW_TOKEN && LastToken.cache_token == DOT_TOKEN) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.TagBrush->GetDxBrush(), Range));
-		}
-		else if (Token.cache_token == UNKNOW_TOKEN && LastToken.token_string == L"#")
-		{
+		} else if (Token.cache_token == UNKNOW_TOKEN && LastToken.token_string == L"#") {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.LabelBrush->GetDxBrush(), Range));
-		}
-		else if (Token.cache_token == COMMENT_TOKEN)
-		{
+		} else if (Token.cache_token == COMMENT_TOKEN) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.CommentBrush->GetDxBrush(), Range));
 			Editor->TextStyle.push_back(
 				std::pair<DWRITE_FONT_STYLE, DWRITE_TEXT_RANGE>(DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC, Range));
-		}
-		else if (Token.cache_token == UNKNOW_TOKEN && InBlock)
-		{
+		} else if (Token.cache_token == UNKNOW_TOKEN && InBlock) {
 			auto ViewToken = Lexical.view_token();
 
-			if (ViewToken.cache_token != LEFT_BRACKETS)
-			{
+			if (ViewToken.cache_token != LEFT_BRACKETS) {
 				Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 					(ID2D1Effect *)HighlightTheme.SubElementBrush->GetDxBrush(), Range));
-			}
-			else
-			{
+			} else {
 				Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 					(ID2D1Effect *)HighlightTheme.SymbolBrush->GetDxBrush(), Range));
 			}
-		}
-		else if (Token.cache_token == UNKNOW_TOKEN && !InBlock)
-		{
+		} else if (Token.cache_token == UNKNOW_TOKEN && !InBlock) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.KeyWorldBrush->GetDxBrush(), Range));
-		}
-		else if (Token.cache_token == CONST_NUMBER)
-		{
+		} else if (Token.cache_token == CONST_NUMBER) {
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
 				(ID2D1Effect *)HighlightTheme.LabelBrush->GetDxBrush(), Range));
 		}
-		if (Token.cache_token == CONST_STRING)
-		{
+		if (Token.cache_token == CONST_STRING) {
 			Range.length += 1;
 
 			Editor->TextEffect.push_back(std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>(
@@ -714,21 +600,17 @@ void VVSSHighlighter::RenderColor(const VString &PlainText)
 
 	Editor->ResetTextLayout();
 }
-void VVSSHighlighter::MouseClicked(const int &TextPosition)
-{
-	if (!DoubleClickTimer.End())
-	{
+void VVSSHighlighter::MouseClicked(const int &TextPosition) {
+	if (!DoubleClickTimer.End()) {
 		VKits::seal_lexical Lexical(Editor->GetPlainText());
-		auto				Token  = Lexical.get_token();
+		auto				Token = Lexical.get_token();
 
-		while (!Lexical.is_eof())
-		{
+		while (!Lexical.is_eof()) {
 			DWRITE_TEXT_RANGE Range;
 			Range.startPosition = Lexical.get_index() - Token.token_string.size();
 			Range.length = Range.startPosition + (Token.token_string.size() == 1 ? 1 : Token.token_string.size());
 
-			if (TextPosition >= Range.startPosition && TextPosition <= Range.length)
-			{
+			if (TextPosition >= Range.startPosition && TextPosition <= Range.length) {
 				auto Caret = Editor->GetCaret();
 
 				Caret.CaretStart  = Range.startPosition;
@@ -745,19 +627,15 @@ void VVSSHighlighter::MouseClicked(const int &TextPosition)
 
 			Token = Lexical.get_token();
 		}
-	}
-	else
-	{
+	} else {
 		DoubleClickTimer.Start(500);
 	}
 }
 
-VBasicHightlighter::VBasicHightlighter()
-{
+VBasicHightlighter::VBasicHightlighter() {
 	Editor = nullptr;
 }
-void VBasicHightlighter::BindEditor(VEditor *TargetEditor)
-{
+void VBasicHightlighter::BindEditor(VEditor *TargetEditor) {
 	Editor = TargetEditor;
 
 	RenderColor(Editor->GetPlainText());

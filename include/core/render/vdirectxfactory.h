@@ -13,14 +13,12 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VDirectXFactoryType enum:
  *	Description : This enum mark the type of a factory object
  */
-VRENDER_HELPER enum class VDirectXFactoryType
-{
+VRENDER_HELPER enum class VDirectXFactoryType {
 	IWICImageingFactory,
 	ID2D1Factory
 };
@@ -29,8 +27,7 @@ VRENDER_HELPER enum class VDirectXFactoryType
  * VDirectXFcatoryThreadMode enum:
  *	Description : This enum mark the thread mode of a factory object
  */
-VRENDER_HELPER enum class VDirectXFactoryThreadMode
-{
+VRENDER_HELPER enum class VDirectXFactoryThreadMode {
 	SignleThreaded,
 	MultiThreaded
 };
@@ -39,14 +36,12 @@ VRENDER_HELPER enum class VDirectXFactoryThreadMode
  * VDirectXFactory class:
  *	Description : The basic class of factory
  */
-VRENDER_HELPER class VDirectXFactory
-{
+VRENDER_HELPER class VDirectXFactory {
 public:
 	VDirectXFactory() = default;
 
 public:
-	virtual VDirectXFactoryType GetFactoryType()
-	{
+	virtual VDirectXFactoryType GetFactoryType() {
 		return VDirectXFactoryType::ID2D1Factory;
 	}
 };
@@ -55,21 +50,18 @@ public:
  * VDirectXD2DFactory class:
  *	Description : The wrapper of ID2D1Factory.
  */
-VRENDER_HELPER class VDirectXD2DFactory : public VDirectXFactory
-{
+VRENDER_HELPER class VDirectXD2DFactory : public VDirectXFactory {
 public:
 	explicit VDirectXD2DFactory(const VDirectXFactoryThreadMode &FactoryMode);
 	~VDirectXD2DFactory();
 
 public:
-	VDirectXFactoryType GetFactoryType() override
-	{
+	VDirectXFactoryType GetFactoryType() override {
 		return VDirectXFactoryType::ID2D1Factory;
 	}
 
 public:
-	ID2D1Factory *GetDXFactory()
-	{
+	ID2D1Factory *GetDXFactory() {
 		return Factory;
 	}
 
@@ -81,21 +73,18 @@ private:
  * VDirectXIWICImagingFactory class:
  *	Description : The wrapper of IWICImageingFactory
  */
-VRENDER_HELPER class VDirectXIWICImagingFactory : public VDirectXFactory
-{
+VRENDER_HELPER class VDirectXIWICImagingFactory : public VDirectXFactory {
 public:
 	VDirectXIWICImagingFactory();
 	~VDirectXIWICImagingFactory();
 
 public:
-	VDirectXFactoryType GetFactoryType() override
-	{
+	VDirectXFactoryType GetFactoryType() override {
 		return VDirectXFactoryType::IWICImageingFactory;
 	}
 
 public:
-	IWICImagingFactory *GetDXFactory()
-	{
+	IWICImagingFactory *GetDXFactory() {
 		return Factory;
 	}
 
@@ -107,21 +96,18 @@ private:
  * VDirectXIWICImagingFactory class:
  *	Description : The wrapper of IDWriteFactory
  */
-VRENDER_HELPER class VDirectXWriteFactory : public VDirectXFactory
-{
+VRENDER_HELPER class VDirectXWriteFactory : public VDirectXFactory {
 public:
 	VDirectXWriteFactory();
 	~VDirectXWriteFactory();
 
 public:
-	VDirectXFactoryType GetFactoryType() override
-	{
+	VDirectXFactoryType GetFactoryType() override {
 		return VDirectXFactoryType::ID2D1Factory;
 	}
 
 public:
-	IDWriteFactory *GetDXFactory()
-	{
+	IDWriteFactory *GetDXFactory() {
 		return Factory;
 	}
 
@@ -136,15 +122,13 @@ private:
  * VDirectXD2DFactory, this factory is the
  *global variable class for factory
  */
-VRENDER_HELPER class VNativeDirectX2D2Factory
-{
+VRENDER_HELPER class VNativeDirectX2D2Factory {
 public:
 	VNativeDirectX2D2Factory();
 	~VNativeDirectX2D2Factory();
 
 public:
-	ID2D1Factory *GetInstance()
-	{
+	ID2D1Factory *GetInstance() {
 		return Factory;
 	}
 
@@ -158,15 +142,13 @@ private:
  * Not same as VDirectXIWICImagingFactory, this factory
  *is the global variable class for factory
  */
-VRENDER_HELPER class VNativeDirectXIWICImagingFactory
-{
+VRENDER_HELPER class VNativeDirectXIWICImagingFactory {
 public:
 	VNativeDirectXIWICImagingFactory();
 	~VNativeDirectXIWICImagingFactory();
 
 public:
-	IWICImagingFactory *GetInstance()
-	{
+	IWICImagingFactory *GetInstance() {
 		return Factory;
 	}
 
@@ -180,22 +162,19 @@ private:
  * VDirectXWriteFactory, this factory is the
  *global variable class for factory
  */
-VRENDER_HELPER class VNativeDirectXWriteFactory : public VDirectXFactory
-{
+VRENDER_HELPER class VNativeDirectXWriteFactory : public VDirectXFactory {
 public:
 	VNativeDirectXWriteFactory();
 
 	~VNativeDirectXWriteFactory();
 
 public:
-	IDWriteFactory *GetInstance()
-	{
+	IDWriteFactory *GetInstance() {
 		return Factory;
 	}
 
 public:
-	VDirectXFactoryType GetFactoryType() override
-	{
+	VDirectXFactoryType GetFactoryType() override {
 		return VDirectXFactoryType::ID2D1Factory;
 	}
 
@@ -218,8 +197,7 @@ VRENDER_HELPER extern VNativeDirectXWriteFactory	   VDirectXWriteFactory;
  * handle is required for any
  *environment-related render component's creation
  */
-class VRenderHandle
-{
+class VRenderHandle {
 public:
 	explicit VRenderHandle();
 	VRenderHandle(const int &NullValue) VRENDER_HELPER;

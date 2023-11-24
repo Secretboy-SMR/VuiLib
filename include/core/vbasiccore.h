@@ -22,10 +22,8 @@
 #define VLIB_BEGIN_NAMESPACE
 #define VLIB_END_NAMESPACE
 #else
-#define VLIB_BEGIN_NAMESPACE                                                                                           \
-	namespace VuiLib                                                                                                   \
-	{
-#define VLIB_END_NAMESPACE }
+#define VLIB_BEGIN_NAMESPACE namespace VuiLib {
+#define VLIB_END_NAMESPACE	 }
 #endif
 
 /*
@@ -42,16 +40,14 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
 /*
  * VLIB_REPORT_ERROR Marco:
  *	Description : Report the error message directly
  */
 #define VLIB_REPORT_ERROR(ErrorMessage)                                                                                \
-	do                                                                                                                 \
-	{                                                                                                                  \
+	do {                                                                                                               \
 		_RPTFW0(_CRT_ASSERT, ErrorMessage);                                                                            \
 	} while (true)
 /*
@@ -59,8 +55,7 @@ namespace Core
  *  Description : Report the error message if the expression is true
  */
 #define VLIB_CHECK_REPORT(Expression, ErrorMessage)                                                                    \
-	while ((Expression))                                                                                               \
-	{                                                                                                                  \
+	while ((Expression)) {                                                                                             \
 		_RPTFW0(_CRT_ASSERT, ErrorMessage);                                                                            \
 	}
 /*
@@ -72,8 +67,7 @@ namespace Core
  */
 #define VLIB_REPORT_IF_FAILED(Expression)                                                                              \
 	{                                                                                                                  \
-		if ((Expression) != S_OK)                                                                                      \
-		{                                                                                                              \
+		if ((Expression) != S_OK) {                                                                                    \
 			VLIB_CHECK_REPORT(true, L"Operation failed!");                                                             \
 		}                                                                                                              \
 	}
@@ -88,8 +82,7 @@ namespace Core
  */
 #define VLIB_REPORT_IF_FAILED_INFO(Expression, WidgetInformation)                                                      \
 	{                                                                                                                  \
-		if ((Expression) != S_OK)                                                                                      \
-		{                                                                                                              \
+		if ((Expression) != S_OK) {                                                                                    \
 			VLIB_CHECK_REPORT(true, WidgetInformation);                                                                \
 		}                                                                                                              \
 	}
@@ -98,8 +91,8 @@ namespace Core
  * VCoreRect class (template):
  *	Description : This class describes a rectangle
  */
-template <class DataType> class VCoreRect
-{
+template <class DataType>
+class VCoreRect {
 public:
 	/*
 	 * GetWidth function:
@@ -197,8 +190,7 @@ public:
    *		Description : Convert VCoreRect into Direct2D's SIZE2U structure
 
 	 */
-	inline D2D1_SIZE_U ToDxSize2U() const
-	{
+	inline D2D1_SIZE_U ToDxSize2U() const {
 		return D2D1_SIZE_U{static_cast<UINT32>(GetWidth()), static_cast<UINT32>(GetHeight())};
 	}
 
@@ -207,8 +199,7 @@ public:
 	 * operator== function:
 	 *		Description : Operator overload
 	 */
-	friend bool operator==(const VCoreRect &LeftObject, const VCoreRect &RightObject)
-	{
+	friend bool operator==(const VCoreRect &LeftObject, const VCoreRect &RightObject) {
 		return LeftObject.Left == RightObject.Left && LeftObject.Right == RightObject.Right &&
 			   LeftObject.Bottom == RightObject.Bottom && LeftObject.Top == RightObject.Top;
 	}
@@ -216,8 +207,7 @@ public:
 	 * operator!= function:
 	 *		Description : Operator overload
 	 */
-	friend bool operator!=(const VCoreRect &LeftObject, const VCoreRect &RightObject)
-	{
+	friend bool operator!=(const VCoreRect &LeftObject, const VCoreRect &RightObject) {
 		return !(LeftObject.Left == RightObject.Left && LeftObject.Right == RightObject.Right &&
 				 LeftObject.Bottom == RightObject.Bottom && LeftObject.Top == RightObject.Top);
 	}
@@ -238,8 +228,8 @@ public:
  * VCorePoint class (template):
  *	Description : This class describes a point on the geometry surface
  */
-template <class DataType> class VCorePoint
-{
+template <class DataType>
+class VCorePoint {
 public:
 	/*
    * InsideRectangle function:
@@ -268,8 +258,7 @@ public:
 	 * ToPOINT:
 	 *		Description : Convert the VPoint into Win32's POINT structure
 	 */
-	inline POINT ToPOINT() const
-	{
+	inline POINT ToPOINT() const {
 		return POINT{X, Y};
 	}
 	/*
@@ -278,8 +267,7 @@ public:
    *structure
 
 	 */
-	inline D2D1_POINT_2U ToDxPointU()
-	{
+	inline D2D1_POINT_2U ToDxPointU() {
 		return D2D1::Point2U(X, Y);
 	}
 	/*
@@ -288,8 +276,7 @@ public:
    *structure
 
 	 */
-	inline D2D1_POINT_2F ToDxPOINT2F()
-	{
+	inline D2D1_POINT_2F ToDxPOINT2F() {
 		return D2D1::Point2F(static_cast<float>(X), static_cast<float>(Y));
 	}
 
@@ -298,16 +285,14 @@ public:
 	 * operator== function:
 	 *		Description : Operator overload
 	 */
-	friend bool operator==(const VCorePoint &LeftObject, const VCorePoint &RightObject)
-	{
+	friend bool operator==(const VCorePoint &LeftObject, const VCorePoint &RightObject) {
 		return LeftObject.X == RightObject.X && LeftObject.Y == RightObject.Y;
 	}
 	/*
 	 * operator!= function:
 	 *		Description : Operator overload
 	 */
-	friend bool operator!=(const VCorePoint &LeftObject, const VCorePoint &RightObject)
-	{
+	friend bool operator!=(const VCorePoint &LeftObject, const VCorePoint &RightObject) {
 		return !(LeftObject.X == RightObject.X && LeftObject.Y == RightObject.Y);
 	}
 
@@ -318,8 +303,7 @@ public:
 public:
 	VCorePoint();
 	VCorePoint(const VCorePoint &PointObject);
-	VCorePoint(const DataType &TargetX, const DataType &TargetY) : X(TargetX), Y(TargetY)
-	{
+	VCorePoint(const DataType &TargetX, const DataType &TargetY) : X(TargetX), Y(TargetY) {
 	}
 };
 
@@ -330,8 +314,8 @@ public:
  * *only mark the width and height information in a rectangle, no position
  *information is provided here.
  */
-template <class DataType> class VCoreGeometry
-{
+template <class DataType>
+class VCoreGeometry {
 public:
 	DataType Width;
 	DataType Height;
@@ -352,16 +336,14 @@ public:
 	 * operator== function:
 	 *		Description : Operator overload
 	 */
-	friend bool operator==(const VCoreGeometry &LeftObject, const VCoreGeometry &RightObject)
-	{
+	friend bool operator==(const VCoreGeometry &LeftObject, const VCoreGeometry &RightObject) {
 		return LeftObject.Width == RightObject.Width && LeftObject.Height == RightObject.Height;
 	}
 	/*
 	 * operator!= function:
 	 *		Description : Operator overload
 	 */
-	friend bool operator!=(const VCoreGeometry &LeftObject, const VCoreGeometry &RightObject)
-	{
+	friend bool operator!=(const VCoreGeometry &LeftObject, const VCoreGeometry &RightObject) {
 		return !(LeftObject.Width == RightObject.Width && LeftObject.Height == RightObject.Height);
 	}
 };

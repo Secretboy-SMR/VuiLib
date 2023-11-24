@@ -6,11 +6,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VBasicTimer
-{
+class VBasicTimer {
 private:
 	time_t		  LastTime;
 	unsigned long Duraction;
@@ -22,11 +20,9 @@ public:
 	virtual bool End();
 };
 
-class VTimeHelper
-{
+class VTimeHelper {
 public:
-	static void Sleep(int MS)
-	{
+	static void Sleep(int MS) {
 		MsgWaitForMultipleObjectsEx(0, nullptr, MS, QS_ALLPOSTMESSAGE, MWMO_INPUTAVAILABLE);
 	}
 };

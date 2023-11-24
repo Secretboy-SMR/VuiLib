@@ -3,8 +3,7 @@
 #include "../../../include/core/control/veditorhighlighter.h"
 #include "../../../include/vml/vmlwidget.h"
 
-class VStudioApp : public VML::VMLMainWindow
-{
+class VStudioApp : public VML::VMLMainWindow {
 private:
 	void MinisizeWindow();
 	void MaxsizeWindow();

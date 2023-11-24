@@ -2,21 +2,17 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VBasicTimer::VBasicTimer()
-{
+VBasicTimer::VBasicTimer() {
 	LastTime  = 0;
 	Duraction = 0;
 }
-void VBasicTimer::Start(const unsigned long &TimerDuraction)
-{
+void VBasicTimer::Start(const unsigned long &TimerDuraction) {
 	LastTime  = clock();
 	Duraction = TimerDuraction;
 }
-bool VBasicTimer::End()
-{
+bool VBasicTimer::End() {
 	return clock() - LastTime >= Duraction;
 }
 } // namespace Core

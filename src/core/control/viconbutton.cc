@@ -2,12 +2,10 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
 VIconButton::VIconButton(const int &Width, const int &Height, VImage *Image, VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VIconButtonTheme(*(static_cast<VIconButtonTheme *>(GetTargetTheme(VUIThemeType::VIconButton))));
 	Resize(Width, Height);
 
@@ -17,15 +15,13 @@ VIconButton::VIconButton(const int &Width, const int &Height, VImage *Image, VUI
 
 	Update();
 }
-VIconButton::VIconButton(VUIObject *Parent) : VAbstractButton(Parent)
-{
+VIconButton::VIconButton(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme		 = new VIconButtonTheme(*(static_cast<VIconButtonTheme *>(GetTargetTheme(VUIThemeType::VIconButton))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
 	Update();
 }
-VIconButton::VIconButton(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VIconButton::VIconButton(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VIconButtonTheme(*(static_cast<VIconButtonTheme *>(GetTargetTheme(VUIThemeType::VIconButton))));
 	Resize(Width, Height);
 
@@ -33,14 +29,12 @@ VIconButton::VIconButton(const int &Width, const int &Height, VUIObject *Parent)
 
 	Update();
 }
-VIconButton::~VIconButton() noexcept
-{
+VIconButton::~VIconButton() noexcept {
 	delete Theme;
 	delete Interpolator;
 }
 
-VRect VIconButton::GetRegion()
-{
+VRect VIconButton::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -48,8 +42,7 @@ VRect VIconButton::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VIconButton::OnPaint(VCanvasPainter *Painter)
-{
+void VIconButton::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -60,8 +53,7 @@ void VIconButton::OnPaint(VCanvasPainter *Painter)
 								   static_cast<int>(Theme->LocalTheme.BorderThickness), GetWidth(), GetHeight()},
 								  Theme->LocalTheme.Radius, &PenBrush, &BackgroundBrush);
 
-	if (Theme->Image != nullptr)
-	{
+	if (Theme->Image != nullptr) {
 		auto Left = (GetWidth()) / 2 - Theme->Image->GetWidth() / 2;
 		auto Top  = (GetHeight()) / 2 - Theme->Image->GetHeight() / 2;
 
@@ -72,20 +64,15 @@ void VIconButton::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-void VIconButton::SetTheme(Core::VIconButtonTheme *NewTheme)
-{
+void VIconButton::SetTheme(Core::VIconButtonTheme *NewTheme) {
 	Theme = NewTheme;
 }
-VIconButtonTheme *VIconButton::GetTheme()
-{
+VIconButtonTheme *VIconButton::GetTheme() {
 	return Theme;
 }
-void VIconButton::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VIconButton::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -108,15 +95,12 @@ void VIconButton::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
 
-void VIconButton::LeftClickedDown()
-{
+void VIconButton::LeftClickedDown() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -127,8 +111,7 @@ void VIconButton::LeftClickedDown()
 
 	Update();
 }
-void VIconButton::LeftClickedUp()
-{
+void VIconButton::LeftClickedUp() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -139,8 +122,7 @@ void VIconButton::LeftClickedUp()
 
 	Update();
 }
-void VIconButton::GotMouseFocus()
-{
+void VIconButton::GotMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -151,8 +133,7 @@ void VIconButton::GotMouseFocus()
 
 	Update();
 }
-void VIconButton::LostMouseFocus()
-{
+void VIconButton::LostMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -164,14 +145,10 @@ void VIconButton::LostMouseFocus()
 	Update();
 }
 
-void VIconButton::SetIconImage(VImage *IconImage)
-{
-	if (Theme->Image == nullptr)
-	{
+void VIconButton::SetIconImage(VImage *IconImage) {
+	if (Theme->Image == nullptr) {
 		Theme->Image = new VImage(*IconImage);
-	}
-	else
-	{
+	} else {
 		*Theme->Image = *IconImage;
 	}
 }

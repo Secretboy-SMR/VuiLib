@@ -14,16 +14,14 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VCanvasPainter class:
  *	Description : This class provide a painter to paint on canvas surface
  *which is
  * created by this class
  */
-class VCanvasPainter
-{
+class VCanvasPainter {
 public:
 	/*
    * VCanvasPainter constructor:
@@ -74,8 +72,7 @@ public:
 					const float &ImageOpacity);
 
 public:
-	ID2D1BitmapRenderTarget *GetDXObject() VRENDER_HELPER
-	{
+	ID2D1BitmapRenderTarget *GetDXObject() VRENDER_HELPER {
 		return TargetDevice.Get();
 	}
 
@@ -89,8 +86,7 @@ private:
  * won't create a
  * surface through render handle
  */
-class VPainter
-{
+class VPainter {
 public:
 	/*
 	 * VPainter constructor:

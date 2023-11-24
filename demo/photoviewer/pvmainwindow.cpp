@@ -2,12 +2,10 @@
 
 #include <Shlobj.h>
 
-VDragbleImageLabel::VDragbleImageLabel(Core::VUIObject *Parent, Core::VImage *Image) : Core::VDragControlBase(Parent)
-{
+VDragbleImageLabel::VDragbleImageLabel(Core::VUIObject *Parent, Core::VImage *Image) : Core::VDragControlBase(Parent) {
 	ViewImage = Image;
 }
-void VDragbleImageLabel::OnPaint(Core::VCanvasPainter *Painter)
-{
+void VDragbleImageLabel::OnPaint(Core::VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	Painter->DrawImage(
@@ -28,17 +26,14 @@ void VDragbleImageLabel::OnPaint(Core::VCanvasPainter *Painter)
 
 	Painter->EndDraw();
 }
-void VDragbleImageLabel::SetImage(Core::VImage *Image)
-{
+void VDragbleImageLabel::SetImage(Core::VImage *Image) {
 	ViewImage = Image;
 
 	Update();
 }
 
-void PVMainWindow::ZoomUpButtonOnClicked()
-{
-	if (ViewingProject->LocalScalePercent - 0.1f >= 0.f)
-	{
+void PVMainWindow::ZoomUpButtonOnClicked() {
+	if (ViewingProject->LocalScalePercent - 0.1f >= 0.f) {
 		ViewingProject->LocalScalePercent -= 0.1f;
 
 		PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
@@ -48,10 +43,8 @@ void PVMainWindow::ZoomUpButtonOnClicked()
 		WindowOnResize(0, 0);
 	}
 }
-void PVMainWindow::ZoomDownButtonOnClicked()
-{
-	if (ViewingProject->LocalScalePercent + 0.1f <= 20.f)
-	{
+void PVMainWindow::ZoomDownButtonOnClicked() {
+	if (ViewingProject->LocalScalePercent + 0.1f <= 20.f) {
 		ViewingProject->LocalScalePercent += 0.1f;
 
 		PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
@@ -61,8 +54,7 @@ void PVMainWindow::ZoomDownButtonOnClicked()
 		WindowOnResize(0, 0);
 	}
 }
-void PVMainWindow::OneToOneButtonOnClicked()
-{
+void PVMainWindow::OneToOneButtonOnClicked() {
 	ViewingProject->LocalScalePercent = 1.f;
 
 	PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
@@ -72,18 +64,13 @@ void PVMainWindow::OneToOneButtonOnClicked()
 	WindowOnResize(0, 0);
 }
 
-void PVMainWindow::OnMessage(Core::VMessage *Message)
-{
-	if (Message->GetType() == Core::VMessageType::KeyClickedMessage)
-	{
+void PVMainWindow::OnMessage(Core::VMessage *Message) {
+	if (Message->GetType() == Core::VMessageType::KeyClickedMessage) {
 		auto KeyMessage = static_cast<Core::VKeyClickedMessage *>(Message);
 
-		if (KeyMessage->KeyStats == Core::VkeyClickedFlag::Down)
-		{
-			if (KeyMessage->KeyVKCode == VK_LEFT)
-			{
-				if (ViewingProject->LocalViewingFile - 1 >= 0)
-				{
+		if (KeyMessage->KeyStats == Core::VkeyClickedFlag::Down) {
+			if (KeyMessage->KeyVKCode == VK_LEFT) {
+				if (ViewingProject->LocalViewingFile - 1 >= 0) {
 					--ViewingProject->LocalViewingFile;
 
 					ViewingImage = new Core::VImage(ViewingProject->FileList[ViewingProject->LocalViewingFile],
@@ -92,23 +79,17 @@ void PVMainWindow::OnMessage(Core::VMessage *Message)
 					BlurBackgroundImage->SetImage(ViewingImage);
 					ViewingLabel->SetImage(ViewingImage);
 
-					if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight())
-					{
-						if (ViewingImage->GetWidth() > GetWidth())
-						{
+					if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight()) {
+						if (ViewingImage->GetWidth() > GetWidth()) {
 							ViewingProject->LocalScalePercent = double(GetWidth()) / ViewingImage->GetWidth();
-						}
-						else
-						{
+						} else {
 							ViewingProject->LocalScalePercent = double(GetHeight()) / ViewingImage->GetHeight();
 						}
 
 						PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 						ViewingLabel->Resize(ViewingImage->GetWidth() * ViewingProject->LocalScalePercent,
 											 ViewingImage->GetHeight() * ViewingProject->LocalScalePercent);
-					}
-					else
-					{
+					} else {
 						PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 						ViewingLabel->Resize(ViewingImage->GetWidth(), ViewingImage->GetHeight());
 					}
@@ -116,10 +97,8 @@ void PVMainWindow::OnMessage(Core::VMessage *Message)
 					TitleText->SetPlainText(GetFileName(ViewingProject->FileList[ViewingProject->LocalViewingFile]));
 				}
 			}
-			if (KeyMessage->KeyVKCode == VK_RIGHT)
-			{
-				if (ViewingProject->LocalViewingFile + 1 < ViewingProject->FileList.size())
-				{
+			if (KeyMessage->KeyVKCode == VK_RIGHT) {
+				if (ViewingProject->LocalViewingFile + 1 < ViewingProject->FileList.size()) {
 					++ViewingProject->LocalViewingFile;
 
 					ViewingImage = new Core::VImage(ViewingProject->FileList[ViewingProject->LocalViewingFile],
@@ -128,23 +107,17 @@ void PVMainWindow::OnMessage(Core::VMessage *Message)
 					BlurBackgroundImage->SetImage(ViewingImage);
 					ViewingLabel->SetImage(ViewingImage);
 
-					if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight())
-					{
-						if (ViewingImage->GetWidth() > GetWidth())
-						{
+					if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight()) {
+						if (ViewingImage->GetWidth() > GetWidth()) {
 							ViewingProject->LocalScalePercent = double(GetWidth()) / ViewingImage->GetWidth();
-						}
-						else
-						{
+						} else {
 							ViewingProject->LocalScalePercent = double(GetHeight()) / ViewingImage->GetHeight();
 						}
 
 						PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 						ViewingLabel->Resize(ViewingImage->GetWidth() * ViewingProject->LocalScalePercent,
 											 ViewingImage->GetHeight() * ViewingProject->LocalScalePercent);
-					}
-					else
-					{
+					} else {
 						PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 						ViewingLabel->Resize(ViewingImage->GetWidth(), ViewingImage->GetHeight());
 					}
@@ -154,25 +127,19 @@ void PVMainWindow::OnMessage(Core::VMessage *Message)
 			}
 		}
 	}
-	if (Message->GetType() == Core::VMessageType::MouseWheelMessage)
-	{
+	if (Message->GetType() == Core::VMessageType::MouseWheelMessage) {
 		auto MouseWheelMessage = static_cast<Core::VMouseWheelMessage *>(Message);
 
-		if (MouseWheelMessage->WheelValue > 0)
-		{
-			if (ViewingProject->LocalScalePercent + 0.1f >= 0.f)
-			{
+		if (MouseWheelMessage->WheelValue > 0) {
+			if (ViewingProject->LocalScalePercent + 0.1f >= 0.f) {
 				ViewingProject->LocalScalePercent += 0.1f;
 
 				PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 				ViewingLabel->Resize(ViewingImage->GetWidth() * ViewingProject->LocalScalePercent,
 									 ViewingImage->GetHeight() * ViewingProject->LocalScalePercent);
 			}
-		}
-		else
-		{
-			if (ViewingProject->LocalScalePercent - 0.1f <= 20.f)
-			{
+		} else {
+			if (ViewingProject->LocalScalePercent - 0.1f <= 20.f) {
 				ViewingProject->LocalScalePercent -= 0.1f;
 
 				PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
@@ -185,8 +152,7 @@ void PVMainWindow::OnMessage(Core::VMessage *Message)
 	}
 }
 
-void PVMainWindow::WindowOnResize(const int &, const int &)
-{
+void PVMainWindow::WindowOnResize(const int &, const int &) {
 	auto NewX = GetWidth() / 2 - ViewingLabel->GetWidth() / 2;
 	auto NewY = GetHeight() / 2 - ViewingLabel->GetHeight() / 2;
 
@@ -196,14 +162,11 @@ void PVMainWindow::WindowOnResize(const int &, const int &)
 	ViewingLabel->Move(NewX, NewY);
 }
 
-void PVMainWindow::ImageStartDrag()
-{
+void PVMainWindow::ImageStartDrag() {
 	StartDrag = true;
 }
-void PVMainWindow::ImageOnDrag(const int &X, const int &Y)
-{
-	if (StartDrag)
-	{
+void PVMainWindow::ImageOnDrag(const int &X, const int &Y) {
+	if (StartDrag) {
 		StartDrag = false;
 
 		OffsetPoint = {X, Y};
@@ -217,8 +180,7 @@ void PVMainWindow::ImageOnDrag(const int &X, const int &Y)
 	CenterOffsetPoint = {ViewingLabel->GetX() - CenterX, ViewingLabel->GetY() - CenterY};
 }
 
-PVMainWindow::PVMainWindow(Core::VApplication *Parent) : VMLMainWindow(Parent)
-{
+PVMainWindow::PVMainWindow(Core::VApplication *Parent) : VMLMainWindow(Parent) {
 	LoadVML(L"./mainui.xml", VML::VMLParserParseMode::FromFile);
 
 	MiniSizeButton	= operator[](L"photo-viewer-widget")[L"minisize-button"].Get<Core::VPushButton>();
@@ -264,10 +226,8 @@ PVMainWindow::PVMainWindow(Core::VApplication *Parent) : VMLMainWindow(Parent)
 	ViewingProject = nullptr;
 	ViewingImage   = nullptr;
 }
-PVMainWindow::PVMainWindow(Core::VApplication *Parent, const std::wstring &FilePath) : VMLMainWindow(Parent)
-{
-	if (!Core::VImage::IsValidBitmapFile(FilePath))
-	{
+PVMainWindow::PVMainWindow(Core::VApplication *Parent, const std::wstring &FilePath) : VMLMainWindow(Parent) {
+	if (!Core::VImage::IsValidBitmapFile(FilePath)) {
 		exit(-1);
 	}
 
@@ -333,23 +293,17 @@ PVMainWindow::PVMainWindow(Core::VApplication *Parent, const std::wstring &FileP
 	BlurBackgroundImage->SetImage(ViewingImage);
 	ViewingLabel->SetImage(ViewingImage);
 
-	if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight())
-	{
-		if (ViewingImage->GetWidth() > GetWidth())
-		{
+	if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight()) {
+		if (ViewingImage->GetWidth() > GetWidth()) {
 			ViewingProject->LocalScalePercent = double(GetWidth()) / ViewingImage->GetWidth();
-		}
-		else
-		{
+		} else {
 			ViewingProject->LocalScalePercent = double(GetHeight()) / ViewingImage->GetHeight();
 		}
 
 		PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 		ViewingLabel->Resize(ViewingImage->GetWidth() * ViewingProject->LocalScalePercent,
 							 ViewingImage->GetHeight() * ViewingProject->LocalScalePercent);
-	}
-	else
-	{
+	} else {
 		PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 		ViewingLabel->Resize(ViewingImage->GetWidth(), ViewingImage->GetHeight());
 	}
@@ -364,60 +318,47 @@ PVMainWindow::PVMainWindow(Core::VApplication *Parent, const std::wstring &FileP
 	MainuiContainer->Show();
 }
 
-void PVMainWindow::MiniSizeButtonOnClicked()
-{
+void PVMainWindow::MiniSizeButtonOnClicked() {
 	PostMessage(GetLocalWinId(), WM_SYSCOMMAND, SC_MINIMIZE, NULL);
 }
-void PVMainWindow::MaxSizeButtonOnClicked()
-{
-	if (!InMaxSize)
-	{
+void PVMainWindow::MaxSizeButtonOnClicked() {
+	if (!InMaxSize) {
 		PostMessage(CallWidgetGetHWND(), WM_SYSCOMMAND, SC_MAXIMIZE, NULL);
-	}
-	else
-	{
+	} else {
 		PostMessage(CallWidgetGetHWND(), WM_SYSCOMMAND, SC_RESTORE, NULL);
 	}
 
 	InMaxSize = !InMaxSize;
 }
-void PVMainWindow::CloseButtonOnClicked()
-{
+void PVMainWindow::CloseButtonOnClicked() {
 	exit(0);
 }
 
-std::wstring PVMainWindow::GetPercentString(const double &ScalePercent)
-{
-	if (ScalePercent >= 1)
-	{
+std::wstring PVMainWindow::GetPercentString(const double &ScalePercent) {
+	if (ScalePercent >= 1) {
 		return std::to_wstring(ScalePercent * 100).substr(0, 3) + L"%";
 	}
-	if (ScalePercent <= 1 && ScalePercent >= 0.1)
-	{
+	if (ScalePercent <= 1 && ScalePercent >= 0.1) {
 		return std::to_wstring(ScalePercent * 100).substr(0, 2) + L"%";
 	}
-	if (ScalePercent <= 0.1)
-	{
+	if (ScalePercent <= 0.1) {
 		return std::to_wstring(ScalePercent * 100).substr(0, 1) + L"%";
 	}
 
 	return L"Error%";
 }
-std::wstring PVMainWindow::GetFileName(const std::wstring &FilePath)
-{
+std::wstring PVMainWindow::GetFileName(const std::wstring &FilePath) {
 	int SliptPosition = static_cast<int>(FilePath.find_last_of(L"\\")) + 1;
 
 	return FilePath.substr(SliptPosition, FilePath.size() - SliptPosition);
 }
-std::wstring PVMainWindow::GetFolderPath(const std::wstring &FilePath)
-{
+std::wstring PVMainWindow::GetFolderPath(const std::wstring &FilePath) {
 	int SliptPosition = static_cast<int>(FilePath.find_last_of(L"\\")) + 1;
 
 	return FilePath.substr(0, SliptPosition);
 }
 
-void PVMainWindow::CreateViewingProject(const std::wstring &FilePath)
-{
+void PVMainWindow::CreateViewingProject(const std::wstring &FilePath) {
 	ViewingProject = new PVFileReadingProject;
 
 	auto LocalFileName	 = GetFileName(FilePath);
@@ -430,14 +371,10 @@ void PVMainWindow::CreateViewingProject(const std::wstring &FilePath)
 	std::wstring TempPath;
 	FindPath = FindPath.assign(LocalFolderPath.c_str()).append(L"*");
 
-	if ((FileHandle = _wfindfirst(FindPath.c_str(), &FileInfo)) != -1)
-	{
-		do
-		{
-			if (!(FileInfo.attrib & _A_SUBDIR))
-			{
-				if (FileInfo.name == LocalFileName)
-				{
+	if ((FileHandle = _wfindfirst(FindPath.c_str(), &FileInfo)) != -1) {
+		do {
+			if (!(FileInfo.attrib & _A_SUBDIR)) {
+				if (FileInfo.name == LocalFileName) {
 					ViewingProject->LocalViewingFile = ViewingProject->FileList.size();
 				}
 
@@ -445,10 +382,8 @@ void PVMainWindow::CreateViewingProject(const std::wstring &FilePath)
 
 				if (TempPath.find(L".jpg") == TempPath.size() - 4 || TempPath.find(L".png") == TempPath.size() - 4 ||
 					TempPath.find(L".gif") == TempPath.size() - 4 || TempPath.find(L".jpge") == TempPath.size() - 5 ||
-					TempPath.find(L".jpg") == TempPath.size() - 4)
-				{
-					if (Core::VImage::IsValidBitmapFile(TempPath) == true)
-					{
+					TempPath.find(L".jpg") == TempPath.size() - 4) {
+					if (Core::VImage::IsValidBitmapFile(TempPath) == true) {
 						ViewingProject->FileList.push_back(TempPath);
 					}
 				}
@@ -457,8 +392,7 @@ void PVMainWindow::CreateViewingProject(const std::wstring &FilePath)
 	}
 }
 
-void PVMainWindow::OpenViewProject()
-{
+void PVMainWindow::OpenViewProject() {
 	LPWSTR	FilePath = new WCHAR[MAX_PATH];
 	HRESULT OperationResult;
 
@@ -484,8 +418,7 @@ void PVMainWindow::OpenViewProject()
 			FileDialog->ClearClientData();
 			FileDialog->Close(*OperationResult);
 
-			if (SUCCEEDED((*OperationResult)))
-			{
+			if (SUCCEEDED((*OperationResult))) {
 				IShellItem *SellItem;
 				FileDialog->GetResult(&SellItem);
 				LPWSTR OpenPath;
@@ -508,8 +441,7 @@ void PVMainWindow::OpenViewProject()
 
 	FileDialogThread.join();
 
-	if (SUCCEEDED(OperationResult))
-	{
+	if (SUCCEEDED(OperationResult)) {
 		CreateViewingProject(FilePath);
 
 		ViewingImage =
@@ -518,23 +450,17 @@ void PVMainWindow::OpenViewProject()
 		BlurBackgroundImage->SetImage(ViewingImage);
 		ViewingLabel->SetImage(ViewingImage);
 
-		if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight())
-		{
-			if (ViewingImage->GetWidth() > GetWidth())
-			{
+		if (ViewingImage->GetWidth() > GetWidth() || ViewingImage->GetHeight() > GetHeight()) {
+			if (ViewingImage->GetWidth() > GetWidth()) {
 				ViewingProject->LocalScalePercent = double(GetWidth()) / ViewingImage->GetWidth();
-			}
-			else
-			{
+			} else {
 				ViewingProject->LocalScalePercent = double(GetHeight()) / ViewingImage->GetHeight();
 			}
 
 			PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 			ViewingLabel->Resize(ViewingImage->GetWidth() * ViewingProject->LocalScalePercent,
 								 ViewingImage->GetHeight() * ViewingProject->LocalScalePercent);
-		}
-		else
-		{
+		} else {
 			PercentTagText->SetPlainText(GetPercentString(ViewingProject->LocalScalePercent));
 			ViewingLabel->Resize(ViewingImage->GetWidth(), ViewingImage->GetHeight());
 		}

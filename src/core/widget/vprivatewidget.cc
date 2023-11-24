@@ -11,15 +11,12 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 std::map<HWND, VWin32ThreadPipe *> _VMainConfigs;
 bool							   MainThreadEnd = false;
 
-LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lParameter)
-{
-	if (MainThreadEnd)
-	{
+LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lParameter) {
+	if (MainThreadEnd) {
 		return DefWindowProc(Handle, Message, wParameter, lParameter);
 	}
 
@@ -29,22 +26,18 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		  Message == WM_LBUTTONDOWN || Message == WM_LBUTTONUP || Message == WM_MBUTTONDOWN ||
 		  Message == WM_MBUTTONUP || Message == WM_RBUTTONUP || Message == WM_RBUTTONDOWN || Message == WM_MOUSEMOVE ||
 		  Message == WM_IME_CHAR || Message == WM_KEYDOWN || Message == WM_KEYUP || Message == WM_MOUSEWHEEL ||
-		  Message == WM_CLOSE || Message == WM_NCCALCSIZE || Message == WM_DROPFILES))
-	{
+		  Message == WM_CLOSE || Message == WM_NCCALCSIZE || Message == WM_DROPFILES)) {
 		return DefWindowProc(Handle, Message, wParameter, lParameter);
 	}
 
-	if (_VMainConfigs.find(Handle) == _VMainConfigs.end() || _VMainConfigs[Handle] == nullptr)
-	{
+	if (_VMainConfigs.find(Handle) == _VMainConfigs.end() || _VMainConfigs[Handle] == nullptr) {
 		return DefWindowProc(Handle, Message, wParameter, lParameter);
 	}
 
 	WNDPROC _VExWindowProcess = _VMainConfigs[Handle]->OriginWindowProcess;
 
-	if (_VMainConfigs.find(Handle) != _VMainConfigs.end())
-	{
-		switch (Message)
-		{
+	if (_VMainConfigs.find(Handle) != _VMainConfigs.end()) {
+		switch (Message) {
 		case WM_DROPFILES: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
@@ -55,10 +48,8 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 
 			std::vector<VString> FileSets;
 
-			for (; FileCount > 0; --FileCount)
-			{
-				if (DragQueryFile(DropInstance, FileCount - 1, FileName, sizeof(FileName)))
-				{
+			for (; FileCount > 0; --FileCount) {
+				if (DragQueryFile(DropInstance, FileCount - 1, FileName, sizeof(FileName))) {
 					FileSets.push_back(FileName);
 				}
 			}
@@ -78,112 +69,70 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		case WM_NCHITTEST: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (WindowConfig->InFrameless)
-			{
+			if (WindowConfig->InFrameless) {
 				POINT MousePoint = {GET_X_LPARAM(lParameter), GET_Y_LPARAM(lParameter)};
 
 				RECT WindowRect;
 				GetWindowRect(Handle, &WindowRect);
 
-				if (MousePoint.x <= WindowRect.left + 10 && MousePoint.y <= WindowRect.top + 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				if (MousePoint.x <= WindowRect.left + 10 && MousePoint.y <= WindowRect.top + 10) {
+					if (WindowConfig->Sizable) {
 						return HTTOPLEFT;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.x >= WindowRect.right - 10 && MousePoint.y <= WindowRect.top + 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.x >= WindowRect.right - 10 && MousePoint.y <= WindowRect.top + 10) {
+					if (WindowConfig->Sizable) {
 						return HTTOPRIGHT;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.x <= WindowRect.left + 10 && MousePoint.y >= WindowRect.bottom - 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.x <= WindowRect.left + 10 && MousePoint.y >= WindowRect.bottom - 10) {
+					if (WindowConfig->Sizable) {
 						return HTBOTTOMLEFT;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.x >= WindowRect.right - 10 && MousePoint.y >= WindowRect.bottom - 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.x >= WindowRect.right - 10 && MousePoint.y >= WindowRect.bottom - 10) {
+					if (WindowConfig->Sizable) {
 						return HTBOTTOMRIGHT;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.x <= WindowRect.left + 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.x <= WindowRect.left + 10) {
+					if (WindowConfig->Sizable) {
 						return HTLEFT;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.x >= WindowRect.right - 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.x >= WindowRect.right - 10) {
+					if (WindowConfig->Sizable) {
 						return HTRIGHT;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.y <= WindowRect.top + 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.y <= WindowRect.top + 10) {
+					if (WindowConfig->Sizable) {
 						return HTTOP;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
-				}
-				else if (MousePoint.y >= WindowRect.bottom - 10)
-				{
-					if (WindowConfig->Sizable)
-					{
+				} else if (MousePoint.y >= WindowRect.bottom - 10) {
+					if (WindowConfig->Sizable) {
 						return HTBOTTOM;
-					}
-					else
-					{
+					} else {
 						return HTCLIENT;
 					}
 				}
 			}
 
-			if (WindowConfig->BorderLess && WindowConfig->Sizable)
-			{
+			if (WindowConfig->BorderLess && WindowConfig->Sizable) {
 				POINT MousePoint = {GET_X_LPARAM(lParameter), GET_Y_LPARAM(lParameter)};
 				RECT  WindowRect;
 				ScreenToClient(Handle, &MousePoint);
 				GetClientRect(Handle, &WindowRect);
 
-				if (MousePoint.y > 0 && MousePoint.y < 5)
-				{
+				if (MousePoint.y > 0 && MousePoint.y < 5) {
 					return HTTOP;
 				}
 
@@ -191,8 +140,7 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 				WindowRect.bottom -= GetSystemMetrics(SM_CYCAPTION);
 				WindowRect.bottom += 5;
 
-				if (MousePoint.y <= WindowRect.bottom && MousePoint.y >= WindowRect.bottom - 5)
-				{
+				if (MousePoint.y <= WindowRect.bottom && MousePoint.y >= WindowRect.bottom - 5) {
 					return HTBOTTOM;
 				}
 			}
@@ -202,10 +150,8 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		case WM_SETCURSOR: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (WindowConfig->InFrameless && WindowConfig->Sizable)
-			{
-				switch (LOWORD(lParameter))
-				{
+			if (WindowConfig->InFrameless && WindowConfig->Sizable) {
+				switch (LOWORD(lParameter)) {
 				case HTTOP:
 				case HTBOTTOM: {
 					SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZENS)));
@@ -231,10 +177,8 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 				}
 				}
 			}
-			if (WindowConfig->BorderLess)
-			{
-				switch (LOWORD(lParameter))
-				{
+			if (WindowConfig->BorderLess) {
+				switch (LOWORD(lParameter)) {
 				case HTTOP:
 				case HTBOTTOM: {
 					SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZENS)));
@@ -248,11 +192,9 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		case WM_NCLBUTTONDOWN: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (WindowConfig->InFrameless && WindowConfig->Sizable)
-			{
+			if (WindowConfig->InFrameless && WindowConfig->Sizable) {
 				POINT MousePoint = {GET_X_LPARAM(lParameter), GET_Y_LPARAM(lParameter)};
-				switch (wParameter)
-				{
+				switch (wParameter) {
 				case HTTOP:
 					SendMessage(Handle, WM_SYSCOMMAND, SC_SIZE | WMSZ_TOP, MAKELPARAM(MousePoint.x, MousePoint.y));
 
@@ -302,14 +244,12 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 			break;
 		}
 		case WM_NCCALCSIZE: {
-			if (!wParameter)
-			{
+			if (!wParameter) {
 				break;
 			}
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (WindowConfig->BorderLess)
-			{
+			if (WindowConfig->BorderLess) {
 				int OffsetX = GetSystemMetrics(SM_CXFRAME);
 				int OffsetY = GetSystemMetrics(SM_CYFRAME);
 				int Margin	= GetSystemMetrics(SM_CXPADDEDBORDER);
@@ -322,19 +262,15 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 				ClientRect->bottom -= OffsetY + Margin - GetSystemMetrics(SM_CYCAPTION);
 
 				return 0;
-			}
-			else
-			{
+			} else {
 				break;
 			}
 		}
 		case WM_SIZE: {
-			if (wParameter != SIZE_MINIMIZED)
-			{
+			if (wParameter != SIZE_MINIMIZED) {
 				VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-				if (wParameter != SIZE_RESTORED)
-				{
+				if (wParameter != SIZE_RESTORED) {
 					RECT WindowRect;
 					RECT ClientRect;
 
@@ -344,9 +280,7 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 					int TitleBarHeight = WindowRect.bottom - WindowRect.top - ClientRect.bottom;
 
 					WindowConfig->WindowOnSize(LOWORD(lParameter), HIWORD(lParameter) + TitleBarHeight);
-				}
-				else
-				{
+				} else {
 					RECT Rect;
 					GetWindowRect(Handle, &Rect);
 
@@ -359,15 +293,13 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		case WM_GETMINMAXINFO: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (WindowConfig->InFrameless)
-			{
+			if (WindowConfig->InFrameless) {
 				PMINMAXINFO MinMaxInfo = (PMINMAXINFO)lParameter;
 
 				MinMaxInfo->ptMaxSize.y = GetSystemMetrics(SM_CYFULLSCREEN) + GetSystemMetrics(SM_CYCAPTION) +
 										  GetSystemMetrics(SM_CYDLGFRAME);
 			}
-			if (WindowConfig->UseMaxMinSize)
-			{
+			if (WindowConfig->UseMaxMinSize) {
 				PMINMAXINFO MinMaxInfo = (PMINMAXINFO)lParameter;
 
 				MinMaxInfo->ptMinTrackSize.x = WindowConfig->WindowMiniSize.Width;
@@ -383,12 +315,10 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
 			HIMC IMCHandle = ImmGetContext(Handle);
-			if (IMCHandle)
-			{
+			if (IMCHandle) {
 				WindowConfig->IMEInput = true;
 
-				if (WindowConfig->StartIMEInput != nullptr)
-				{
+				if (WindowConfig->StartIMEInput != nullptr) {
 					WindowConfig->StartIMEInput();
 				}
 
@@ -408,8 +338,7 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
 			WindowConfig->IMEInput = false;
-			if (WindowConfig->EndIMEInput != nullptr)
-			{
+			if (WindowConfig->EndIMEInput != nullptr) {
 				WindowConfig->EndIMEInput();
 			}
 
@@ -419,8 +348,7 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		case WM_NCMOUSELEAVE: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (!WindowConfig->IMEInput)
-			{
+			if (!WindowConfig->IMEInput) {
 				WindowConfig->LosedUserFocus();
 			}
 
@@ -429,8 +357,7 @@ LRESULT _VWidgetWNDPROC(HWND Handle, UINT Message, WPARAM wParameter, LPARAM lPa
 		case WM_CLOSE: {
 			VWin32ThreadPipe *WindowConfig = _VMainConfigs.find(Handle)->second;
 
-			if (WindowConfig->WindowQuitOnClicked())
-			{
+			if (WindowConfig->WindowQuitOnClicked()) {
 				return 0;
 			}
 

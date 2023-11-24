@@ -22,25 +22,19 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VFMTDevice::VFMTDevice()
-{
+namespace Core {
+VFMTDevice::VFMTDevice() {
 }
-VFileStream::VFileStream(const VString &Path)
-{
+VFileStream::VFileStream(const VString &Path) {
 	Stream.open(Path);
 }
-void VFileStream::Open(const VString &Path)
-{
+void VFileStream::Open(const VString &Path) {
 	Stream.open(Path);
 }
-void VFileStream::Close()
-{
+void VFileStream::Close() {
 	Stream.close();
 }
-void VFileStream::Output(const VString &String)
-{
+void VFileStream::Output(const VString &String) {
 	Stream << VProxyString(String.CStyleString());
 }
 } // namespace Core

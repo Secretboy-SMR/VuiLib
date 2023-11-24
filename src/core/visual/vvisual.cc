@@ -2,28 +2,22 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VCircleView::VCircleView(Core::VUIObject *Parent) : VUIObject(Parent)
-{
+VCircleView::VCircleView(Core::VUIObject *Parent) : VUIObject(Parent) {
 }
-bool VCircleView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
-{
+bool VCircleView::OnMessageTrigger(VRepaintMessage *RepaintMessage) {
 	if (RepaintMessage->DirtyRectangle.Overlap(GetRegion()) &&
-		(GetParent()->IsApplication() || GetParent()->GetChildrenVisualRegion().Overlap(GetRegion())))
-	{
+		(GetParent()->IsApplication() || GetParent()->GetChildrenVisualRegion().Overlap(GetRegion()))) {
 		VRepaintMessage *ChildRepaintMessage = RepaintMessage;
 
-		if (Canvas != nullptr)
-		{
+		if (Canvas != nullptr) {
 			delete Canvas;
 
 			Canvas = nullptr;
 		}
 
-		if (ObjectVisual.Transparency != 0)
-		{
+		if (ObjectVisual.Transparency != 0) {
 			Canvas = new VCanvasPainter(GetRegion().GetWidth(), GetRegion().GetHeight(), CallWidgetGetRenderHandle());
 			Canvas->BeginDraw();
 			Canvas->Clear(VColor(0.f, 0.f, 0.f, 0.f));
@@ -31,8 +25,7 @@ bool VCircleView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 
 			OnPaint(Canvas);
 
-			if (!IsWidget() && !IsApplication())
-			{
+			if (!IsWidget() && !IsApplication()) {
 				ChildRepaintMessage = new VRepaintMessage(*RepaintMessage);
 
 				ChildRepaintMessage->DirtyRectangle = *(GetRegion().Clone().MoveRV(0, 0));
@@ -42,8 +35,7 @@ bool VCircleView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 			SendMessageToChild(ChildRepaintMessage, false);
 			Canvas->EndDraw();
 
-			if (ObjectVisual.Shadow.EnableStatus)
-			{
+			if (ObjectVisual.Shadow.EnableStatus) {
 				ID2D1Bitmap *CanvasSurface;
 
 				Canvas->GetDXObject()->GetBitmap(&CanvasSurface);
@@ -60,8 +52,7 @@ bool VCircleView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 					&ShadowImage, {0, 0, ShadowImage.GetWidth(), ShadowImage.GetHeight()}, ObjectVisual.Transparency);
 			}
 
-			if (ChildRepaintMessage != RepaintMessage)
-			{
+			if (ChildRepaintMessage != RepaintMessage) {
 				delete ChildRepaintMessage;
 			}
 
@@ -86,29 +77,23 @@ bool VCircleView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 	return false;
 }
 
-VPolygonView::VPolygonView(VUIObject *Parent) : VUIObject(Parent)
-{
+VPolygonView::VPolygonView(VUIObject *Parent) : VUIObject(Parent) {
 }
-void VPolygonView::AddPoint(const VPointF &Point)
-{
+void VPolygonView::AddPoint(const VPointF &Point) {
 	PolygonPoint.push_back(Point);
 }
-bool VPolygonView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
-{
+bool VPolygonView::OnMessageTrigger(VRepaintMessage *RepaintMessage) {
 	if (PolygonPoint.size() >= 3 && RepaintMessage->DirtyRectangle.Overlap(GetRegion()) &&
-		(GetParent()->IsApplication() || GetParent()->GetChildrenVisualRegion().Overlap(GetRegion())))
-	{
+		(GetParent()->IsApplication() || GetParent()->GetChildrenVisualRegion().Overlap(GetRegion()))) {
 		VRepaintMessage *ChildRepaintMessage = RepaintMessage;
 
-		if (Canvas != nullptr)
-		{
+		if (Canvas != nullptr) {
 			delete Canvas;
 
 			Canvas = nullptr;
 		}
 
-		if (ObjectVisual.Transparency != 0)
-		{
+		if (ObjectVisual.Transparency != 0) {
 			Canvas = new VCanvasPainter(GetRegion().GetWidth(), GetRegion().GetHeight(), CallWidgetGetRenderHandle());
 			Canvas->BeginDraw();
 			Canvas->Clear(VColor(0.f, 0.f, 0.f, 0.f));
@@ -116,8 +101,7 @@ bool VPolygonView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 
 			OnPaint(Canvas);
 
-			if (!IsWidget() && !IsApplication())
-			{
+			if (!IsWidget() && !IsApplication()) {
 				ChildRepaintMessage = new VRepaintMessage(*RepaintMessage);
 
 				ChildRepaintMessage->DirtyRectangle = *(GetRegion().Clone().MoveRV(0, 0));
@@ -143,8 +127,7 @@ bool VPolygonView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 
 			D2D_POINT_2F *PointArray = new D2D_POINT_2F[PolygonPoint.size()];
 
-			for (auto Count = 0; Count < PolygonPoint.size(); ++Count)
-			{
+			for (auto Count = 0; Count < PolygonPoint.size(); ++Count) {
 				PointArray[Count] =
 					D2D1::Point2F(GetWidth() * PolygonPoint[Count].X, GetHeight() * PolygonPoint[Count].Y);
 			}
@@ -162,13 +145,11 @@ bool VPolygonView::OnMessageTrigger(VRepaintMessage *RepaintMessage)
 
 			ViewCanvas.EndDraw();
 
-			if (ChildRepaintMessage != RepaintMessage)
-			{
+			if (ChildRepaintMessage != RepaintMessage) {
 				delete ChildRepaintMessage;
 			}
 
-			if (ObjectVisual.Shadow.EnableStatus)
-			{
+			if (ObjectVisual.Shadow.EnableStatus) {
 				D2D1_POINT_2U OriginPoint = {0, 0};
 				D2D1_RECT_U CopyRect = {static_cast<unsigned int>(GetWidth()), static_cast<unsigned int>(GetHeight())};
 

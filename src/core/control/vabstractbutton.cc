@@ -2,12 +2,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-void VAbstractButton::MouseLeftClicked(const VMouseClickedFlag &ClickedFlag)
-{
-	switch (ClickedFlag)
-	{
+namespace Core {
+void VAbstractButton::MouseLeftClicked(const VMouseClickedFlag &ClickedFlag) {
+	switch (ClickedFlag) {
 	case VMouseClickedFlag::Down: {
 		LeftClickedDown();
 		ButtonOnActive.Emit();

@@ -5,11 +5,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VSwitchGroup : public VUIObject
-{
+class VSwitchGroup : public VUIObject {
 private:
 	std::vector<VRadioButton *> RadioSet;
 

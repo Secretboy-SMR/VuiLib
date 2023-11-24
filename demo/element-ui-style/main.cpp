@@ -3,8 +3,7 @@
 
 #pragma comment(lib, "vuilib.lib")
 
-int main()
-{
+int main() {
 	Core::VElementUITheme ElementStyle;
 
 	auto Application = Core::VApplication();

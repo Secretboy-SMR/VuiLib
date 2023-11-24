@@ -10,8 +10,7 @@ constexpr int OriginY	 = 480 / 2 - 100 / 2;
 int			  ShakeDealy = 400;
 int			  ShakeRange = 0;
 
-double Random(double Start, double End)
-{
+double Random(double Start, double End) {
 	static std::random_device RandomDevice;
 	static std::mt19937		  Genor(RandomDevice());
 
@@ -20,8 +19,7 @@ double Random(double Start, double End)
 	return Distribution(Genor);
 }
 
-void ResetAnimation()
-{
+void ResetAnimation() {
 	int OperationToken1 = (rand() % 2) ? 1 : -1;
 	int OperationToken2 = (rand() % 2) ? 1 : -1;
 
@@ -32,20 +30,16 @@ void ResetAnimation()
 	PositionAnimation->Start();
 }
 
-struct PerlinCurve : public Core::VAnimationCurve
-{
-	PerlinCurve()
-	{
+struct PerlinCurve : public Core::VAnimationCurve {
+	PerlinCurve() {
 	}
 
-	double CurveFunction(const double &X) override
-	{
+	double CurveFunction(const double &X) override {
 		return 6 * pow(X, 5) - 15 * pow(X, 4) + 10 * pow(X, 3);
 	}
 };
 
-int main()
-{
+int main() {
 	Core::VApplication		App;
 	Core::VMainWindow		Window(640, 480, &App);
 	Core::VSliderHorizontal ShakeDealySlider(200, &Window);

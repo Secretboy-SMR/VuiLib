@@ -2,10 +2,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-const D2D1_ALPHA_MODE VSurfaceAlphaMode2DXMode(const VSurfaceAlphaMode &AlphaMode) VRENDER_HELPER
-{
+namespace Core {
+const D2D1_ALPHA_MODE VSurfaceAlphaMode2DXMode(const VSurfaceAlphaMode &AlphaMode) VRENDER_HELPER {
 	/*
 	 * Check the value of AlphaMode
 	 */

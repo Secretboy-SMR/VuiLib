@@ -4,65 +4,49 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-double VAnimationCurve::CurveFunction(const double &X)
-{
+namespace Core {
+double VAnimationCurve::CurveFunction(const double &X) {
 	return X;
 }
-double VEaseInSineCurve::CurveFunction(const double &X)
-{
+double VEaseInSineCurve::CurveFunction(const double &X) {
 	return 1 - cos((X * 3.14) / 2);
 }
-double VEaseOutSineCurve::CurveFunction(const double &X)
-{
+double VEaseOutSineCurve::CurveFunction(const double &X) {
 	return sin((X * 3.14) / 2);
 }
-double VEaseInOutSineCurve::CurveFunction(const double &X)
-{
+double VEaseInOutSineCurve::CurveFunction(const double &X) {
 	return -(cos(3.14 * X) - 1) / 2;
 }
-double VEaseInQuadCurve::CurveFunction(const double &X)
-{
+double VEaseInQuadCurve::CurveFunction(const double &X) {
 	return X * X;
 }
-double VEaseOutQuadCurve::CurveFunction(const double &X)
-{
+double VEaseOutQuadCurve::CurveFunction(const double &X) {
 	return 1 - (1 - X) * (1 - X);
 }
-double VEaseInOutQuadCurve::CurveFunction(const double &X)
-{
+double VEaseInOutQuadCurve::CurveFunction(const double &X) {
 	return X < 0.5 ? 2 * X * X : 1 - pow(-2 * X + 2, 2) / 2;
 }
-double VEaseInCubicCurve::CurveFunction(const double &X)
-{
+double VEaseInCubicCurve::CurveFunction(const double &X) {
 	return X * X * X;
 }
-double VEaseOutCubicCurve::CurveFunction(const double &X)
-{
+double VEaseOutCubicCurve::CurveFunction(const double &X) {
 	return 1 - pow(1 - X, 3);
 }
-double VEaseInOutCubicCurve::CurveFunction(const double &X)
-{
+double VEaseInOutCubicCurve::CurveFunction(const double &X) {
 	return X < 0.5 ? 4 * X * X * X : 1 - pow(-2 * X + 2, 3) / 2;
 }
-double VEaseInQuartCurve::CurveFunction(const double &X)
-{
+double VEaseInQuartCurve::CurveFunction(const double &X) {
 	return X * X * X * X;
 }
-double VEaseOutQuartCurve::CurveFunction(const double &X)
-{
+double VEaseOutQuartCurve::CurveFunction(const double &X) {
 	return 1 - pow(1 - X, 4);
 }
-double VEaseInOutQuartCurve::CurveFunction(const double &X)
-{
+double VEaseInOutQuartCurve::CurveFunction(const double &X) {
 	return X < 0.5 ? 8 * X * X * X * X : 1 - pow(-2 * X + 2, 4) / 2;
 }
 
-VAnimationCurve *VAnimationCurveFactory::GetCurve(const VAnimationCurveFlag &Flag)
-{
-	switch (Flag)
-	{
+VAnimationCurve *VAnimationCurveFactory::GetCurve(const VAnimationCurveFlag &Flag) {
+	switch (Flag) {
 	case VAnimationCurveFlag::EaseLinerCurve: {
 		return new VLinerCurve;
 	}

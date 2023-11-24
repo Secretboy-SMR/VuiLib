@@ -4,11 +4,9 @@
 #include "../../../include/core/widget/vwidget.h"
 #include <shobjidl.h>
 
-class SimpleDemo : public Core::VMainWindow
-{
+class SimpleDemo : public Core::VMainWindow {
 public:
-	SimpleDemo(Core::VApplication *AppParent) : VMainWindow(640, 480, AppParent, false)
-	{
+	SimpleDemo(Core::VApplication *AppParent) : VMainWindow(640, 480, AppParent, false) {
 		ViewImage	   = nullptr;
 		FileName	   = new Core::VTextLabel(640, 20, this);
 		ImageLabel	   = new Core::VImageLabel(640 * 0.7, 480 * 0.6, ViewImage, this);
@@ -28,8 +26,7 @@ public:
 	}
 
 public:
-	void OpenFile()
-	{
+	void OpenFile() {
 		LPWSTR FilePath = new WCHAR[MAX_PATH];
 		;
 		HRESULT OperationResult;
@@ -56,8 +53,7 @@ public:
 				FileDialog->ClearClientData();
 				FileDialog->Close(*OperationResult);
 
-				if (SUCCEEDED((*OperationResult)))
-				{
+				if (SUCCEEDED((*OperationResult))) {
 					IShellItem *SellItem;
 					FileDialog->GetResult(&SellItem);
 					LPWSTR OpenPath;
@@ -80,8 +76,7 @@ public:
 
 		FileDialogThread.join();
 
-		if (SUCCEEDED(OperationResult) && Core::VImage::IsValidBitmapFile(FilePath))
-		{
+		if (SUCCEEDED(OperationResult) && Core::VImage::IsValidBitmapFile(FilePath)) {
 			ViewImage = new Core::VImage(FilePath, CallWidgetGetDCRenderTarget());
 
 			FileOpenButton->Hide();
@@ -98,8 +93,7 @@ private:
 	Core::VPushButton *FileOpenButton;
 };
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	SimpleDemo		   MainWindow(&App);
 

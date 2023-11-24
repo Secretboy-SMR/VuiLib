@@ -2,28 +2,20 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VKits
-{
-VAllocator::VAllocator(VAllocator *Parent) : ParentAllocator(Parent)
-{
-	if (Parent)
-	{
+namespace VKits {
+VAllocator::VAllocator(VAllocator *Parent) : ParentAllocator(Parent) {
+	if (Parent) {
 		Parent->OnDelete.Connect(this, &VAllocator::FreeAllocator);
 	}
 }
-VAllocator::~VAllocator()
-{
-	if (!ParentAllocator)
-	{
+VAllocator::~VAllocator() {
+	if (!ParentAllocator) {
 		FreeAllocator();
 	}
 }
-void VAllocator::FreeAllocator()
-{
-	for (auto Object = AllocatorMemory.begin(); Object != AllocatorMemory.end(); ++Object)
-	{
-		if (Object->Deleter->DeleterType() == VMEM_DEFAULT_DELETER)
-		{
+void VAllocator::FreeAllocator() {
+	for (auto Object = AllocatorMemory.begin(); Object != AllocatorMemory.end(); ++Object) {
+		if (Object->Deleter->DeleterType() == VMEM_DEFAULT_DELETER) {
 			VDefaultDeleter *Deleter = static_cast<VDefaultDeleter *>(Object->Deleter);
 			Deleter->Free(Object->Pointer);
 
@@ -31,8 +23,7 @@ void VAllocator::FreeAllocator()
 
 			continue;
 		}
-		if (Object->Deleter->DeleterType() == VMEM_COM_DELETER)
-		{
+		if (Object->Deleter->DeleterType() == VMEM_COM_DELETER) {
 			VCOMDeleter *Deleter = static_cast<VCOMDeleter *>(Object->Deleter);
 
 			Deleter->Free((IUnknown **)(&(((VCOMPointer<IUnknown> *)Object->Pointer)->Object)));
@@ -51,12 +42,10 @@ void VAllocator::FreeAllocator()
 	OnDelete.Emit();
 }
 
-unsigned int VDefaultDeleter::DeleterType()
-{
+unsigned int VDefaultDeleter::DeleterType() {
 	return VMEM_DEFAULT_DELETER;
 }
-unsigned int VCOMDeleter::DeleterType()
-{
+unsigned int VCOMDeleter::DeleterType() {
 	return VMEM_COM_DELETER;
 }
 } // namespace VKits

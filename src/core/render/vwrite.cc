@@ -4,10 +4,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VFont::VFont(const VFont &FontObject)
-{
+namespace Core {
+VFont::VFont(const VFont &FontObject) {
 	auto Widget		   = FontObject.GetTextWeightStyle();
 	auto Family		   = FontObject.GetFamilyName();
 	auto Style		   = FontObject.GetTextFontStyle();
@@ -26,28 +24,23 @@ VFont::VFont(const VFont &FontObject)
 	TextFormat->SetParagraphAlignment(LineAlignment);
 }
 VFont::VFont(const VString &FamilyName, const FontWeight &TextWidget, const FontStyle &TextStyle,
-			 const FontStretch &TextStretch, const float &TextSize, const VString &Local)
-{
+			 const FontStretch &TextStretch, const float &TextSize, const VString &Local) {
 	VLIB_REPORT_IF_FAILED_INFO(VDirectXWriteFactory.GetInstance()->CreateTextFormat(
 								   FamilyName.CStyleString(), nullptr, (DWRITE_FONT_WEIGHT)TextWidget,
 								   (DWRITE_FONT_STYLE)TextStyle, (DWRITE_FONT_STRETCH)TextStretch, TextSize,
 								   Local.CStyleString(), &TextFormat),
 							   L"Failed to create IDWriteTextFormat object");
 }
-VFont::~VFont()
-{
+VFont::~VFont() {
 	TextFormat.ReleaseAndGetAddressOf();
 }
-void VFont::SetLineAlignment(const VFontAlignment &Alignment)
-{
+void VFont::SetLineAlignment(const VFontAlignment &Alignment) {
 	TextFormat->SetTextAlignment(Alignment);
 }
-void VFont::SetParagraphAlignment(const VFontParagraphAlignment &Alignment)
-{
+void VFont::SetParagraphAlignment(const VFontParagraphAlignment &Alignment) {
 	TextFormat->SetParagraphAlignment(Alignment);
 }
-void VFont::SetFamilyName(const VString &FontFamilyName)
-{
+void VFont::SetFamilyName(const VString &FontFamilyName) {
 	auto Widget		   = GetTextWeightStyle();
 	auto Style		   = GetTextFontStyle();
 	auto Stretch	   = GetFontStretchStyle();
@@ -67,15 +60,13 @@ void VFont::SetFamilyName(const VString &FontFamilyName)
 	TextFormat->SetTextAlignment(TextAlignment);
 	TextFormat->SetParagraphAlignment(LineAlignment);
 }
-VString VFont::GetFamilyName() const
-{
+VString VFont::GetFamilyName() const {
 	WCHAR FamilyName[LF_FACESIZE];
 	TextFormat->GetFontFamilyName(FamilyName, LF_FACESIZE);
 
 	return FamilyName;
 }
-VString VFont::GetLocaleName() const
-{
+VString VFont::GetLocaleName() const {
 	wchar_t *LocaleCache = new wchar_t[TextFormat->GetLocaleNameLength() + 1];
 	TextFormat->GetLocaleName(LocaleCache, TextFormat->GetLocaleNameLength() + 1);
 
@@ -88,20 +79,16 @@ VString VFont::GetLocaleName() const
 	return Locale;
 }
 
-VFont::FontWeight VFont::GetTextWeightStyle() const
-{
+VFont::FontWeight VFont::GetTextWeightStyle() const {
 	return (FontWeight)TextFormat->GetFontWeight();
 }
-VFont::FontStyle VFont::GetTextFontStyle() const
-{
+VFont::FontStyle VFont::GetTextFontStyle() const {
 	return (FontStyle)TextFormat->GetFontStyle();
 }
-VFont::FontStretch VFont::GetFontStretchStyle() const
-{
+VFont::FontStretch VFont::GetFontStretchStyle() const {
 	return (FontStretch)TextFormat->GetFontStretch();
 }
-void VFont::SetTextSize(const int &Size)
-{
+void VFont::SetTextSize(const int &Size) {
 	auto Widget		   = GetTextWeightStyle();
 	auto Family		   = GetFamilyName();
 	auto Style		   = GetTextFontStyle();
@@ -120,8 +107,7 @@ void VFont::SetTextSize(const int &Size)
 	TextFormat->SetTextAlignment(TextAlignment);
 	TextFormat->SetParagraphAlignment(LineAlignment);
 }
-void VFont::SetTextWidget(const int &Widget)
-{
+void VFont::SetTextWidget(const int &Widget) {
 	auto Family		   = GetFamilyName();
 	auto Style		   = GetTextFontStyle();
 	auto Stretch	   = GetFontStretchStyle();
@@ -140,8 +126,7 @@ void VFont::SetTextWidget(const int &Widget)
 	TextFormat->SetTextAlignment(TextAlignment);
 	TextFormat->SetParagraphAlignment(LineAlignment);
 }
-int VFont::GetTextSize() const
-{
+int VFont::GetTextSize() const {
 	return TextFormat->GetFontSize();
 }
 } // namespace Core

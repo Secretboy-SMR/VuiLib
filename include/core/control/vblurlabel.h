@@ -4,11 +4,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VBlurLabel : public VUIObject
-{
+class VBlurLabel : public VUIObject {
 private:
 	VBlurLabelTheme *Theme;
 

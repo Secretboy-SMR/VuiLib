@@ -9,15 +9,13 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VWin32ThreadPipe structure:
  *  Description : This structure is like a pipe between win32 thread and widget
 
  */
-struct VWin32ThreadPipe
-{
+struct VWin32ThreadPipe {
 	int IMEX = -1;
 	int IMEY = -2;
 

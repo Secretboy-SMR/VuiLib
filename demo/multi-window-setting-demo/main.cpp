@@ -2,13 +2,11 @@
 
 Core::VWidget *SettingWidget;
 
-void SettingBtnOnClick()
-{
+void SettingBtnOnClick() {
 	SettingWidget->Show();
 }
 
-int main()
-{
+int main() {
 	Core::VApplication Applicaiton;
 	VML::VMLMainWindow VMLMainWindow(0, 0, &Applicaiton);
 

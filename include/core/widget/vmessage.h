@@ -7,11 +7,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum VMessageType
-{
+enum VMessageType {
 	UnknowMessage,
 	MouseMoveMessage,
 	MouseClickedMessage,
@@ -27,8 +25,7 @@ enum VMessageType
 	BlurCombinationOnRend
 };
 
-typedef class VMessage
-{
+typedef class VMessage {
 private:
 	VMessageType MessageType;
 
@@ -41,14 +38,12 @@ public:
 public:
 	explicit VMessage(VMessageType Type = UnknowMessage);
 
-	VMessageType GetType()
-	{
+	VMessageType GetType() {
 		return MessageType;
 	}
 } VBasicMessage;
 
-class VBlurCombinationOnRend : public VMessage
-{
+class VBlurCombinationOnRend : public VMessage {
 public:
 	VRect DirtyRectangle;
 
@@ -56,14 +51,12 @@ public:
 	explicit VBlurCombinationOnRend(HWND TriggerWidget, const VRect &RepaintRegion);
 };
 
-class VFreeSourceMessage : public VMessage
-{
+class VFreeSourceMessage : public VMessage {
 public:
 	VFreeSourceMessage(HWND TriggerWidget);
 };
 
-class VMouseMoveMessage : public VMessage
-{
+class VMouseMoveMessage : public VMessage {
 public:
 	VPoint MousePosition;
 
@@ -71,8 +64,7 @@ public:
 	VMouseMoveMessage(HWND TriggerWidget, int X, int Y);
 };
 
-class VMouseWheelMessage : public VMessage
-{
+class VMouseWheelMessage : public VMessage {
 public:
 	VPoint MousePosition;
 
@@ -82,20 +74,17 @@ public:
 	VMouseWheelMessage(HWND TriggerWidget, int X, int Y, short WheelParameter);
 };
 
-typedef enum VMouseClickedFlag
-{
+typedef enum VMouseClickedFlag {
 	Down,
 	Up
 } VkeyClickedFlag;
-enum VMouseKeyFlag
-{
+enum VMouseKeyFlag {
 	Middle,
 	Left,
 	Right
 };
 
-class VMouseClickedMessage : public VMessage
-{
+class VMouseClickedMessage : public VMessage {
 public:
 	VPoint MousePosition;
 
@@ -106,8 +95,7 @@ public:
 	VMouseClickedMessage(HWND TriggerWidget, int X, int Y, VMouseClickedFlag ClickedFlag, VMouseKeyFlag Key);
 };
 
-class VKeyClickedMessage : public VMessage
-{
+class VKeyClickedMessage : public VMessage {
 public:
 	byte			KeyVKCode;
 	bool			KeyPrevDown;
@@ -118,8 +106,7 @@ public:
 	VKeyClickedMessage(HWND TriggerWidget, byte VKCode, bool PrevDown, bool Extened, VkeyClickedFlag Stats);
 };
 
-class VRepaintMessage : public VMessage
-{
+class VRepaintMessage : public VMessage {
 public:
 	VRect DirtyRectangle;
 
@@ -127,8 +114,7 @@ public:
 	explicit VRepaintMessage(HWND TriggerWidget, const VRect &RepaintRegion);
 };
 
-class VGetRepaintAeraMessage : public VMessage
-{
+class VGetRepaintAeraMessage : public VMessage {
 public:
 	VRect *RepaintAera;
 
@@ -137,8 +123,7 @@ public:
 	~VGetRepaintAeraMessage();
 };
 
-class VIMECharMessage : public VMessage
-{
+class VIMECharMessage : public VMessage {
 public:
 	wchar_t IMEChar;
 
@@ -146,8 +131,7 @@ public:
 	explicit VIMECharMessage(HWND TriggerWidget, wchar_t CharInputed);
 };
 
-class VCheckFocusMessage : public VMessage
-{
+class VCheckFocusMessage : public VMessage {
 public:
 	VPoint FocusPoint;
 	void  *Object;
@@ -158,14 +142,12 @@ public:
 								const bool &MouseClick = false);
 };
 
-class VKillFocusMessage : public VMessage
-{
+class VKillFocusMessage : public VMessage {
 public:
 	VKillFocusMessage(HWND TriggerWidget);
 };
 
-class VQuitWindowMessage : public VMessage
-{
+class VQuitWindowMessage : public VMessage {
 public:
 	VQuitWindowMessage(HWND TriggerWidget);
 };

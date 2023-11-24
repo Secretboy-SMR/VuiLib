@@ -15,10 +15,8 @@
 #define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 #define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-namespace Win32Core
-{
-struct VWin32Msg
-{
+namespace Win32Core {
+struct VWin32Msg {
 	USHORT message;
 
 	bool  ctrl	  : 1;

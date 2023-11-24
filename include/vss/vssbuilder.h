@@ -19,17 +19,14 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VSS
-{
-class VSSParserHelper
-{
+namespace VSS {
+class VSSParserHelper {
 public:
 	static Core::VFontAlignment			 StringToAlignment(const VString &String);
 	static Core::VFontParagraphAlignment StringToParagraphAlignment(const VString &String);
 };
 
-class VSSVPushButtonBuilder
-{
+class VSSVPushButtonBuilder {
 private:
 	void BuildVSSObject(Core::VPushButton *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VPushButtonTheme *PushButtonTheme);
@@ -39,8 +36,7 @@ public:
 						  Core::VPushButtonTheme *PushButtonTheme);
 };
 
-class VSSVRadioButtonBuilder
-{
+class VSSVRadioButtonBuilder {
 private:
 	void BuildVSSObject(Core::VRadioButton *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VRadioButtonTheme *RadioButtonTheme);
@@ -50,8 +46,7 @@ public:
 						   Core::VRadioButtonTheme *RadioButtonTheme);
 };
 
-class VSSVIconButtonBuilder
-{
+class VSSVIconButtonBuilder {
 private:
 	void BuildVSSObject(Core::VIconButton *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VIconButtonTheme *IconButtonTheme);
@@ -61,8 +56,7 @@ public:
 						  Core::VIconButtonTheme *IconButtonTheme);
 };
 
-class VSSVTextLabelBuilder
-{
+class VSSVTextLabelBuilder {
 private:
 	void BuildVSSObject(Core::VTextLabel *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VTextLabelTheme *TextLabelTheme);
@@ -72,8 +66,7 @@ public:
 						 Core::VTextLabelTheme *Theme);
 };
 
-class VSSVImageLabelBuilder
-{
+class VSSVImageLabelBuilder {
 private:
 	void BuildVSSObject(Core::VImageLabel *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VImageLabelTheme *ImageLabelTheme);
@@ -83,8 +76,7 @@ public:
 						  Core::VImageLabelTheme *ImageLabelTheme);
 };
 
-class VSSVMainWindowBuilder
-{
+class VSSVMainWindowBuilder {
 private:
 	void BuildVSSObject(Core::VMainWindow *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 
@@ -92,8 +84,7 @@ public:
 	VSSVMainWindowBuilder(Core::VMainWindow *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 };
 
-class VSSVCircleButtonBuilder
-{
+class VSSVCircleButtonBuilder {
 private:
 	void BuildVSSObject(Core::VCircleScrollBarButton *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VCircleScrollBarTheme *CircleButtonTheme);
@@ -103,8 +94,7 @@ public:
 							Core::VCircleScrollBarTheme *CircleButtonTheme);
 };
 
-class VSSVSliderHorizontalBuilder
-{
+class VSSVSliderHorizontalBuilder {
 private:
 	void BuildVSSObject(Core::VSliderHorizontal *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VSliderTheme *Theme);
@@ -114,8 +104,7 @@ public:
 								Core::VSliderTheme *Theme);
 };
 
-class VSSVSliderVerticalBuilder
-{
+class VSSVSliderVerticalBuilder {
 private:
 	void BuildVSSObject(Core::VSliderVertical *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VSliderTheme *Theme);
@@ -125,8 +114,7 @@ public:
 							  Core::VSliderTheme *Theme);
 };
 
-class VSSVBlurLabelBuilder
-{
+class VSSVBlurLabelBuilder {
 private:
 	void BuildVSSObject(Core::VBlurLabel *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VBlurLabelTheme *Theme);
@@ -136,8 +124,7 @@ public:
 						 Core::VBlurLabelTheme *Theme);
 };
 
-class VSSVLineEditorBuilder
-{
+class VSSVLineEditorBuilder {
 private:
 	void BuildVSSObject(Core::VLineEditor *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VTextEditorTheme *TextEditorTheme);
@@ -147,8 +134,7 @@ public:
 						  Core::VTextEditorTheme *TextEditorTheme);
 };
 
-class VSSVEditorBuilder
-{
+class VSSVEditorBuilder {
 private:
 	void BuildVSSObject(Core::VEditor *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VTextEditorTheme *TextEditorTheme);
@@ -158,8 +144,7 @@ public:
 					  Core::VTextEditorTheme *TextEditorTheme);
 };
 
-class VSSScrollerButtonBuilder
-{
+class VSSScrollerButtonBuilder {
 private:
 	void BuildVSSObject(Core::VScrollerPushButton *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VViewScrollerButtonTheme *ScrollerTheme);
@@ -169,8 +154,7 @@ public:
 							 Core::VViewScrollerButtonTheme *ScrollerTheme);
 };
 
-class VSSVerticalScrollerBuilder
-{
+class VSSVerticalScrollerBuilder {
 private:
 	void BuildVSSObject(Core::VScrollerVertical *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VViewScrollerTheme *ScrollerTheme);
@@ -179,8 +163,7 @@ public:
 	VSSVerticalScrollerBuilder(Core::VScrollerVertical *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 							   Core::VViewScrollerTheme *ScrollerTheme);
 };
-class VSSHorizontalScrollerBuilder
-{
+class VSSHorizontalScrollerBuilder {
 private:
 	void BuildVSSObject(Core::VScrollerHorizontal *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VViewScrollerTheme *ScrollerTheme);
@@ -190,8 +173,7 @@ public:
 								 Core::VViewScrollerTheme *ScrollerTheme);
 };
 
-class VSSViewLabelBuilder
-{
+class VSSViewLabelBuilder {
 private:
 	void BuildVSSObject(Core::VViewLabel *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VViewLabelTheme *ViewLabelTheme);
@@ -201,8 +183,7 @@ public:
 						Core::VViewLabelTheme *ViewLabelTheme);
 };
 
-class VSSCircleViewBuilder
-{
+class VSSCircleViewBuilder {
 private:
 	void BuildVSSObject(Core::VCircleView *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 
@@ -210,8 +191,7 @@ public:
 	VSSCircleViewBuilder(Core::VCircleView *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 };
 
-class VSSPolygonViewBuilder
-{
+class VSSPolygonViewBuilder {
 private:
 	void BuildVSSObject(Core::VPolygonView *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 
@@ -219,8 +199,7 @@ public:
 	VSSPolygonViewBuilder(Core::VPolygonView *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 };
 
-class VSSDropDownViewBuilder
-{
+class VSSDropDownViewBuilder {
 private:
 	void BuildVSSObject(Core::VDropDown *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VDropDownTheme *PushButtonTheme);
@@ -230,8 +209,7 @@ public:
 						   Core::VDropDownTheme *PushButtonTheme);
 };
 
-class VSSDropDownContextBuilder
-{
+class VSSDropDownContextBuilder {
 private:
 	void BuildVSSObject(Core::VDropDownContenxt *TargetControl, std::vector<VSSBasicSelector *> SelectorSet,
 						Core::VDropDownContextTheme *PushButtonTheme);
@@ -241,8 +219,7 @@ public:
 							  Core::VDropDownContextTheme *PushButtonTheme);
 };
 
-class VSSVWidgetBuilder
-{
+class VSSVWidgetBuilder {
 private:
 	void BuildVSSObject(Core::VWidget *TargetControl, std::vector<VSSBasicSelector *> SelectorSet);
 

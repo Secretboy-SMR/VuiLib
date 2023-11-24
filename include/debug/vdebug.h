@@ -2,8 +2,7 @@
 
 #include <windows.h>
 
-namespace vdbg
-{
+namespace vdbg {
 #ifndef _v_debug_string_length
 #define _v_debug_string_length 1024
 #endif

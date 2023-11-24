@@ -6,10 +6,8 @@ Core::VTextLabel *Page1Label;
 Core::VTextLabel *Page2Label;
 Core::VTextLabel *Page3Label;
 
-void SwitchToPage1()
-{
-	if (CurrentLabel != Page1Label)
-	{
+void SwitchToPage1() {
+	if (CurrentLabel != Page1Label) {
 		Page1Label->Move(0, 40);
 
 		auto FadeOutOpacityInAnimation =
@@ -28,10 +26,8 @@ void SwitchToPage1()
 		CurrentLabel = Page1Label;
 	}
 }
-void SwitchToPage2()
-{
-	if (CurrentLabel != Page2Label)
-	{
+void SwitchToPage2() {
+	if (CurrentLabel != Page2Label) {
 		Page2Label->Move(0, 40);
 
 		auto FadeOutOpacityInAnimation =
@@ -50,10 +46,8 @@ void SwitchToPage2()
 		CurrentLabel = Page2Label;
 	}
 }
-void SwitchToPage3()
-{
-	if (CurrentLabel != Page3Label)
-	{
+void SwitchToPage3() {
+	if (CurrentLabel != Page3Label) {
 		Page3Label->Move(0, 40);
 
 		auto FadeOutOpacityInAnimation =
@@ -73,8 +67,7 @@ void SwitchToPage3()
 	}
 }
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	VML::VMLMainWindow VMLWindow(&App);
 

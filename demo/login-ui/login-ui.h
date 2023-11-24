@@ -3,8 +3,7 @@
 #include "../../include/vml/vmlwidget.h"
 #include "login-ui.h"
 
-class LoginUI : public VML::VMLMainWindow
-{
+class LoginUI : public VML::VMLMainWindow {
 public:
 	LoginUI(Core::VApplication *App);
 

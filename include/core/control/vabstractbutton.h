@@ -4,30 +4,25 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VAbstractButton : public VUIObject
-{
+class VAbstractButton : public VUIObject {
 public:
 	VSignal<>				   ButtonPushed;
 	VSignal<VAbstractButton *> _PtrButtonPushed;
 	VSignal<>				   ButtonOnActive;
 
 public:
-	virtual void LeftClickedUp()
-	{
+	virtual void LeftClickedUp() {
 	}
-	virtual void LeftClickedDown()
-	{
+	virtual void LeftClickedDown() {
 	}
 
 public:
 	void MouseLeftClicked(const VMouseClickedFlag &ClickedFlag) override;
 
 public:
-	VAbstractButton(VUIObject *Parent) : VUIObject(Parent)
-	{
+	VAbstractButton(VUIObject *Parent) : VUIObject(Parent) {
 	}
 };
 

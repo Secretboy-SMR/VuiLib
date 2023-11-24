@@ -5,10 +5,8 @@
 
 #pragma comment(lib, "comsuppw.lib")
 
-int main(int args, const char *argvs[])
-{
-	if (args >= 2)
-	{
+int main(int args, const char *argvs[]) {
+	if (args >= 2) {
 		Core::VApplication App;
 		VML::VMLMainWindow MainWindow(&App);
 
@@ -24,9 +22,7 @@ int main(int args, const char *argvs[])
 		auto Result = MainWindow.LoadVML((const wchar_t *)RawString, VML::VMLParserParseMode::FromFile);
 
 		return App.Exec();
-	}
-	else
-	{
+	} else {
 		return -1;
 	}
 }

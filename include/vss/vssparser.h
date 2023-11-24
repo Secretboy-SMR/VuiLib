@@ -10,21 +10,17 @@ VLIB_BEGIN_NAMESPACE
 #include <map>
 #include <vector>
 
-namespace VSS
-{
-enum class VVVSParserParseMode
-{
+namespace VSS {
+enum class VVVSParserParseMode {
 	FromFile,
 	FromString
 };
-enum class VVVSParserStatus
-{
+enum class VVVSParserStatus {
 	Error,
 	Ok
 };
 
-enum class VSSPropertyType
-{
+enum class VSSPropertyType {
 	IntValue,
 	StringValue,
 	BooleanValue,
@@ -32,8 +28,7 @@ enum class VSSPropertyType
 	ColorValue
 };
 
-struct VSSPropertyValue
-{
+struct VSSPropertyValue {
 	VSSPropertyType Type = VSSPropertyType::IntValue;
 
 	Core::VColor PropertyAsColorValue;
@@ -43,14 +38,12 @@ struct VSSPropertyValue
 	bool		 PropertyAsBool	  = false;
 };
 
-struct VSSSelectorProperty
-{
+struct VSSSelectorProperty {
 	VString						  PropertyTag;
 	std::vector<VSSPropertyValue> ValueList;
 };
 
-enum class VSSSelectorType
-{
+enum class VSSSelectorType {
 	UnkownSelector,
 	ElementSelector,
 	IDSelector,
@@ -64,147 +57,121 @@ enum class VSSSelectorType
 	ClassWithFakeClassAndFakeElementSelector
 };
 
-class VSSBasicSelector
-{
+class VSSBasicSelector {
 public:
 	std::map<VString, VSSSelectorProperty> SelectorProperty;
 
-	virtual VSSSelectorType GetType()
-	{
+	virtual VSSSelectorType GetType() {
 		return VSSSelectorType::UnkownSelector;
 	}
 
-	VSSBasicSelector()
-	{
+	VSSBasicSelector() {
 	}
 };
-class VSSElementSelector : public VSSBasicSelector
-{
+class VSSElementSelector : public VSSBasicSelector {
 public:
 	VString ElementTag;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::ElementSelector;
 	}
 };
-class VSSIDSelector : public VSSBasicSelector
-{
+class VSSIDSelector : public VSSBasicSelector {
 public:
 	VString IDTag;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::IDSelector;
 	}
 };
-class VSSClassSelector : public VSSBasicSelector
-{
+class VSSClassSelector : public VSSBasicSelector {
 public:
 	VString ClassTag;
 	VString TargetElement;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::ClassSelector;
 	}
 };
-class VSSFakeClassSelector : public VSSBasicSelector
-{
+class VSSFakeClassSelector : public VSSBasicSelector {
 public:
 	VString ElementTag;
 	VString ClassTag;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::FakeClassSelector;
 	}
 };
-class VSSClassWithFakeClassSelector : public VSSBasicSelector
-{
+class VSSClassWithFakeClassSelector : public VSSBasicSelector {
 public:
 	VString ClassTag;
 	VString ElementTag;
 	VString FakeClassTag;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::ClassWithFakeClassSelector;
 	}
 };
-class VSSClassWithFakeElementSelector : public VSSBasicSelector
-{
+class VSSClassWithFakeElementSelector : public VSSBasicSelector {
 public:
 	VString ElementTag;
 	VString ClassTag;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::ClassWithFakeElementSelector;
 	}
 };
-class VSSClassWithFakeClassAndFakeElementSelector : public VSSBasicSelector
-{
+class VSSClassWithFakeClassAndFakeElementSelector : public VSSBasicSelector {
 public:
 	VString FakeElementTag;
 	VString FakeClassTag;
 	VString ClassTag;
 
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::ClassWithFakeClassAndFakeElementSelector;
 	}
 };
-class VSSGenericSelector : public VSSBasicSelector
-{
+class VSSGenericSelector : public VSSBasicSelector {
 public:
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::GenericSelector;
 	}
 };
-class VSSFakeElementSelector : public VSSBasicSelector
-{
+class VSSFakeElementSelector : public VSSBasicSelector {
 public:
 	VString ElementTag;
 	VString FakeElementTag;
 
 public:
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::FakeElementSelector;
 	}
 };
-class VSSFakeElementWithClassSelector : public VSSBasicSelector
-{
+class VSSFakeElementWithClassSelector : public VSSBasicSelector {
 public:
 	VString ElementTag;
 	VString ClassTag;
 	VString FakeElementTag;
 
 public:
-	VSSSelectorType GetType() override
-	{
+	VSSSelectorType GetType() override {
 		return VSSSelectorType::FakeElementWithClassSelector;
 	}
 };
 
-struct VSSParserError
-{
+struct VSSParserError {
 	VString		 ErrorInformation;
 	unsigned int ErrorLine = 0;
 };
 
-struct VSSParserResult
-{
+struct VSSParserResult {
 	std::vector<VSSBasicSelector *> SelectorSet;
 
 	VSSParserError	 ErrorInfo;
 	VVVSParserStatus ParserStatus = VVVSParserStatus::Ok;
 };
 
-class VSSParser
-{
+class VSSParser {
 private:
 	VKits::seal_lexical *ParserLexical;
 
@@ -214,25 +181,21 @@ private:
 	std::map<VString, VSSSelectorProperty> ParserProperty(const VString &PropertyString, VSSParserResult *Result);
 
 private:
-	void ThrowError(VSSParserResult *Result, const VString &ErrorString)
-	{
+	void ThrowError(VSSParserResult *Result, const VString &ErrorString) {
 		(*Result).ParserStatus = VVVSParserStatus::Error;
 		(*Result).ErrorInfo	   = {ErrorString, BaseLine + ParserLexical->get_line() + 1};
 	}
 
 private:
-	VString GetPropertyString(VSSParserResult *Result)
-	{
+	VString GetPropertyString(VSSParserResult *Result) {
 		VString											  PropertyString;
 		bool											  EndFlag = false;
 		VKits::seal_lexical_type_info::seal_lexical_token Token;
 
-		while (!ParserLexical->is_eof())
-		{
+		while (!ParserLexical->is_eof()) {
 			Token = ParserLexical->get_token();
 
-			if (Token.token_string == L"}")
-			{
+			if (Token.token_string == L"}") {
 				EndFlag = true;
 
 				break;
@@ -241,8 +204,7 @@ private:
 			PropertyString.append(Token.token_string + L" ");
 		}
 
-		if (EndFlag == false)
-		{
+		if (EndFlag == false) {
 			ThrowError(Result, L"Couldn't Found the Match Symbol Of \"{\"");
 
 			return PropertyString;

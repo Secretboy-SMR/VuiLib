@@ -27,13 +27,11 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /**
  * @brief : The FMT output device base class
  */
-class VFMTDevice
-{
+class VFMTDevice {
 public:
 	VFMTDevice();
 
@@ -48,8 +46,7 @@ public:
 /**
  * @brief : The file output stream
  */
-class VFileStream : public VFMTDevice
-{
+class VFileStream : public VFMTDevice {
 public:
 	VFileStream(const VString &Path);
 
@@ -72,15 +69,13 @@ private:
 
 using VFMTStream = VFMTDevice;
 
-class VFmt
-{
+class VFmt {
 public:
-	static void Print(const VString &String)
-	{
+	static void Print(const VString &String) {
 		_tprintf(VStr("%s"), String.CStyleString());
 	}
-	template <class Input, class... Types> static void Print(const VString &String, Input _Input, Types... Args)
-	{
+	template <class Input, class... Types>
+	static void Print(const VString &String, Input _Input, Types... Args) {
 		Print(String.Args(_Input), Args...);
 	}
 	/**
@@ -89,18 +84,16 @@ public:
 	 * @param String	: The string
 	 * @param ...Args	: The agrument
 	 */
-	template <class... Types> static void Print(const VString &String, Types... Args)
-	{
+	template <class... Types>
+	static void Print(const VString &String, Types... Args) {
 		Print(String, Args...);
 	}
 
-	static void PrintDevice(VFMTStream *Stream, const VString &String)
-	{
+	static void PrintDevice(VFMTStream *Stream, const VString &String) {
 		Stream->Output(String.CStyleString());
 	}
 	template <class Input, class... Types>
-	static void PrintDevice(VFMTStream *Stream, const VString &String, Input _Input, Types... Args)
-	{
+	static void PrintDevice(VFMTStream *Stream, const VString &String, Input _Input, Types... Args) {
 		PrintDevice(Stream, String.Args(_Input), Args...);
 	}
 	/**
@@ -109,17 +102,16 @@ public:
 	 * @param String	: The string
 	 * @param ...Args	: The agrument
 	 */
-	template <class... Types> static void PrintDevice(VFMTStream *Stream, const VString &String, Types... Args)
-	{
+	template <class... Types>
+	static void PrintDevice(VFMTStream *Stream, const VString &String, Types... Args) {
 		PrintDevice(Stream, String, Args...);
 	}
 
-	static VString Format(const VString &String)
-	{
+	static VString Format(const VString &String) {
 		return String;
 	}
-	template <class Input, class... Types> static VString Format(const VString &String, Input _Input, Types... Args)
-	{
+	template <class Input, class... Types>
+	static VString Format(const VString &String, Input _Input, Types... Args) {
 		return Format(String.Args(_Input), Args...);
 	}
 	/**
@@ -129,8 +121,8 @@ public:
 	 * @param ...Args	: The agrument
 	 * @return			: The formated string
 	 */
-	template <class... Types> static VString Format(const VString &String, Types... Args)
-	{
+	template <class... Types>
+	static VString Format(const VString &String, Types... Args) {
 		return Format(String, Args...);
 	}
 };

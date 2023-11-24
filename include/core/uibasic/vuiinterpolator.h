@@ -7,11 +7,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-namespace VInterpolatorFunctional
-{
+namespace VInterpolatorFunctional {
 double AnticipateInterpolator(double x);
 double AccelerateDecelerateInterpolator(double x);
 double AccelerateInterpolator(double x);
@@ -22,8 +20,7 @@ double OvershootInterpolator(double x);
 double CycleInterpolator(double x);
 } // namespace VInterpolatorFunctional
 
-enum class VInterpolatorType
-{
+enum class VInterpolatorType {
 	AnticipateInterpolator,			  // x * x* ((2 + 1)* x - 2)
 	AccelerateDecelerateInterpolator, // (cos((x+ 1) * 3.14) / 2.0) + 0.5
 	AccelerateInterpolator,			  // pow(x, 2)
@@ -37,8 +34,7 @@ enum class VInterpolatorType
 	CycleInterpolator		// sin(2 * 1 * Pai * x)
 };
 
-class VAnimationInterpolator
-{
+class VAnimationInterpolator {
 private:
 	double						  InterpolatorDuration;
 	std::function<double(double)> InterpolatorFunction;
@@ -65,8 +61,7 @@ public:
 	void SetDeltaX(const double &Dx);
 };
 
-class VColorInterpolator : public VAnimationInterpolator
-{
+class VColorInterpolator : public VAnimationInterpolator {
 private:
 	VColor TargetColor;
 	VColor SourceColor;
@@ -82,8 +77,7 @@ public:
 public:
 	static VColor GetTheColorByPercent(const VColor &OldColor, const VColor &NewColor, const double &Percent);
 };
-class VPositionInterpolator : public VAnimationInterpolator
-{
+class VPositionInterpolator : public VAnimationInterpolator {
 private:
 	VPoint TargetPosition;
 	VPoint SourcePosition;

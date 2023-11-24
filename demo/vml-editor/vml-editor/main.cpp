@@ -1,7 +1,6 @@
 #include "../../../include/vml/vmlwidget.h"
 
-class VMLEditor : public Core::VEditor
-{
+class VMLEditor : public Core::VEditor {
 public:
 	Core::VColor SymbolColor;
 	Core::VColor BackgroundColor;
@@ -39,8 +38,7 @@ public:
 		  MetaCallBrush(MetaCallColor, CallWidgetGetStaticRenderHandle()),
 		  LabelBrush(LabelColor, CallWidgetGetStaticRenderHandle()),
 		  TypeBrush(TypeColor, CallWidgetGetStaticRenderHandle()),
-		  CommentBrush(CommentColor, CallWidgetGetStaticRenderHandle())
-	{
+		  CommentBrush(CommentColor, CallWidgetGetStaticRenderHandle()) {
 		auto Theme = GetTheme();
 
 		SetAllowFontSizeDragStatus(true);
@@ -77,8 +75,7 @@ public:
 		  MetaCallBrush(MetaCallColor, CallWidgetGetStaticRenderHandle()),
 		  LabelBrush(LabelColor, CallWidgetGetStaticRenderHandle()),
 		  TypeBrush(TypeColor, CallWidgetGetStaticRenderHandle()),
-		  CommentBrush(CommentColor, CallWidgetGetStaticRenderHandle())
-	{
+		  CommentBrush(CommentColor, CallWidgetGetStaticRenderHandle()) {
 		auto Theme = GetTheme();
 
 		SetAllowFontSizeDragStatus(true);
@@ -102,44 +99,32 @@ public:
 		CheckInput.Connect(this, &VMLEditor::CheckInputChar);
 	}
 
-	void CheckInputChar(const wchar_t &NewChar, bool *Flag)
-	{
-		if (NewChar == L'\"')
-		{
+	void CheckInputChar(const wchar_t &NewChar, bool *Flag) {
+		if (NewChar == L'\"') {
 			auto Text = GetPlainText();
 
-			if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'\"')
-			{
+			if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'\"') {
 				*Flag = true;
-			}
-			else if (Text.size() > Caret.CaretStart - 1)
-			{
+			} else if (Text.size() > Caret.CaretStart - 1) {
 				*Flag = false;
 			}
 		}
-		if (NewChar == L'>')
-		{
+		if (NewChar == L'>') {
 			auto Text = GetPlainText();
 
-			if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'<')
-			{
+			if (Text.size() > Caret.CaretStart - 1 && Text[Caret.CaretStart - 1] != L'<') {
 				*Flag = true;
-			}
-			else if (Text.size() > Caret.CaretStart - 1)
-			{
+			} else if (Text.size() > Caret.CaretStart - 1) {
 				*Flag = false;
 			}
 		}
-		if (NewChar == L'\b' && GetPlainText().size() > Caret.CaretStart && Caret.CaretStart - 1 >= 0)
-		{
+		if (NewChar == L'\b' && GetPlainText().size() > Caret.CaretStart && Caret.CaretStart - 1 >= 0) {
 			auto Text = GetPlainText();
 
-			if (Text[Caret.CaretStart - 1] == L'\"' && Text[Caret.CaretStart] == L'\"')
-			{
+			if (Text[Caret.CaretStart - 1] == L'\"' && Text[Caret.CaretStart] == L'\"') {
 				Text.erase(Text.begin() + Caret.CaretStart);
 			}
-			if (Text[Caret.CaretStart - 1] == L'<' && Text[Caret.CaretStart] == L'>')
-			{
+			if (Text[Caret.CaretStart - 1] == L'<' && Text[Caret.CaretStart] == L'>') {
 				Text.erase(Text.begin() + Caret.CaretStart);
 			}
 
@@ -148,27 +133,21 @@ public:
 			Caret = OldCaret;
 		}
 	}
-	void NewCharacter(const wchar_t &NewChar)
-	{
-		if (NewChar == L'\"')
-		{
+	void NewCharacter(const wchar_t &NewChar) {
+		if (NewChar == L'\"') {
 			auto OldCaret = Caret;
 
 			auto Text = GetPlainText();
 
-			if (Text.size() > Caret.CaretStart)
-			{
-				if (Text[Caret.CaretStart] != L'\"')
-				{
+			if (Text.size() > Caret.CaretStart) {
+				if (Text[Caret.CaretStart] != L'\"') {
 					Text.insert(Text.begin() + Caret.CaretStart, L'\"');
 
 					SetPlainText(Text);
 
 					Caret = OldCaret;
 				}
-			}
-			else
-			{
+			} else {
 				Text.insert(Text.begin() + Caret.CaretStart, L'\"');
 
 				SetPlainText(Text);
@@ -176,8 +155,7 @@ public:
 				Caret = OldCaret;
 			}
 		}
-		if (NewChar == L'<')
-		{
+		if (NewChar == L'<') {
 			auto OldCaret = Caret;
 
 			auto Text = GetPlainText();
@@ -189,13 +167,11 @@ public:
 			Caret = OldCaret;
 		}
 	}
-	void BeforeChange(const std::wstring &PlainText)
-	{
+	void BeforeChange(const std::wstring &PlainText) {
 		LastString.push_back(PlainText);
 		LastCaret.push_back(Caret);
 	}
-	void ApplyColor(const std::wstring &PlainText)
-	{
+	void ApplyColor(const std::wstring &PlainText) {
 		VKits::seal_lexical Lexical(PlainText);
 		auto				Token	  = Lexical.get_token();
 		auto				LastToken = Token;
@@ -204,33 +180,26 @@ public:
 		TextEffect.clear();
 		TextStyle.clear();
 
-		while (!Lexical.is_eof())
-		{
+		while (!Lexical.is_eof()) {
 			DWRITE_TEXT_RANGE Range;
 			Range.startPosition = Lexical.get_index() - Token.token_string.size();
 			Range.length		= Token.token_string.size() == 1 ? 1 : Token.token_string.size() + 1;
 
 			if (Token.cache_token == LESS_THAN_TOKEN || Token.cache_token == MORE_THAN_TOKEN ||
-				Token.cache_token == EQUAL_SIGN_TOKEN || Token.cache_token == SLASH_TOKEN)
-			{
-				if (Token.cache_token == LESS_THAN_TOKEN)
-				{
+				Token.cache_token == EQUAL_SIGN_TOKEN || Token.cache_token == SLASH_TOKEN) {
+				if (Token.cache_token == LESS_THAN_TOKEN) {
 					LastToken = Token;
 					Token	  = Lexical.view_token();
 				}
 
-				if (Token.cache_token == EXCLAMATION_MARK && LastToken.cache_token == LESS_THAN_TOKEN)
-				{
-					while (!Lexical.is_eof())
-					{
+				if (Token.cache_token == EXCLAMATION_MARK && LastToken.cache_token == LESS_THAN_TOKEN) {
+					while (!Lexical.is_eof()) {
 						Token = Lexical.get_token();
 
-						if (Token.cache_token == DOUBLE_MINUS_TOKEN)
-						{
+						if (Token.cache_token == DOUBLE_MINUS_TOKEN) {
 							Token = Lexical.get_token();
 
-							if (Token.cache_token == MORE_THAN_TOKEN)
-							{
+							if (Token.cache_token == MORE_THAN_TOKEN) {
 								break;
 							}
 						}
@@ -242,9 +211,7 @@ public:
 						std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)CommentBrush.GetDxBrush(), Range));
 					TextStyle.push_back(std::pair<DWRITE_FONT_STYLE, DWRITE_TEXT_RANGE>(
 						DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC, Range));
-				}
-				else
-				{
+				} else {
 					TextEffect.push_back(
 						std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)SymbolBrush.GetDxBrush(), Range));
 				}
@@ -254,40 +221,31 @@ public:
 				continue;
 			}
 			if (Token.cache_token == UNKNOW_TOKEN &&
-				(LastToken.cache_token == LESS_THAN_TOKEN || LastToken.cache_token == SLASH_TOKEN))
-			{
+				(LastToken.cache_token == LESS_THAN_TOKEN || LastToken.cache_token == SLASH_TOKEN)) {
 				TextEffect.push_back(
 					std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)LabelBrush.GetDxBrush(), Range));
-			}
-			else if (Token.cache_token == UNKNOW_TOKEN)
-			{
+			} else if (Token.cache_token == UNKNOW_TOKEN) {
 				TextEffect.push_back(
 					std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)KeyWorldBrush.GetDxBrush(), Range));
 
-				if (Token.token_string == L"type")
-				{
+				if (Token.token_string == L"type") {
 					InType = true;
 				}
 			}
-			if (Token.cache_token == CONST_STRING)
-			{
+			if (Token.cache_token == CONST_STRING) {
 				Range.length += 1;
 
-				if (Token.token_string.find(L"@") == std::wstring::npos)
-				{
+				if (Token.token_string.find(L"@") == std::wstring::npos) {
 					TextEffect.push_back(
 						std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)StringBrush.GetDxBrush(), Range));
 
-					if (InType)
-					{
+					if (InType) {
 						InType = false;
 
 						TextEffect.push_back(
 							std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)TypeBrush.GetDxBrush(), Range));
 					}
-				}
-				else
-				{
+				} else {
 					TextEffect.push_back(
 						std::pair<ID2D1Effect *, DWRITE_TEXT_RANGE>((ID2D1Effect *)MetaCallBrush.GetDxBrush(), Range));
 				}
@@ -301,8 +259,7 @@ public:
 	}
 };
 
-int main()
-{
+int main() {
 	Core::VApplication App;
 	Core::VMainWindow  MainWindow(640, 480, &App);
 	VMLEditor		   Editor(640, 380, &MainWindow);

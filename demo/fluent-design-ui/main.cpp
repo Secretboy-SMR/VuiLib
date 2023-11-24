@@ -1,7 +1,6 @@
 #include "vml/vmlwidget.h"
 
-int main()
-{
+int main() {
 	Core::VApplication FluentDesignApp;
 	VML::VMLMainWindow MainWindow(&FluentDesignApp);
 

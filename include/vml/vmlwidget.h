@@ -11,10 +11,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VML
-{
-class VMLMainWindow : public Core::VMainWindow
-{
+namespace VML {
+class VMLMainWindow : public Core::VMainWindow {
 protected:
 	std::vector<VMLObject *>		ObjectList;
 	std::vector<VMLBasicVariable *> VariableList;
@@ -58,8 +56,7 @@ public:
 
 public:
 	template <class... Parameters>
-	inline void RegisterMetaFunction(const VString &FunctionName, void (*Functional)(Parameters...))
-	{
+	inline void RegisterMetaFunction(const VString &FunctionName, void (*Functional)(Parameters...)) {
 		Core::VSignal<Parameters...> *Signal = new Core::VSignal<Parameters...>;
 		Signal->Connect(Functional);
 
@@ -67,8 +64,7 @@ public:
 	}
 	template <class ObjectType, class... Parameters>
 	inline void RegisterMetaFunction(const VString &FunctionName, ObjectType *Object,
-									 void (ObjectType::*Functional)(Parameters...))
-	{
+									 void (ObjectType::*Functional)(Parameters...)) {
 		Core::VSignal<Parameters...> *Signal = new Core::VSignal<Parameters...>;
 		Signal->Connect(Object, Functional);
 

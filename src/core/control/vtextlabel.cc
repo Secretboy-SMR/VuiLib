@@ -2,26 +2,21 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-void VTextLabel::SetTheme(Core::VTextLabelTheme *NewTheme)
-{
+void VTextLabel::SetTheme(Core::VTextLabelTheme *NewTheme) {
 	Theme = NewTheme;
 }
-Core::VTextLabelTheme *VTextLabel::GetTheme()
-{
+Core::VTextLabelTheme *VTextLabel::GetTheme() {
 	return Theme;
 }
 
-VTextLabel::VTextLabel(Core::VUIObject *Parent) : VAbstractButton(Parent)
-{
+VTextLabel::VTextLabel(Core::VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VTextLabelTheme(*(static_cast<VTextLabelTheme *>(GetTargetTheme(VUIThemeType::VTextLabel))));
 
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 }
-VTextLabel::VTextLabel(int Width, int Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VTextLabel::VTextLabel(int Width, int Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VTextLabelTheme(*(static_cast<VTextLabelTheme *>(GetTargetTheme(VUIThemeType::VTextLabel))));
 
 	Resize(Width, Height);
@@ -29,8 +24,7 @@ VTextLabel::VTextLabel(int Width, int Height, VUIObject *Parent) : VAbstractButt
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 }
 VTextLabel::VTextLabel(int Width, int Height, const VString &PlainText, Core::VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VTextLabelTheme(*(static_cast<VTextLabelTheme *>(GetTargetTheme(VUIThemeType::VTextLabel))));
 
 	Resize(Width, Height);
@@ -39,14 +33,12 @@ VTextLabel::VTextLabel(int Width, int Height, const VString &PlainText, Core::VU
 
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 }
-VTextLabel::~VTextLabel()
-{
+VTextLabel::~VTextLabel() {
 	delete Theme;
 	delete Interpolator;
 }
 
-void VTextLabel::LeftClickedDown()
-{
+void VTextLabel::LeftClickedDown() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -57,8 +49,7 @@ void VTextLabel::LeftClickedDown()
 
 	Update();
 }
-void VTextLabel::LeftClickedUp()
-{
+void VTextLabel::LeftClickedUp() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -69,8 +60,7 @@ void VTextLabel::LeftClickedUp()
 
 	Update();
 }
-void VTextLabel::GotMouseFocus()
-{
+void VTextLabel::GotMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -81,8 +71,7 @@ void VTextLabel::GotMouseFocus()
 
 	Update();
 }
-void VTextLabel::LostMouseFocus()
-{
+void VTextLabel::LostMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -93,12 +82,9 @@ void VTextLabel::LostMouseFocus()
 
 	Update();
 }
-void VTextLabel::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VTextLabel::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -121,14 +107,11 @@ void VTextLabel::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
-void VTextLabel::OnPaint(VCanvasPainter *Painter)
-{
+void VTextLabel::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -152,19 +135,16 @@ void VTextLabel::OnPaint(VCanvasPainter *Painter)
 
 	Painter->EndDraw();
 }
-void VTextLabel::SetPlainText(const VString &PlainText)
-{
+void VTextLabel::SetPlainText(const VString &PlainText) {
 	Theme->PlainText = PlainText;
 
-	if (AutoSize)
-	{
+	if (AutoSize) {
 		ResizeByText();
 	}
 
 	Update();
 }
-void VTextLabel::SetTextColor(const VColor &TextColor)
-{
+void VTextLabel::SetTextColor(const VColor &TextColor) {
 	Theme->StaticTheme.TextColor  = TextColor;
 	Theme->OnHoverTheme.TextColor = TextColor;
 	Theme->ActiveTheme.TextColor  = TextColor;
@@ -172,8 +152,7 @@ void VTextLabel::SetTextColor(const VColor &TextColor)
 
 	Update();
 }
-void VTextLabel::SetBackgroundColor(const VColor &BackgroundColor)
-{
+void VTextLabel::SetBackgroundColor(const VColor &BackgroundColor) {
 	Theme->StaticTheme.BackgroundColor	= BackgroundColor;
 	Theme->OnHoverTheme.BackgroundColor = BackgroundColor;
 	Theme->ActiveTheme.BackgroundColor	= BackgroundColor;
@@ -181,8 +160,7 @@ void VTextLabel::SetBackgroundColor(const VColor &BackgroundColor)
 
 	Update();
 }
-void VTextLabel::SetRadius(const VPoint &Radius)
-{
+void VTextLabel::SetRadius(const VPoint &Radius) {
 	Theme->StaticTheme.Radius  = Radius;
 	Theme->OnHoverTheme.Radius = Radius;
 	Theme->ActiveTheme.Radius  = Radius;
@@ -190,8 +168,7 @@ void VTextLabel::SetRadius(const VPoint &Radius)
 
 	Update();
 }
-void VTextLabel::SetTextSize(const int &TextSize)
-{
+void VTextLabel::SetTextSize(const int &TextSize) {
 	auto FontStretch	 = Theme->LabelFont->GetFontStretchStyle();
 	auto FamilyName		 = Theme->LabelFont->GetFamilyName();
 	auto TextFontStyle	 = Theme->LabelFont->GetTextFontStyle();
@@ -201,8 +178,7 @@ void VTextLabel::SetTextSize(const int &TextSize)
 
 	LCID	LocaleID = GetThreadLocale();
 	wchar_t LocaleName[LOCALE_NAME_MAX_LENGTH];
-	if (!LCIDToLocaleName(LocaleID, LocaleName, LOCALE_NAME_MAX_LENGTH, 0))
-	{
+	if (!LCIDToLocaleName(LocaleID, LocaleName, LOCALE_NAME_MAX_LENGTH, 0)) {
 		VLIB_REPORT_ERROR(L"Failed to get the system locale");
 	}
 
@@ -211,8 +187,7 @@ void VTextLabel::SetTextSize(const int &TextSize)
 
 	Update();
 }
-VRect VTextLabel::GetRegion()
-{
+VRect VTextLabel::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -220,41 +195,34 @@ VRect VTextLabel::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VTextLabel::SetLineAlignment(const Core::VFontAlignment &Alignment)
-{
+void VTextLabel::SetLineAlignment(const Core::VFontAlignment &Alignment) {
 	Theme->LabelFont->SetLineAlignment(Alignment);
 
 	Update();
 }
-void VTextLabel::SetParagraphAlignment(const Core::VFontParagraphAlignment &Alignment)
-{
+void VTextLabel::SetParagraphAlignment(const Core::VFontParagraphAlignment &Alignment) {
 	Theme->LabelFont->SetParagraphAlignment(Alignment);
 
 	Update();
 }
 
-void VTextLabel::SetAutoSize(const bool &Status)
-{
+void VTextLabel::SetAutoSize(const bool &Status) {
 	AutoSize = Status;
-	if (Status)
-	{
+	if (Status) {
 		ResizeByText();
 	}
 
 	Update();
 }
 
-VString VTextLabel::GetPlainText() const
-{
+VString VTextLabel::GetPlainText() const {
 	return Theme->PlainText;
 }
-bool VTextLabel::GetAutoSizeStatus() const
-{
+bool VTextLabel::GetAutoSizeStatus() const {
 	return AutoSize;
 }
 
-void VTextLabel::ResizeByText(const VString &Text)
-{
+void VTextLabel::ResizeByText(const VString &Text) {
 	IDWriteTextLayout *TextLayout;
 
 	VLIB_CHECK_REPORT(VDirectXWriteFactory.GetInstance()->CreateTextLayout(Text.CStyleString(), Text.size(),
@@ -269,8 +237,7 @@ void VTextLabel::ResizeByText(const VString &Text)
 
 	VDXObjectSafeFree(&TextLayout);
 }
-void VTextLabel::ResizeByText()
-{
+void VTextLabel::ResizeByText() {
 	IDWriteTextLayout *TextLayout;
 
 	VLIB_CHECK_REPORT(VDirectXWriteFactory.GetInstance()->CreateTextLayout(
@@ -285,8 +252,7 @@ void VTextLabel::ResizeByText()
 
 	VDXObjectSafeFree(&TextLayout);
 }
-void VTextLabel::Output(const VString &String)
-{
+void VTextLabel::Output(const VString &String) {
 	SetPlainText(GetPlainText() + String);
 }
 } // namespace Core

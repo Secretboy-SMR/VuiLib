@@ -11,21 +11,18 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VColor class:
  *  Description : This class describe a color in renderer
  */
-class VColor
-{
+class VColor {
 public:
 	/*
 	 * ColorEnum enum:
 	 *     Description : This enum collection include some basic color as UINT
 	 */
-	enum ColorEnum
-	{
+	enum ColorEnum {
 		AliceBlue			 = 0xF0F8FF,
 		AntiqueWhite		 = 0xFAEBD7,
 		Aqua				 = 0x00FFFF,
@@ -287,8 +284,7 @@ public:
 	 *
 	 * parameter's legitimacy, you should make sure the value is valid
 	 */
-	static VColor FromBYTERGBA(BYTE R, BYTE G, BYTE B, BYTE A)
-	{
+	static VColor FromBYTERGBA(BYTE R, BYTE G, BYTE B, BYTE A) {
 		return VColor(R / 255.f, G / 255.f, B / 255.f, A / 255.f);
 	}
 	/*
@@ -304,8 +300,7 @@ public:
 	 * alpha value will be set as 255
 	 * (that is 1.f)
 	 */
-	static VColor FromBYTERGBA(BYTE R, BYTE G, BYTE B)
-	{
+	static VColor FromBYTERGBA(BYTE R, BYTE G, BYTE B) {
 		return VColor(R / 255.f, G / 255.f, B / 255.f, 1.f);
 	}
 

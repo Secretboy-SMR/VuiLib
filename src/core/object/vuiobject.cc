@@ -2,10 +2,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
-VUIObjectKernel::VUIObjectKernel()
-{
+namespace Core {
+VUIObjectKernel::VUIObjectKernel() {
 	Parent	 = nullptr;
 	ParentID = 0;
 	Effect	 = nullptr;
@@ -13,14 +11,12 @@ VUIObjectKernel::VUIObjectKernel()
 
 	GlobalID = L"[VObject]";
 }
-VUIObject::VUIObject(VUIObject *Parent)
-{
+VUIObject::VUIObject(VUIObject *Parent) {
 	Canvas = nullptr;
 
 	SetParent(Parent);
 }
-VUIObjectShadowProperty::VUIObjectShadowProperty()
-{
+VUIObjectShadowProperty::VUIObjectShadowProperty() {
 	Color  = VColor(0.f, 0.f, 0.f, 1.f);
 	Offset = {0, 0};
 
@@ -28,151 +24,115 @@ VUIObjectShadowProperty::VUIObjectShadowProperty()
 
 	EnableStatus = false;
 }
-VUIObjectSurface::VUIObjectSurface()
-{
+VUIObjectSurface::VUIObjectSurface() {
 	Stats		 = VUIObjectUIStats::Normal;
 	Transparency = 1.f;
 }
-VUIObject::~VUIObject()
-{
+VUIObject::~VUIObject() {
 	SetParent(nullptr);
 
-	for (auto &ChildObject : ObjectKernel.ChildObjectContainer)
-	{
+	for (auto &ChildObject : ObjectKernel.ChildObjectContainer) {
 		ChildObject->~VUIObject();
 	}
 
 	ObjectKernel.ChildObjectContainer.clear();
 }
-void VUIObject::SetViewOnly(const bool &ViewOnlySwitch)
-{
+void VUIObject::SetViewOnly(const bool &ViewOnlySwitch) {
 	ObjectKernel.ViewOnly = ViewOnlySwitch;
 }
-bool VUIObject::IsViewOnly() const
-{
+bool VUIObject::IsViewOnly() const {
 	return ObjectKernel.ViewOnly;
 }
-bool VUIObject::IsAnimation()
-{
+bool VUIObject::IsAnimation() {
 	return false;
 }
-bool VUIObject::IsApplication()
-{
+bool VUIObject::IsApplication() {
 	return false;
 }
-bool VUIObject::IsWidget() const
-{
+bool VUIObject::IsWidget() const {
 	return false;
 }
-VUIObject *VUIObject::GetChildObjectByPosition(const int &Position)
-{
+VUIObject *VUIObject::GetChildObjectByPosition(const int &Position) {
 	return ObjectKernel.ChildObjectContainer[Position];
 }
-std::vector<VBasicUITheme *> VUIObject::GetApplicationTheme()
-{
-	if (GetParent() != nullptr)
-	{
+std::vector<VBasicUITheme *> VUIObject::GetApplicationTheme() {
+	if (GetParent() != nullptr) {
 		return GetParent()->GetApplicationTheme();
-	}
-	else
-	{
+	} else {
 		VLIB_REPORT_ERROR(L"Get theme list from application failed!");
 
 		return {nullptr};
 	}
 }
-VBasicUITheme *VUIObject::GetTargetTheme(VUIThemeType ThemeType)
-{
+VBasicUITheme *VUIObject::GetTargetTheme(VUIThemeType ThemeType) {
 	auto ThemeList = GetApplicationTheme();
 
-	for (auto &Theme : ThemeList)
-	{
-		if (Theme->GetThemeType() == ThemeType)
-		{
+	for (auto &Theme : ThemeList) {
+		if (Theme->GetThemeType() == ThemeType) {
 			return Theme;
 		}
 	}
 
 	return nullptr;
 }
-HWND VUIObject::GetLocalWinId()
-{
-	if (GetParent() != nullptr)
-	{
+HWND VUIObject::GetLocalWinId() {
+	if (GetParent() != nullptr) {
 		return GetParent()->GetLocalWinId();
-	}
-	else
-	{
+	} else {
 		VLIB_REPORT_ERROR(L"Get local window's HWND from widget failed!");
 
 		return NULL;
 	}
 }
-VUIObject *VUIObject::GetParent() const
-{
+VUIObject *VUIObject::GetParent() const {
 	return ObjectKernel.Parent;
 }
 
-VRect VUIObject::GetRegion()
-{
+VRect VUIObject::GetRegion() {
 	return ObjectVisual.Rectangle;
 }
-VRect VUIObject::GetChildrenVisualRegion()
-{
+VRect VUIObject::GetChildrenVisualRegion() {
 	return {0, 0, GetWidth(), GetHeight()};
 }
-VCanvasPainter *VUIObject::GetParentCanvas()
-{
+VCanvasPainter *VUIObject::GetParentCanvas() {
 	return GetParent()->Canvas;
 }
-VKits::VAllocator *VUIObject::GetWidgetAllocator() const
-{
-	if (GetParent() != nullptr)
-	{
+VKits::VAllocator *VUIObject::GetWidgetAllocator() const {
+	if (GetParent() != nullptr) {
 		return GetParent()->GetWidgetAllocator();
 	}
 
 	return nullptr;
 }
-VCanvasPainter *VUIObject::GetWidgetCanvas()
-{
-	if (IsWidget() == false)
-	{
+VCanvasPainter *VUIObject::GetWidgetCanvas() {
+	if (IsWidget() == false) {
 		return GetParent()->GetWidgetCanvas();
 	}
 
 	return Canvas;
 }
-int VUIObject::GetOriginX(const int &X)
-{
-	if (IsWidget() == false)
-	{
+int VUIObject::GetOriginX(const int &X) {
+	if (IsWidget() == false) {
 		return GetParent()->GetOriginX(GetX() + X);
 	}
 
 	return X;
 }
-int VUIObject::GetOriginY(const int &Y)
-{
-	if (IsWidget() == false)
-	{
+int VUIObject::GetOriginY(const int &Y) {
+	if (IsWidget() == false) {
 		return GetParent()->GetOriginY(GetY() + Y);
 	}
 
 	return Y;
 }
-float VUIObject::GetTransparency() const
-{
+float VUIObject::GetTransparency() const {
 	return ObjectVisual.Transparency;
 }
-VRect VUIObject::HelperGetSourceRect()
-{
+VRect VUIObject::HelperGetSourceRect() {
 	return VRect{0, 0, ObjectVisual.Rectangle.GetWidth(), ObjectVisual.Rectangle.GetHeight()};
 }
-VString VUIObject::GeneratedGlobalID(VString TargetID)
-{
-	if (!GetParent()->IsApplication())
-	{
+VString VUIObject::GeneratedGlobalID(VString TargetID) {
+	if (!GetParent()->IsApplication()) {
 		TargetID += std::to_wstring(ObjectKernel.ParentID);
 
 		return GetParent()->GeneratedGlobalID(TargetID);
@@ -180,63 +140,47 @@ VString VUIObject::GeneratedGlobalID(VString TargetID)
 
 	return TargetID;
 }
-void VUIObject::CallWidgetSetIME(const int &X, const int &Y)
-{
-	if (GetParent() != nullptr)
-	{
+void VUIObject::CallWidgetSetIME(const int &X, const int &Y) {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetSetIME(X, Y);
 	}
 }
-void VUIObject::CallWidgetSetFocusID(const VString &ObjectID)
-{
-	if (GetParent() != nullptr)
-	{
+void VUIObject::CallWidgetSetFocusID(const VString &ObjectID) {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetSetFocusID(ObjectID);
 	}
 }
-void VUIObject::RestoreMousePosition(VPoint *MousePosition)
-{
+void VUIObject::RestoreMousePosition(VPoint *MousePosition) {
 	MousePosition->X += GetX();
 	MousePosition->Y += GetY();
 }
-VString VUIObject::CallWidgetGetFocusID() const
-{
-	if (GetParent() != nullptr)
-	{
+VString VUIObject::CallWidgetGetFocusID() const {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetGetFocusID();
 	}
 
 	return L"";
 }
-void VUIObject::CallWidgetLockFocusID()
-{
-	if (GetParent() != nullptr)
-	{
+void VUIObject::CallWidgetLockFocusID() {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetLockFocusID();
 	}
 }
-void VUIObject::CallWidgetUnlockFocusID()
-{
-	if (GetParent() != nullptr)
-	{
+void VUIObject::CallWidgetUnlockFocusID() {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetUnlockFocusID();
 	}
 }
-bool VUIObject::CallWidgetGetLockingStatus()
-{
-	if (GetParent() != nullptr)
-	{
+bool VUIObject::CallWidgetGetLockingStatus() {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetGetLockingStatus();
 	}
 
 	return false;
 }
-void VUIObject::CallWidgetSendMessage(VMessage *Message)
-{
-	if (GetParent() != nullptr)
-	{
-		switch (Message->GetType())
-		{
+void VUIObject::CallWidgetSendMessage(VMessage *Message) {
+	if (GetParent() != nullptr) {
+		switch (Message->GetType()) {
 		case VMessageType::CheckLocalFocusMessage: {
 			GetParent()->RestoreMousePosition(&static_cast<VCheckFocusMessage *>(Message)->FocusPoint);
 
@@ -260,45 +204,35 @@ void VUIObject::CallWidgetSendMessage(VMessage *Message)
 		return GetParent()->CallWidgetSendMessage(Message);
 	}
 }
-HWND VUIObject::CallWidgetGetHWND()
-{
-	if (GetParent() != nullptr)
-	{
+HWND VUIObject::CallWidgetGetHWND() {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetGetHWND();
 	}
 
 	return NULL;
 }
 
-void VUIObject::CallWidgetSetIMEFontStyle(const LOGFONT &LogfontStyle)
-{
-	if (GetParent() != nullptr)
-	{
+void VUIObject::CallWidgetSetIMEFontStyle(const LOGFONT &LogfontStyle) {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetSetIMEFontStyle(LogfontStyle);
 	}
 
 	return;
 }
-LOGFONT VUIObject::GetWidgetIMEFontStlye() const
-{
-	if (GetParent() != nullptr)
-	{
+LOGFONT VUIObject::GetWidgetIMEFontStlye() const {
+	if (GetParent() != nullptr) {
 		return GetParent()->GetWidgetIMEFontStlye();
 	}
 
 	return LOGFONT();
 }
 
-Core::VRenderHandle VUIObject::CallWidgetGetRenderHandle() const
-{
+Core::VRenderHandle VUIObject::CallWidgetGetRenderHandle() const {
 	VRenderHandle RenderHandle;
 
-	if (IsWidget() == true)
-	{
+	if (IsWidget() == true) {
 		RenderHandle._IRenderTarget = Canvas->GetDXObject();
-	}
-	else
-	{
+	} else {
 		RenderHandle._IRenderTarget = GetParent()->CallWidgetGetRenderHandle()._IRenderTarget;
 	}
 
@@ -308,8 +242,7 @@ Core::VRenderHandle VUIObject::CallWidgetGetRenderHandle() const
 
 	return RenderHandle;
 }
-Core::VRenderHandle VUIObject::CallWidgetGetStaticRenderHandle() const
-{
+Core::VRenderHandle VUIObject::CallWidgetGetStaticRenderHandle() const {
 	VRenderHandle RenderHandle;
 
 	RenderHandle._IRenderTarget = CallWidgetGetDCRenderTarget()._IRenderTarget;
@@ -320,28 +253,22 @@ Core::VRenderHandle VUIObject::CallWidgetGetStaticRenderHandle() const
 
 	return RenderHandle;
 }
-Core::VRenderHandle VUIObject::CallWidgetGetDCRenderTarget() const
-{
-	if (GetParent() != nullptr)
-	{
+Core::VRenderHandle VUIObject::CallWidgetGetDCRenderTarget() const {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetGetDCRenderTarget();
 	}
 
 	return NULL;
 }
-Core::VCanvasPainter *VUIObject::CallWidgetGetCanvas()
-{
-	if (GetParent() != nullptr)
-	{
+Core::VCanvasPainter *VUIObject::CallWidgetGetCanvas() {
+	if (GetParent() != nullptr) {
 		return GetParent()->CallWidgetGetCanvas();
 	}
 
 	return nullptr;
 }
-void VUIObject::Update(VRect UpdateRect)
-{
-	if (GetParent() != nullptr)
-	{
+void VUIObject::Update(VRect UpdateRect) {
+	if (GetParent() != nullptr) {
 		int Width  = UpdateRect.GetWidth();
 		int Height = UpdateRect.GetHeight();
 		UpdateRect.Left += GetParent()->GetX();
@@ -352,32 +279,24 @@ void VUIObject::Update(VRect UpdateRect)
 		return GetParent()->Update(UpdateRect);
 	}
 }
-void VUIObject::Update()
-{
+void VUIObject::Update() {
 	Update(GetRegion());
 }
-void VUIObject::CheckAllFrame(bool RecursionChildren)
-{
+void VUIObject::CheckAllFrame(bool RecursionChildren) {
 	CheckFrame();
 
-	if (!RecursionChildren)
-	{
-		for (auto &Object : ObjectKernel.ChildObjectContainer)
-		{
+	if (!RecursionChildren) {
+		for (auto &Object : ObjectKernel.ChildObjectContainer) {
 			Object->CheckFrame();
 		}
-	}
-	else
-	{
+	} else {
 		auto OriginSize = ObjectKernel.ChildObjectContainer.size();
 		auto Distance	= 0;
 		for (auto Object = ObjectKernel.ChildObjectContainer.begin(); Object != ObjectKernel.ChildObjectContainer.end();
-			 ++Object)
-		{
+			 ++Object) {
 			(*Object)->CheckAllFrame(RecursionChildren);
 
-			if (OriginSize != ObjectKernel.ChildObjectContainer.size())
-			{
+			if (OriginSize != ObjectKernel.ChildObjectContainer.size()) {
 				OriginSize = ObjectKernel.ChildObjectContainer.size();
 				Object	   = ObjectKernel.ChildObjectContainer.begin() + Distance;
 			}
@@ -386,24 +305,19 @@ void VUIObject::CheckAllFrame(bool RecursionChildren)
 		}
 	}
 }
-int VUIObject::GetX() const
-{
+int VUIObject::GetX() const {
 	return ObjectVisual.Rectangle.Left;
 }
-int VUIObject::GetY() const
-{
+int VUIObject::GetY() const {
 	return ObjectVisual.Rectangle.Top;
 }
-int VUIObject::GetWidth() const
-{
+int VUIObject::GetWidth() const {
 	return ObjectVisual.Rectangle.GetWidth();
 }
-int VUIObject::GetHeight() const
-{
+int VUIObject::GetHeight() const {
 	return ObjectVisual.Rectangle.GetHeight();
 }
-void VUIObject::Resize(const int &Width, const int &Height)
-{
+void VUIObject::Resize(const int &Width, const int &Height) {
 	auto OldRect = ObjectVisual.Rectangle.Clone();
 
 	ObjectVisual.Rectangle.Right  = ObjectVisual.Rectangle.Left + Width;
@@ -415,8 +329,7 @@ void VUIObject::Resize(const int &Width, const int &Height)
 
 	Resized.Emit(Width, Height);
 }
-void VUIObject::Move(const int &X, const int &Y)
-{
+void VUIObject::Move(const int &X, const int &Y) {
 	auto OldRect   = ObjectVisual.Rectangle.Clone();
 	auto FlushRect = GetRegion().Clone();
 
@@ -435,25 +348,19 @@ void VUIObject::Move(const int &X, const int &Y)
 
 	Moved.Emit(X, Y);
 }
-void VUIObject::Resize(const Core::VGeometry &Size)
-{
+void VUIObject::Resize(const Core::VGeometry &Size) {
 	Resize(Size.Width, Size.Height);
 }
-void VUIObject::Move(const VPoint &Point)
-{
+void VUIObject::Move(const VPoint &Point) {
 	Move(Point.X, Point.Y);
 }
-void VUIObject::SetParent(VUIObject *Parent)
-{
-	if (Parent == this)
-	{
+void VUIObject::SetParent(VUIObject *Parent) {
+	if (Parent == this) {
 		return;
 	}
-	if (ObjectKernel.Parent != nullptr)
-	{
+	if (ObjectKernel.Parent != nullptr) {
 		for (auto Object = GetParent()->ObjectKernel.ChildObjectContainer.begin() + (ObjectKernel.ParentID + 1);
-			 Object != GetParent()->ObjectKernel.ChildObjectContainer.end(); ++Object)
-		{
+			 Object != GetParent()->ObjectKernel.ChildObjectContainer.end(); ++Object) {
 			--(Object.operator*()->ObjectKernel.ParentID);
 		}
 
@@ -463,8 +370,7 @@ void VUIObject::SetParent(VUIObject *Parent)
 
 	ObjectKernel.Parent = Parent;
 
-	if (Parent != nullptr)
-	{
+	if (Parent != nullptr) {
 		GetParent()->ObjectKernel.ChildObjectContainer.push_back(this);
 
 		ObjectKernel.ParentID = GetParent()->ObjectKernel.ChildObjectContainer.size() - 1;
@@ -473,31 +379,24 @@ void VUIObject::SetParent(VUIObject *Parent)
 
 	Update();
 }
-void VUIObject::SetTransparency(const float &Transparency)
-{
+void VUIObject::SetTransparency(const float &Transparency) {
 	ObjectVisual.Transparency = Transparency;
 
 	Update();
 }
-bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *SourceMessage)
-{
-	if (ObjectVisual.Stats == Hidden)
-	{
+bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *SourceMessage) {
+	if (ObjectVisual.Stats == Hidden) {
 		return false;
 	}
 
 	if ((IsAnimation() || !GetWidth() || !GetHeight()) ||
-		(CallWidgetGetLockingStatus() && CallWidgetGetFocusID() != ObjectKernel.GlobalID))
-	{
+		(CallWidgetGetLockingStatus() && CallWidgetGetFocusID() != ObjectKernel.GlobalID)) {
 		return false;
 	}
 
-	if (MousePosition.InsideRectangle(GetRegion()) && CheckMousePosition(MousePosition))
-	{
-		if (SourceMessage->GetType() == VMessageType::CheckLocalFocusMessage)
-		{
-			if (CallWidgetGetFocusID() != ObjectKernel.GlobalID)
-			{
+	if (MousePosition.InsideRectangle(GetRegion()) && CheckMousePosition(MousePosition)) {
+		if (SourceMessage->GetType() == VMessageType::CheckLocalFocusMessage) {
+			if (CallWidgetGetFocusID() != ObjectKernel.GlobalID) {
 				ObjectVisual.Stats = VUIObjectUIStats::Normal;
 
 				Update();
@@ -510,12 +409,10 @@ bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *Source
 
 			return false;
 		}
-		if (SourceMessage->GetType() == VMessageType::MouseClickedMessage)
-		{
+		if (SourceMessage->GetType() == VMessageType::MouseClickedMessage) {
 			auto MouseClickedMessage = static_cast<VMouseClickedMessage *>(SourceMessage);
 
-			switch (MouseClickedMessage->ClickedKey)
-			{
+			switch (MouseClickedMessage->ClickedKey) {
 			case VMouseKeyFlag::Right: {
 				MouseRightClicked(MouseClickedMessage->ClickedMethod);
 
@@ -540,8 +437,7 @@ bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *Source
 			delete CheckFocus;
 		}
 
-		if (ObjectVisual.Stats != VUIObjectUIStats::OnFocus && ObjectVisual.Stats != Hidden)
-		{
+		if (ObjectVisual.Stats != VUIObjectUIStats::OnFocus && ObjectVisual.Stats != Hidden) {
 			ObjectVisual.Stats = VUIObjectUIStats::OnFocus;
 
 			Update();
@@ -559,9 +455,7 @@ bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *Source
 		}
 
 		return true;
-	}
-	else if (ObjectVisual.Stats == VUIObjectUIStats::OnFocus)
-	{
+	} else if (ObjectVisual.Stats == VUIObjectUIStats::OnFocus) {
 		ObjectVisual.Stats = VUIObjectUIStats::Normal;
 
 		Update();
@@ -576,44 +470,36 @@ bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *Source
 
 	return false;
 }
-void VUIObject::SetShadowStats(const bool &Stats)
-{
+void VUIObject::SetShadowStats(const bool &Stats) {
 	ObjectVisual.Shadow.EnableStatus = Stats;
 
 	Update();
 }
-void VUIObject::SetShadowColor(const VColor &Color)
-{
+void VUIObject::SetShadowColor(const VColor &Color) {
 	ObjectVisual.Shadow.Color = Color;
 
 	Update();
 }
-void VUIObject::SetShadowRadius(const float &Radius)
-{
+void VUIObject::SetShadowRadius(const float &Radius) {
 	ObjectVisual.Shadow.Radius = Radius;
 
 	Update();
 }
-void VUIObject::SetEffect(VBasicEffect *Effect)
-{
+void VUIObject::SetEffect(VBasicEffect *Effect) {
 	ObjectKernel.Effect = Effect;
 }
-bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage)
-{
+bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage) {
 	if (RepaintMessage->DirtyRectangle.Overlap(GetRegion()) &&
-		(GetParent()->IsApplication() || GetParent()->GetChildrenVisualRegion().Overlap(GetRegion())))
-	{
+		(GetParent()->IsApplication() || GetParent()->GetChildrenVisualRegion().Overlap(GetRegion()))) {
 		VRepaintMessage *ChildRepaintMessage = RepaintMessage;
 
-		if (Canvas != nullptr)
-		{
+		if (Canvas != nullptr) {
 			delete Canvas;
 
 			Canvas = nullptr;
 		}
 
-		if (ObjectVisual.Transparency != 0)
-		{
+		if (ObjectVisual.Transparency != 0) {
 			Canvas = new VCanvasPainter(GetRegion().GetWidth(), GetRegion().GetHeight(), CallWidgetGetRenderHandle());
 			Canvas->BeginDraw();
 			Canvas->Clear(VColor(0.f, 0.f, 0.f, 0.f));
@@ -621,8 +507,7 @@ bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage)
 
 			OnPaint(Canvas);
 
-			if (!IsWidget() && !IsApplication())
-			{
+			if (!IsWidget() && !IsApplication()) {
 				ChildRepaintMessage = new VRepaintMessage(*RepaintMessage);
 
 				ChildRepaintMessage->DirtyRectangle = *(GetRegion().Clone().MoveRV(0, 0));
@@ -632,8 +517,7 @@ bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage)
 			SendMessageToChild(ChildRepaintMessage, false);
 			Canvas->EndDraw();
 
-			if (ObjectVisual.Shadow.EnableStatus)
-			{
+			if (ObjectVisual.Shadow.EnableStatus) {
 				D2D1_POINT_2U OriginPoint = {0, 0};
 				D2D1_RECT_U CopyRect = {static_cast<unsigned int>(GetWidth()), static_cast<unsigned int>(GetHeight())};
 
@@ -655,15 +539,13 @@ bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage)
 				CanvasSurface.ReleaseAndGetAddressOf();
 			}
 
-			if (ChildRepaintMessage != RepaintMessage)
-			{
+			if (ChildRepaintMessage != RepaintMessage) {
 				delete ChildRepaintMessage;
 			}
 
 			EditCanvas(Canvas);
 
-			if (ObjectKernel.Effect != nullptr)
-			{
+			if (ObjectKernel.Effect != nullptr) {
 				ObjectKernel.Effect->ApplyEffect(CallWidgetGetRenderHandle(), Canvas);
 			}
 
@@ -672,9 +554,7 @@ bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage)
 
 			delete Canvas;
 			Canvas = nullptr;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 
@@ -683,69 +563,52 @@ bool VUIObject::OnMessageTrigger(Core::VRepaintMessage *RepaintMessage)
 
 	return false;
 }
-bool VUIObject::SysProcessMessage(Core::VMessage *Message)
-{
-	if (ObjectVisual.Stats == VUIObjectUIStats::Hidden || ObjectVisual.Transparency == 0)
-	{
+bool VUIObject::SysProcessMessage(Core::VMessage *Message) {
+	if (ObjectVisual.Stats == VUIObjectUIStats::Hidden || ObjectVisual.Transparency == 0) {
 		return false;
 	}
 
-	if (IsApplication())
-	{
-		if (Message->GetType() != VMessageType::QuitWindowMessage)
-		{
+	if (IsApplication()) {
+		if (Message->GetType() != VMessageType::QuitWindowMessage) {
 			return SendMessageToChild(Message, false);
-		}
-		else
-		{
+		} else {
 			return SendMessageToChild(Message, true);
 		}
 	}
 
-	if (Message->MessageTriggerWidget != CallWidgetGetHWND())
-	{
-		if (Message->GetType() != VMessageType::QuitWindowMessage)
-		{
+	if (Message->MessageTriggerWidget != CallWidgetGetHWND()) {
+		if (Message->GetType() != VMessageType::QuitWindowMessage) {
 			return SendMessageToChild(Message, false);
-		}
-		else
-		{
+		} else {
 			return SendMessageToChild(Message, true);
 		}
 	}
 
-	if (ObjectVisual.Stats == VUIObjectUIStats::Hidden)
-	{
+	if (ObjectVisual.Stats == VUIObjectUIStats::Hidden) {
 		return false;
 	}
 
 	OnMessage(Message);
 
-	if (CatchMessage(Message))
-	{
+	if (CatchMessage(Message)) {
 		return true;
 	}
 
-	switch (Message->GetType())
-	{
+	switch (Message->GetType()) {
 	case VMessageType::QuitWindowMessage: {
 		return CheckQuitWindowMessage(Message);
 	}
 	case VMessageType::GetRepaintAeraMessage: {
 		VGetRepaintAeraMessage *RepaintMessage = static_cast<VGetRepaintAeraMessage *>(Message);
-		if (*(RepaintMessage->RepaintAera) == GetRegion())
-		{
-			if (ObjectVisual.Shadow.EnableStatus)
-			{
+		if (*(RepaintMessage->RepaintAera) == GetRegion()) {
+			if (ObjectVisual.Shadow.EnableStatus) {
 				int ShadowOffset = ObjectVisual.Shadow.Radius * 8;
 				(*(RepaintMessage->RepaintAera)).Extended(ShadowOffset, ShadowOffset, ShadowOffset, ShadowOffset);
 			}
 		}
-		if (*(RepaintMessage->RepaintAera) != GetRegion() && RepaintMessage->RepaintAera->Overlap(GetRegion()))
-		{
+		if (*(RepaintMessage->RepaintAera) != GetRegion() && RepaintMessage->RepaintAera->Overlap(GetRegion())) {
 			VRect Rect = GetRegion();
-			if (ObjectVisual.Shadow.EnableStatus)
-			{
+			if (ObjectVisual.Shadow.EnableStatus) {
 				int ShadowOffset = ObjectVisual.Shadow.Radius * 8;
 				Rect.Extended(ShadowOffset, ShadowOffset, ShadowOffset, ShadowOffset);
 			}
@@ -758,28 +621,24 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message)
 		return false;
 	}
 	case VMessageType::MouseMoveMessage: {
-		if (!ObjectKernel.ViewOnly)
-		{
+		if (!ObjectKernel.ViewOnly) {
 			return CheckElementUIStatus(Message);
 		}
 
 		break;
 	}
 	case VMessageType::MouseClickedMessage: {
-		if (!ObjectKernel.ViewOnly)
-		{
+		if (!ObjectKernel.ViewOnly) {
 			return CheckElementUIStatus(Message);
 		}
 
 		break;
 	}
 	case VMessageType::IMECharMessage: {
-		if (!ObjectKernel.ViewOnly)
-		{
+		if (!ObjectKernel.ViewOnly) {
 			auto IMEMessage = static_cast<VIMECharMessage *>(Message);
 
-			if (!IMECharInputed(IMEMessage->IMEChar))
-			{
+			if (!IMECharInputed(IMEMessage->IMEChar)) {
 				SendMessageToChild(IMEMessage);
 			}
 		}
@@ -792,8 +651,7 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message)
 		return OnMessageTrigger(RepaintMessage);
 	}
 	case VMessageType::MouseWheelMessage: {
-		if (!ObjectKernel.ViewOnly)
-		{
+		if (!ObjectKernel.ViewOnly) {
 			auto WheelMessage = static_cast<VMouseWheelMessage *>(Message);
 
 			MouseMiddleDragged(WheelMessage->WheelValue);
@@ -804,12 +662,10 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message)
 		break;
 	}
 	case VMessageType::KeyClickedMessage: {
-		if (!ObjectKernel.ViewOnly)
-		{
+		if (!ObjectKernel.ViewOnly) {
 			auto KeyMessage = static_cast<VKeyClickedMessage *>(Message);
 
-			if (!CheckDown(KeyMessage))
-			{
+			if (!CheckDown(KeyMessage)) {
 				SendMessageToChild(KeyMessage);
 			}
 		}
@@ -817,8 +673,7 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message)
 		break;
 	}
 	case VMessageType::FreeResourceMessage: {
-		if (Canvas != nullptr)
-		{
+		if (Canvas != nullptr) {
 			delete Canvas;
 
 			Canvas = nullptr;
@@ -836,8 +691,7 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message)
 		return false;
 	}
 	case VMessageType::KillFocusMessage: {
-		if (CallWidgetGetFocusID() == ObjectKernel.GlobalID)
-		{
+		if (CallWidgetGetFocusID() == ObjectKernel.GlobalID) {
 			LostMouseFocus();
 			LostFocus.Emit();
 		}
@@ -853,14 +707,12 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message)
 
 	return false;
 }
-bool VUIObject::SendMessageToChild(Core::VMessage *Message, bool BreakWhenMeetTrue)
-{
+bool VUIObject::SendMessageToChild(Core::VMessage *Message, bool BreakWhenMeetTrue) {
 	EditChildMessage(Message);
 
 	VMessage *FocusMessage = Message;
 
-	switch (Message->GetType())
-	{
+	switch (Message->GetType()) {
 	case VMessageType::CheckLocalFocusMessage: {
 		FocusMessage = new VCheckFocusMessage(*(static_cast<VCheckFocusMessage *>(Message)));
 		static_cast<VCheckFocusMessage *>(FocusMessage)->FocusPoint.Offset(-GetRegion().Left, -GetRegion().Top);
@@ -886,71 +738,52 @@ bool VUIObject::SendMessageToChild(Core::VMessage *Message, bool BreakWhenMeetTr
 
 	bool Flag = false;
 
-	if (Message->GetType() != VMessageType::RepaintMessage)
-	{
+	if (Message->GetType() != VMessageType::RepaintMessage) {
 		for (auto Object = ObjectKernel.ChildObjectContainer.rbegin();
-			 Object != ObjectKernel.ChildObjectContainer.rend(); ++Object)
-		{
-			if (Object.operator*()->SysProcessMessage(FocusMessage))
-			{
-				if (BreakWhenMeetTrue)
-				{
-					if (FocusMessage != Message)
-					{
+			 Object != ObjectKernel.ChildObjectContainer.rend(); ++Object) {
+			if (Object.operator*()->SysProcessMessage(FocusMessage)) {
+				if (BreakWhenMeetTrue) {
+					if (FocusMessage != Message) {
 						delete FocusMessage;
 					}
 
 					return true;
-				}
-				else
-				{
+				} else {
 					Flag = true;
 				}
 			}
 		}
-	}
-	else
-	{
+	} else {
 		for (auto Object = ObjectKernel.ChildObjectContainer.begin(); Object != ObjectKernel.ChildObjectContainer.end();
-			 ++Object)
-		{
-			if (Object.operator*()->SysProcessMessage(FocusMessage))
-			{
-				if (BreakWhenMeetTrue)
-				{
-					if (FocusMessage != Message)
-					{
+			 ++Object) {
+			if (Object.operator*()->SysProcessMessage(FocusMessage)) {
+				if (BreakWhenMeetTrue) {
+					if (FocusMessage != Message) {
 						delete FocusMessage;
 					}
 
 					return true;
-				}
-				else
-				{
+				} else {
 					Flag = true;
 				}
 			}
 		}
 	}
 
-	if (FocusMessage != Message)
-	{
+	if (FocusMessage != Message) {
 		delete FocusMessage;
 	}
 
 	return Flag;
 }
-bool VUIObject::CheckElementUIStatus(VMessage *SourceMessage)
-{
-	if (ObjectVisual.Stats == Hidden)
-	{
+bool VUIObject::CheckElementUIStatus(VMessage *SourceMessage) {
+	if (ObjectVisual.Stats == Hidden) {
 		return false;
 	}
 
 	VPoint MousePosition;
 
-	switch (SourceMessage->GetType())
-	{
+	switch (SourceMessage->GetType()) {
 	case VMessageType::MouseMoveMessage: {
 		MousePosition = static_cast<VMouseMoveMessage *>(SourceMessage)->MousePosition;
 
@@ -967,19 +800,15 @@ bool VUIObject::CheckElementUIStatus(VMessage *SourceMessage)
 	}
 	}
 
-	if (SendMessageToChild(SourceMessage, true))
-	{
-		if (!CheckMousePosition(MousePosition) && MousePosition.InsideRectangle(GetRegion()))
-		{
+	if (SendMessageToChild(SourceMessage, true)) {
+		if (!CheckMousePosition(MousePosition) && MousePosition.InsideRectangle(GetRegion())) {
 			VKillFocusMessage KillFocus(CallWidgetGetHWND());
 
 			SendMessageToChild(&KillFocus, true);
 		}
 
 		return true;
-	}
-	else
-	{
+	} else {
 		auto Result = CheckUIFocusStatus(MousePosition, SourceMessage);
 
 		return Result;
@@ -987,32 +816,25 @@ bool VUIObject::CheckElementUIStatus(VMessage *SourceMessage)
 
 	return false;
 }
-const std::vector<VUIObject *> VUIObject::GetChildLayout()
-{
+const std::vector<VUIObject *> VUIObject::GetChildLayout() {
 	return ObjectKernel.ChildObjectContainer;
 }
-VCanvasPainter *VUIObject::GetCanvas()
-{
+VCanvasPainter *VUIObject::GetCanvas() {
 	return Canvas;
 }
-void VUIObject::Hide()
-{
+void VUIObject::Hide() {
 	ObjectVisual.Stats = VUIObjectUIStats::Hidden;
 
-	if (!ObjectVisual.Shadow.EnableStatus)
-	{
+	if (!ObjectVisual.Shadow.EnableStatus) {
 		Update();
-	}
-	else
-	{
+	} else {
 		VRect Regoin = GetRegion();
 		Regoin.Extended(ObjectVisual.Shadow.Radius * 8, ObjectVisual.Shadow.Radius * 8, ObjectVisual.Shadow.Radius * 8,
 						ObjectVisual.Shadow.Radius * 8);
 		Update(Regoin);
 	}
 }
-void VUIObject::Show()
-{
+void VUIObject::Show() {
 	ObjectVisual.Stats = VUIObjectUIStats::Normal;
 
 	Update();

@@ -3,11 +3,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-VRect VRadioButton::GetRegion()
-{
+VRect VRadioButton::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -15,15 +13,13 @@ VRect VRadioButton::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-VRadioButton::VRadioButton(VUIObject *Parent) : VAbstractButton(Parent)
-{
+VRadioButton::VRadioButton(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VRadioButtonTheme(*(static_cast<VRadioButtonTheme *>(GetTargetTheme(VUIThemeType::VRadioButton))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
 	Update();
 }
-VRadioButton::VRadioButton(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VRadioButton::VRadioButton(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VRadioButtonTheme(*(static_cast<VRadioButtonTheme *>(GetTargetTheme(VUIThemeType::VRadioButton))));
 	Resize(Width, Height);
 
@@ -31,47 +27,36 @@ VRadioButton::VRadioButton(const int &Width, const int &Height, VUIObject *Paren
 
 	Update();
 }
-VRadioButton::~VRadioButton() noexcept
-{
+VRadioButton::~VRadioButton() noexcept {
 	delete Theme;
 	delete Interpolator;
 }
 
-void VRadioButton::SetSwitchStatus(const bool &Status)
-{
+void VRadioButton::SetSwitchStatus(const bool &Status) {
 	Theme->SwitchStatus = Status;
 
-	if (Theme->SwitchStatus)
-	{
+	if (Theme->SwitchStatus) {
 		Theme->LocalTheme = Theme->ActiveTheme;
-	}
-	else
-	{
+	} else {
 		Theme->LocalTheme = Theme->StaticTheme;
 	}
 
 	Update();
 }
-void VRadioButton::SetPlainText(const VString &PlainText)
-{
+void VRadioButton::SetPlainText(const VString &PlainText) {
 	Theme->PlainText = PlainText;
 
 	Update();
 }
-void VRadioButton::SetTheme(Core::VRadioButtonTheme *NewTheme)
-{
+void VRadioButton::SetTheme(Core::VRadioButtonTheme *NewTheme) {
 	Theme = NewTheme;
 }
-VRadioButtonTheme *VRadioButton::GetTheme()
-{
+VRadioButtonTheme *VRadioButton::GetTheme() {
 	return Theme;
 }
-void VRadioButton::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VRadioButton::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -94,14 +79,11 @@ void VRadioButton::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
-void VRadioButton::OnPaint(VCanvasPainter *Painter)
-{
+void VRadioButton::OnPaint(VCanvasPainter *Painter) {
 	VCanvasPainter *CheckIcon = VNativeIcon::CheckImage(Theme->LocalTheme.TextColor, GetWidth(), GetHeight(),
 														CallWidgetGetRenderHandle(), Theme->IconThickness);
 
@@ -120,24 +102,19 @@ void VRadioButton::OnPaint(VCanvasPainter *Painter)
 
 	delete CheckIcon;
 };
-void VRadioButton::SetLockBackStatus(const bool &Status)
-{
+void VRadioButton::SetLockBackStatus(const bool &Status) {
 	LockBack = Status;
 }
-bool VRadioButton::GetLockBackStatus() const
-{
+bool VRadioButton::GetLockBackStatus() const {
 	return LockBack;
 }
-bool VRadioButton::GetSwitchStatus() const
-{
+bool VRadioButton::GetSwitchStatus() const {
 	return Theme->SwitchStatus;
 }
-void VRadioButton::SwitchStatusIgnoreLockBack()
-{
+void VRadioButton::SwitchStatusIgnoreLockBack() {
 	Theme->SwitchStatus = !Theme->SwitchStatus;
 
-	if (Theme->SwitchStatus)
-	{
+	if (Theme->SwitchStatus) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -145,9 +122,7 @@ void VRadioButton::SwitchStatusIgnoreLockBack()
 
 		Interpolator->Reset();
 		AnimationFrameTimer.Start(0);
-	}
-	else
-	{
+	} else {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -159,17 +134,14 @@ void VRadioButton::SwitchStatusIgnoreLockBack()
 
 	Update();
 }
-void VRadioButton::LeftClickedDown()
-{
-	if (LockBack && Theme->SwitchStatus)
-	{
+void VRadioButton::LeftClickedDown() {
+	if (LockBack && Theme->SwitchStatus) {
 		return;
 	}
 
 	Theme->SwitchStatus = !Theme->SwitchStatus;
 
-	if (Theme->SwitchStatus)
-	{
+	if (Theme->SwitchStatus) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -177,9 +149,7 @@ void VRadioButton::LeftClickedDown()
 
 		Interpolator->Reset();
 		AnimationFrameTimer.Start(0);
-	}
-	else
-	{
+	} else {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -191,10 +161,8 @@ void VRadioButton::LeftClickedDown()
 
 	Update();
 }
-void VRadioButton::GotMouseFocus()
-{
-	if (!Theme->SwitchStatus)
-	{
+void VRadioButton::GotMouseFocus() {
+	if (!Theme->SwitchStatus) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -206,10 +174,8 @@ void VRadioButton::GotMouseFocus()
 		Update();
 	}
 }
-void VRadioButton::LostMouseFocus()
-{
-	if (Theme->SwitchStatus)
-	{
+void VRadioButton::LostMouseFocus() {
+	if (Theme->SwitchStatus) {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;
@@ -217,9 +183,7 @@ void VRadioButton::LostMouseFocus()
 
 		Interpolator->Reset();
 		AnimationFrameTimer.Start(0);
-	}
-	else
-	{
+	} else {
 		InAnimation = true;
 
 		OldTheme	= Theme->LocalTheme;

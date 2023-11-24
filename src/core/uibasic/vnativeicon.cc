@@ -2,11 +2,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 VCanvasPainter *VNativeIcon::CheckImage(const VColor &Color, const int &Width, const int &Height,
-										const VRenderHandle &Handle, const int &Thickness)
-{
+										const VRenderHandle &Handle, const int &Thickness) {
 	VCanvasPainter *Painter = new VCanvasPainter(Width, Height, Handle);
 	VPenBrush	   *Brush	= new VPenBrush(Color, Handle, Thickness);
 
@@ -33,8 +31,7 @@ VCanvasPainter *VNativeIcon::CheckImage(const VColor &Color, const int &Width, c
 	return Painter;
 }
 VCanvasPainter *VNativeIcon::DropDownUpIcon(const VColor &Color, const int &Width, const int &Height,
-											const VRenderHandle &Handle, const int &Thickness)
-{
+											const VRenderHandle &Handle, const int &Thickness) {
 
 	VCanvasPainter *Painter = new VCanvasPainter(Width, Height, Handle);
 	VPenBrush	   *Brush	= new VPenBrush(Color, Handle, Thickness);
@@ -51,6 +48,7 @@ VCanvasPainter *VNativeIcon::DropDownUpIcon(const VColor &Color, const int &Widt
 	VPoint Point3 = VPoint(Width * 0.9f, Height * 0.5f);
 
 	Painter->BeginDraw();
+	Painter->Clear(VColor::FromBYTERGBA(0, 0, 0, 0));
 
 	Painter->DrawLine(Point1, Point2, Brush);
 	Painter->DrawLine(Point2, Point3, Brush);
@@ -62,8 +60,7 @@ VCanvasPainter *VNativeIcon::DropDownUpIcon(const VColor &Color, const int &Widt
 	return Painter;
 }
 VCanvasPainter *VNativeIcon::DropDownDownIcon(const VColor &Color, const int &Width, const int &Height,
-											  const VRenderHandle &Handle, const int &Thickness)
-{
+											  const VRenderHandle &Handle, const int &Thickness) {
 	VCanvasPainter *Painter = new VCanvasPainter(Width, Height, Handle);
 	VPenBrush	   *Brush	= new VPenBrush(Color, Handle, Thickness);
 
@@ -79,6 +76,7 @@ VCanvasPainter *VNativeIcon::DropDownDownIcon(const VColor &Color, const int &Wi
 	VPoint Point3 = VPoint(Width * 0.9f, Height * 0.50f);
 
 	Painter->BeginDraw();
+	Painter->Clear(VColor::FromBYTERGBA(0, 0, 0, 0));
 
 	Painter->DrawLine(Point1, Point2, Brush);
 	Painter->DrawLine(Point2, Point3, Brush);

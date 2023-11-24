@@ -5,11 +5,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-enum class VLineEditorUsedKey
-{
+enum class VLineEditorUsedKey {
 	Left,
 	Right,
 	Home,
@@ -17,8 +15,7 @@ enum class VLineEditorUsedKey
 	None
 };
 
-class VLineEditor : public VAbstractButton
-{
+class VLineEditor : public VAbstractButton {
 private:
 	VTextEditorTheme *Theme;
 

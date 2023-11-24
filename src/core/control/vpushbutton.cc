@@ -2,12 +2,10 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
 VPushButton::VPushButton(const int &Width, const int &Height, const VString &PlainText, VUIObject *Parent)
-	: VAbstractButton(Parent)
-{
+	: VAbstractButton(Parent) {
 	Theme = new VPushButtonTheme(*(static_cast<VPushButtonTheme *>(GetTargetTheme(VUIThemeType::VPushButton))));
 	Resize(Width, Height);
 
@@ -17,15 +15,13 @@ VPushButton::VPushButton(const int &Width, const int &Height, const VString &Pla
 
 	Update();
 }
-VPushButton::VPushButton(VUIObject *Parent) : VAbstractButton(Parent)
-{
+VPushButton::VPushButton(VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme		 = new VPushButtonTheme(*(static_cast<VPushButtonTheme *>(GetTargetTheme(VUIThemeType::VPushButton))));
 	Interpolator = new VAnimationInterpolator(0.1, Theme->LocalTheme.AnimationInterpolatorType);
 
 	Update();
 }
-VPushButton::VPushButton(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent)
-{
+VPushButton::VPushButton(const int &Width, const int &Height, VUIObject *Parent) : VAbstractButton(Parent) {
 	Theme = new VPushButtonTheme(*(static_cast<VPushButtonTheme *>(GetTargetTheme(VUIThemeType::VPushButton))));
 	Resize(Width, Height);
 
@@ -33,14 +29,12 @@ VPushButton::VPushButton(const int &Width, const int &Height, VUIObject *Parent)
 
 	Update();
 }
-VPushButton::~VPushButton() noexcept
-{
+VPushButton::~VPushButton() noexcept {
 	delete Theme;
 	delete Interpolator;
 }
 
-VRect VPushButton::GetRegion()
-{
+VRect VPushButton::GetRegion() {
 	VRect Rect = VUIObject::GetRegion();
 
 	Rect.Extended(
@@ -48,8 +42,7 @@ VRect VPushButton::GetRegion()
 		static_cast<int>(Theme->LocalTheme.BorderThickness), static_cast<int>(Theme->LocalTheme.BorderThickness));
 	return Rect;
 }
-void VPushButton::OnPaint(VCanvasPainter *Painter)
-{
+void VPushButton::OnPaint(VCanvasPainter *Painter) {
 	Painter->BeginDraw();
 
 	VSolidBrush BackgroundBrush(Theme->LocalTheme.BackgroundColor, CallWidgetGetRenderHandle());
@@ -68,30 +61,23 @@ void VPushButton::OnPaint(VCanvasPainter *Painter)
 	Painter->EndDraw();
 }
 
-void VPushButton::SetPlainText(const VString &PlainText)
-{
+void VPushButton::SetPlainText(const VString &PlainText) {
 	Theme->PlainText = PlainText;
 
 	Update();
 }
-const VString &VPushButton::GetPlaneString()
-{
+const VString &VPushButton::GetPlaneString() {
 	return Theme->PlainText;
 }
-void VPushButton::SetTheme(Core::VPushButtonTheme *NewTheme)
-{
+void VPushButton::SetTheme(Core::VPushButtonTheme *NewTheme) {
 	Theme = NewTheme;
 }
-VPushButtonTheme *VPushButton::GetTheme()
-{
+VPushButtonTheme *VPushButton::GetTheme() {
 	return Theme;
 }
-void VPushButton::CheckFrame()
-{
-	if (!Interpolator->IsEnd() && InAnimation)
-	{
-		if (AnimationFrameTimer.End())
-		{
+void VPushButton::CheckFrame() {
+	if (!Interpolator->IsEnd() && InAnimation) {
+		if (AnimationFrameTimer.End()) {
 			AnimationFrameTimer.Start(16);
 
 			auto AnimationCurvature = Interpolator->GetOneFrame();
@@ -114,15 +100,12 @@ void VPushButton::CheckFrame()
 
 			Update();
 		}
-	}
-	else if (InAnimation)
-	{
+	} else if (InAnimation) {
 		InAnimation = false;
 	}
 }
 
-void VPushButton::LeftClickedDown()
-{
+void VPushButton::LeftClickedDown() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -133,8 +116,7 @@ void VPushButton::LeftClickedDown()
 
 	Update();
 }
-void VPushButton::LeftClickedUp()
-{
+void VPushButton::LeftClickedUp() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -145,8 +127,7 @@ void VPushButton::LeftClickedUp()
 
 	Update();
 }
-void VPushButton::GotMouseFocus()
-{
+void VPushButton::GotMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -157,8 +138,7 @@ void VPushButton::GotMouseFocus()
 
 	Update();
 }
-void VPushButton::LostMouseFocus()
-{
+void VPushButton::LostMouseFocus() {
 	InAnimation = true;
 
 	OldTheme	= Theme->LocalTheme;
@@ -169,8 +149,7 @@ void VPushButton::LostMouseFocus()
 
 	Update();
 }
-void VPushButton::SetTextSize(const int &TextSize)
-{
+void VPushButton::SetTextSize(const int &TextSize) {
 	Theme->LabelFont->SetTextSize(TextSize);
 }
 

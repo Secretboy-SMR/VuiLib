@@ -2,65 +2,51 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VKits
-{
-short VSSColorHelper::SingleHexLetterToNum(const wchar_t &Hex)
-{
-	if (Hex >= '0' && Hex <= '9')
-	{
+namespace VKits {
+short VSSColorHelper::SingleHexLetterToNum(const wchar_t &Hex) {
+	if (Hex >= '0' && Hex <= '9') {
 		return Hex - L'0';
 	}
 
 	return Hex - 87;
 }
-short VSSColorHelper::HexStringToNum(const VString &HexNumberString)
-{
+short VSSColorHelper::HexStringToNum(const VString &HexNumberString) {
 	short FirstCount  = SingleHexLetterToNum(HexNumberString[0]) * 16;
 	short SecondCount = SingleHexLetterToNum(HexNumberString[1]);
 
 	return FirstCount + SecondCount;
 }
-void VSSColorHelper::HexStringLowerToUpper(VString &HexStringNumber)
-{
+void VSSColorHelper::HexStringLowerToUpper(VString &HexStringNumber) {
 	int StringLength = HexStringNumber.size();
-	for (int Count = 0; Count < StringLength; ++Count)
-	{
-		if (HexStringNumber[Count] >= L'A' && HexStringNumber[Count] <= 'Z')
-		{
+	for (int Count = 0; Count < StringLength; ++Count) {
+		if (HexStringNumber[Count] >= L'A' && HexStringNumber[Count] <= 'Z') {
 			HexStringNumber[Count] += 32;
 		}
 	}
 }
-Core::VColor VSSColorHelper::HexToColor(const VString &HexString)
-{
+Core::VColor VSSColorHelper::HexToColor(const VString &HexString) {
 	VString Hex = HexString;
 	HexStringLowerToUpper(Hex);
 
 	auto  RawHexString	 = Hex.Split(1, HexString.size() - 1);
 	short ColorArrary[3] = {0, 0, 0};
 
-	for (short Count = 2; Count <= RawHexString.size(); Count += 2)
-	{
+	for (short Count = 2; Count <= RawHexString.size(); Count += 2) {
 		ColorArrary[Count / 2 - 1] = HexStringToNum(RawHexString.Split(Count - 2, 2));
 	}
 
 	return Core::VColor::FromBYTERGBA(ColorArrary[0], ColorArrary[1], ColorArrary[2]);
 }
-bool VSSColorHelper::IsValidHex(const VString &HexString)
-{
-	if (HexString[0] != L'#')
-	{
+bool VSSColorHelper::IsValidHex(const VString &HexString) {
+	if (HexString[0] != L'#') {
 		return false;
 	}
-	if (HexString.size() != 7)
-	{
+	if (HexString.size() != 7) {
 		return false;
 	}
 
-	for (auto Letter = HexString.begin() + 1; Letter != HexString.end(); ++Letter)
-	{
-		if (!(*Letter >= L'0' && *Letter <= L'9' || *Letter >= L'a' && *Letter <= L'f'))
-		{
+	for (auto Letter = HexString.begin() + 1; Letter != HexString.end(); ++Letter) {
+		if (!(*Letter >= L'0' && *Letter <= L'9' || *Letter >= L'a' && *Letter <= L'f')) {
 			return false;
 		}
 	}

@@ -2,10 +2,8 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace VKits
-{
-class VSSColorHelper
-{
+namespace VKits {
+class VSSColorHelper {
 public:
 	static short SingleHexLetterToNum(const wchar_t &Hex);
 

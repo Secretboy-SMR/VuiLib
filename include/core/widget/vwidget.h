@@ -14,14 +14,12 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 /*
  * VWin32StatusCache structure:
  *  Description : The win32 message's cache
  */
-struct VWin32StatusCache
-{
+struct VWin32StatusCache {
 	int UserSetWidth  = 0;
 	int UserSetHeight = 0;
 
@@ -33,8 +31,7 @@ struct VWin32StatusCache
  * VMainWindow Description:
  *  Description : The main widget of vuilib
  */
-class VMainWindow : public VUIObject
-{
+class VMainWindow : public VUIObject {
 private:
 	/*
    * DefaultOnQuitFunction function:
@@ -173,11 +170,9 @@ private:
 	VKits::VAllocator *RepaintAllocator;
 };
 
-class VWidget : public VUIObject
-{
+class VWidget : public VUIObject {
 public:
-	bool IsWidget() const override
-	{
+	bool IsWidget() const override {
 		return true;
 	}
 
@@ -192,8 +187,7 @@ private:
 	void Win32LoseFocus();
 
 private:
-	bool OnQuit()
-	{
+	bool OnQuit() {
 		return false;
 	}
 

@@ -6,11 +6,9 @@
 
 VLIB_BEGIN_NAMESPACE
 
-namespace Core
-{
+namespace Core {
 
-class VTextLabel : public VAbstractButton, public VFMTDevice
-{
+class VTextLabel : public VAbstractButton, public VFMTDevice {
 private:
 	VTextLabelTheme *Theme;
 

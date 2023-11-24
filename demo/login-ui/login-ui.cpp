@@ -1,13 +1,11 @@
 #include "login-ui.h"
 
-LoginUI::LoginUI(Core::VApplication *App) : VML::VMLMainWindow(App)
-{
+LoginUI::LoginUI(Core::VApplication *App) : VML::VMLMainWindow(App) {
 	RegisterMetaFunction(VML_CLASS_META_FUNCTION(this, &LoginUI::ValidCheck, ValidCheck));
 
 	auto LoadResult = LoadVML(L"./main.xml", VML::VMLParserParseMode::FromFile);
 
-	if (LoadResult.Status != VML::VMLWidgetVMLLoadStats::Ok)
-	{
+	if (LoadResult.Status != VML::VMLWidgetVMLLoadStats::Ok) {
 		printf("Failed to load vml from file reason : %ws", LoadResult.FailedMessage.CStyleString());
 
 		exit(-1);
@@ -18,19 +16,16 @@ LoginUI::LoginUI(Core::VApplication *App) : VML::VMLMainWindow(App)
 	LoginInterface();
 }
 
-void LoginUI::ValidCheck(const wchar_t &Characeter, bool *AllowFlag)
-{
+void LoginUI::ValidCheck(const wchar_t &Characeter, bool *AllowFlag) {
 	*AllowFlag = true;
 
 	if (Characeter == L'\r' || Characeter == L'\n' ||
-		Get("mainwindow")["login-card"]["inputbox"].Get<Core::VEditor>()->GetPlainText().size() >= 16)
-	{
+		Get("mainwindow")["login-card"]["inputbox"].Get<Core::VEditor>()->GetPlainText().size() >= 16) {
 		*AllowFlag = false;
 	}
 }
 
-void LoginUI::LoginInterface()
-{
+void LoginUI::LoginInterface() {
 	Get("mainwindow")["login-card"]["title-text"].Get<Core::VTextLabel>()->SetPlainText("µ«¬º");
 	Get("mainwindow")["login-card"]["description-text"].Get<Core::VTextLabel>()->SetPlainText("«Î ‰»Îƒ„µƒ’À∫≈");
 
@@ -39,8 +34,7 @@ void LoginUI::LoginInterface()
 
 	UIFadeIn();
 }
-void LoginUI::VertifyInterface()
-{
+void LoginUI::VertifyInterface() {
 	UIFadeOutWithoutButton();
 
 	Get("mainwindow")["login-card"]["next-stage"].Get<Core::VPushButton>()->ButtonPushed.Block(
@@ -50,8 +44,7 @@ void LoginUI::VertifyInterface()
 		.Get<Core::VOpacityAnimation>()
 		->AnimationEnd.Connect(this, &LoginUI::SetupVertifyInterface);
 }
-void LoginUI::SetupVertifyInterface()
-{
+void LoginUI::SetupVertifyInterface() {
 	UserName = Get("mainwindow")["login-card"]["inputbox"].Get<Core::VEditor>()->GetPlainText();
 
 	Get("mainwindow")["login-card"]["title-text"].Get<Core::VTextLabel>()->SetPlainText("—È÷§¬Î");
@@ -62,8 +55,7 @@ void LoginUI::SetupVertifyInterface()
 
 	UIFadeInWithoutButton();
 }
-void LoginUI::WelcomeInterface()
-{
+void LoginUI::WelcomeInterface() {
 	Get("mainwindow")["login-card"]["title-text"].Get<Core::VTextLabel>()->SetPlainText(VStr("ª∂”≠£¨") + UserName +
 																						VStr('#') + VertifyCode);
 	Get("mainwindow")["login-card"]["description-text"].Get<Core::VTextLabel>()->SetPlainText(
@@ -99,8 +91,7 @@ void LoginUI::WelcomeInterface()
 		.Get<Core::VOpacityAnimation>()
 		->Start();
 }
-void LoginUI::SetupWelcomeInterface()
-{
+void LoginUI::SetupWelcomeInterface() {
 	VertifyCode = Get("mainwindow")["login-card"]["inputbox"].Get<Core::VEditor>()->GetPlainText();
 
 	UIFadeOut();
@@ -109,8 +100,7 @@ void LoginUI::SetupWelcomeInterface()
 		.Get<Core::VOpacityAnimation>()
 		->AnimationEnd.Connect(this, &LoginUI::WelcomeInterface);
 }
-void LoginUI::UIFadeIn()
-{
+void LoginUI::UIFadeIn() {
 	Get("mainwindow")["login-card"]["inputbox"]["transparent-animation"]
 		.Get<Core::VOpacityAnimation>()
 		->AnimationEnd.Block(this, &LoginUI::UIFadeIn, true);
@@ -167,8 +157,7 @@ void LoginUI::UIFadeIn()
 	Get("mainwindow")["login-card"]["next-stage"]["position-animation"].Get<Core::VPositionAnimation>()->Start();
 	Get("mainwindow")["login-card"]["next-stage"]["transparent-animation"].Get<Core::VOpacityAnimation>()->Start();
 }
-void LoginUI::UIFadeInWithoutButton()
-{
+void LoginUI::UIFadeInWithoutButton() {
 	Get("mainwindow")["login-card"]["inputbox"]["transparent-animation"]
 		.Get<Core::VOpacityAnimation>()
 		->AnimationEnd.Block(this, &LoginUI::SetupVertifyInterface, true);
@@ -213,8 +202,7 @@ void LoginUI::UIFadeInWithoutButton()
 	Get("mainwindow")["login-card"]["inputbox"]["position-animation"].Get<Core::VPositionAnimation>()->Start();
 	Get("mainwindow")["login-card"]["inputbox"]["transparent-animation"].Get<Core::VOpacityAnimation>()->Start();
 }
-void LoginUI::UIFadeOut()
-{
+void LoginUI::UIFadeOut() {
 	Get("mainwindow")["login-card"]["title-text"]["position-animation"]
 		.Get<Core::VPositionAnimation>()
 		->SetTargetPosition(Core::VPoint(Get("mainwindow")["login-card"]["title-text"]->GetX(),
@@ -257,8 +245,7 @@ void LoginUI::UIFadeOut()
 	Get("mainwindow")["login-card"]["next-stage"]["position-animation"].Get<Core::VPositionAnimation>()->Start();
 	Get("mainwindow")["login-card"]["next-stage"]["transparent-animation"].Get<Core::VOpacityAnimation>()->Start();
 }
-void LoginUI::UIFadeOutWithoutButton()
-{
+void LoginUI::UIFadeOutWithoutButton() {
 	Get("mainwindow")["login-card"]["title-text"]["position-animation"]
 		.Get<Core::VPositionAnimation>()
 		->SetTargetPosition(Core::VPoint(Get("mainwindow")["login-card"]["title-text"]->GetX(),
