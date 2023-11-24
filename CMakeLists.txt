@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 project(VuiLib)
 
-set(CMAKE_CXX_STANDARD 14)
+add_definitions(-DUNICODE -D_UNICODE)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories(base-in-dev/vlib/inc)
 include_directories(base-in-dev/vlib/inc/kernel)
@@ -27,17 +28,6 @@ include_directories(include/win32base)
 include_directories(src/core/signal)
 
 add_executable(VuiLib
-        base-in-dev/vlib/inc/kernel/base/vbase.h
-        base-in-dev/vlib/inc/kernel/mem/vconstantpool.h
-        base-in-dev/vlib/inc/kernel/mem/vmemory.h
-        base-in-dev/vlib/inc/kernel/mem/vmemorypolicy.h
-        base-in-dev/vlib/inc/kernel/mem/vmemrbtree.h
-        base-in-dev/vlib/src/kernel/mem/vconstantpool.cpp
-        base-in-dev/vlib/src/kernel/mem/vmemory.cpp
-        base-in-dev/vlib/src/kernel/mem/vmemorypolicy.cpp
-        base-in-dev/vlib/src/kernel/mem/vmemrbtree.cpp
-        base-in-dev/vlib/tester/mem/mem-test.cpp
-        base-in-dev/vlib/tester/tester.cpp
         include/core/animation/vanimation.h
         include/core/animation/vanimationcurve.h
         include/core/control/vabstractbutton.h
@@ -110,7 +100,6 @@ add_executable(VuiLib
         src/core/control/vdropdown.cc
         src/core/control/veditor.cc
         src/core/control/veditorhighlighter.cc
-        src/core/control/veditorX.cc
         src/core/control/vfakecaption.cc
         src/core/control/viconbutton.cc
         src/core/control/vimagelabel.cc
@@ -166,3 +155,6 @@ add_executable(VuiLib
         src/vss/vssparser.cc
         src/win32base/vwin32base.cc
         main.cpp)
+
+target_include_directories(VuiLib PRIVATE inc)
+target_compile_options(VuiLib PRIVATE /w /we4715 /we4189)

@@ -1,5 +1,5 @@
-#include "core/control/vdropdown.h"
-#include "vml/vmlwidget.h"
+#include "./include/core/control/vdropdown.h"
+#include "./include/vml/vmlwidget.h"
 
 void Test(Core::VDropContextBase *Context)
 {
@@ -13,7 +13,7 @@ int main()
 	auto Application = Core::VApplication();
 
 	auto MainWindow = VML::VMLMainWindow(1000, 800, &Application);
-	/* auto DropDownTest = new Core::VDropDown(400, 40, &MainWindow);
+	auto DropDownTest = new Core::VDropDown(400, 40, &MainWindow);
 
 	Core::VDropGroup GroupTest;
 	GroupTest.Text = VStr("Test");
@@ -31,7 +31,7 @@ int main()
 	DropDownTest->AddContext(&Context3);
 	DropDownTest->Move(100, 100);
 
-	MainWindow.Show(); */
+	MainWindow.Show();
 
 	MainWindow.RegisterMetaFunction(VML_META_FUNCTION(Test));
 	MainWindow.LoadVML("./testvml.xml", VML::VMLParserParseMode::FromFile);

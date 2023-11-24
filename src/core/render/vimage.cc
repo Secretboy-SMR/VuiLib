@@ -160,9 +160,6 @@ void VImage::ApplyShadowEffect(const float &ShadowRadius, const VColor &ShadowCo
 																ShadowColor.GetB(), ShadowColor.GetA()});
 	BlurEffect->GetOutput(&BlurOutput);
 
-	UINT Width	= DirectXBitmap.Get()->GetSize().width;
-	UINT Height = DirectXBitmap.Get()->GetSize().height;
-
 	Microsoft::WRL::ComPtr<ID2D1BitmapRenderTarget> ResultRenderTarget;
 	Microsoft::WRL::ComPtr<ID2D1DeviceContext>		ResultDeviceContext;
 

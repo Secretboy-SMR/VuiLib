@@ -331,7 +331,6 @@ void VMainWindow::CheckFrame()
 			{
 				std::vector<decltype(RepaintMessages)::iterator> IteratorSet;
 
-				size_t Count = 0;
 				for (auto Message = RepaintMessages.begin();;)
 				{
 					OnPaint(Canvas, (*Message)->DirtyRectangle);
@@ -380,7 +379,7 @@ void VMainWindow::CheckFrame()
 					D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED), 0.0, 0.0,
 					D2D1_RENDER_TARGET_USAGE_GDI_COMPATIBLE, D2D1_FEATURE_LEVEL_DEFAULT);
 				ID2D1DCRenderTarget *DCRenderTarget;
-				HRESULT Result	   = VDirectXD2DFactory.GetInstance()->CreateDCRenderTarget(&Property, &DCRenderTarget);
+				VDirectXD2DFactory.GetInstance()->CreateDCRenderTarget(&Property, &DCRenderTarget);
 				RECT	WindowRect = {0, 0, GetWidth(), GetHeight()};
 
 				ID2D1Bitmap *Bitmap;
@@ -949,7 +948,7 @@ void VWidget::CheckFrame()
 					D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED), 0.0, 0.0,
 					D2D1_RENDER_TARGET_USAGE_GDI_COMPATIBLE, D2D1_FEATURE_LEVEL_DEFAULT);
 				ID2D1DCRenderTarget *DCRenderTarget;
-				HRESULT Result	   = VDirectXD2DFactory.GetInstance()->CreateDCRenderTarget(&Property, &DCRenderTarget);
+				VDirectXD2DFactory.GetInstance()->CreateDCRenderTarget(&Property, &DCRenderTarget);
 				RECT	WindowRect = {0, 0, GetWidth(), GetHeight()};
 
 				ID2D1Bitmap *Bitmap;

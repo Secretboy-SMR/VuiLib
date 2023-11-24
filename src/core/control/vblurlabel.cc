@@ -75,7 +75,7 @@ void VBlurLabel::OnPaint(Core::VCanvasPainter *Painter)
 								 static_cast<unsigned int>(GetOriginX()) + static_cast<unsigned int>(GetWidth()),
 								 static_cast<unsigned int>(GetHeight()) + static_cast<unsigned int>(GetOriginY())};
 
-	auto Result = BlurImage.GetDirectXObject()->CopyFromRenderTarget(
+	BlurImage.GetDirectXObject()->CopyFromRenderTarget(
 		&SourcePoint, GetParent()->GetCanvas()->GetDXObject(), &RectArea);
 	BlurImage.ApplyGassBlur(Theme->BlurRadius, CallWidgetGetRenderHandle());
 

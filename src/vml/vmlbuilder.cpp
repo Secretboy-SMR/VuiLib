@@ -73,8 +73,6 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 	Core::VLayoutMode VerticalLayoutMode   = Core::VLayoutMode::LayoutModeDontUse;
 	Core::VLayoutMode HorizontalLayoutMode = Core::VLayoutMode::LayoutModeDontUse;
 
-	Core::VUIObject *LayoutParent = nullptr;
-
 	double VerticalLayoutPercent   = 0.f;
 	double HorizontalLayoutPercent = 0.f;
 
@@ -146,7 +144,7 @@ void VMLCommonBuilder::AnalyzeProperty(const VMLFinder &RootFinder, Core::VUIObj
 							{
 								if (!ElementProperty.second.VariableInitValue.empty())
 								{
-									auto VariablePointer = DefineVariable<int, VMLIntVariable>(
+									DefineVariable<int, VMLIntVariable>(
 										Object, ElementProperty.second.VariableInitValue[0].PropertyAsInt, RootFinder,
 										ElementProperty.second.NativeCallMethodName);
 									XMiddleOffset = ElementProperty.second.VariableInitValue[0].PropertyAsInt;

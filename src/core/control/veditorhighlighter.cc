@@ -157,8 +157,6 @@ int VVMLHighlighter::CountSpace(VML::VMLNode Node, const int &PreSpaceCount)
 
 	if (Node.BlockStart <= Caret.CaretStart && Node.BlockEnd > Caret.CaretStart)
 	{
-		int Result = PreSpaceCount;
-
 		if (!Node.ChildrenNodes.empty())
 		{
 			for (auto &SubNode : Node.ChildrenNodes)
@@ -464,7 +462,6 @@ void VVMLHighlighter::MouseClicked(const int &TextPosition)
 	{
 		VKits::seal_lexical Lexical(Editor->GetPlainText());
 		auto				Token  = Lexical.get_token();
-		auto				InType = false;
 
 		while (!Lexical.is_eof())
 		{
@@ -723,7 +720,6 @@ void VVSSHighlighter::MouseClicked(const int &TextPosition)
 	{
 		VKits::seal_lexical Lexical(Editor->GetPlainText());
 		auto				Token  = Lexical.get_token();
-		auto				InType = false;
 
 		while (!Lexical.is_eof())
 		{

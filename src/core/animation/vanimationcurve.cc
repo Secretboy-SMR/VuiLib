@@ -103,6 +103,8 @@ VAnimationCurve *VAnimationCurveFactory::GetCurve(const VAnimationCurveFlag &Fla
 		return new VEaseInOutQuartCurve;
 	}
 	}
+
+	return new VEaseInOutQuartCurve;
 }
 } // namespace Core
 

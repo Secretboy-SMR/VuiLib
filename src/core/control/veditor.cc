@@ -1366,7 +1366,7 @@ void VEditor::ResetTextLayout()
 
 	if (GetWidth() > 0 && GetHeight() > 0)
 	{
-		auto Result = VDirectXWriteFactory.GetInstance()->CreateTextLayout(
+		VDirectXWriteFactory.GetInstance()->CreateTextLayout(
 			InEditingText.CStyleString(), InEditingText.size(), Theme->LabelFont->GetDXObject(),
 			GetWidth() - Theme->LocalTheme.BorderThickness * 2, GetHeight() - Theme->LocalTheme.BorderThickness * 2,
 			LocalTextLayout.GetAddressOf());

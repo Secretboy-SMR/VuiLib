@@ -181,8 +181,6 @@ void VLineEditor::OnMessage(VMessage *Message)
 			TextLayout->HitTestPoint(static_cast<FLOAT>(MouseRelativeX), static_cast<FLOAT>(MouseRelativeY),
 									 &IsTrailingHit, &IsInside, &HitTestMetrics);
 
-			auto OldCursorPosition = CursorPosition;
-
 			if (CursorPosition != 0)
 			{
 				CursorPosition	= HitTestMetrics.textPosition;

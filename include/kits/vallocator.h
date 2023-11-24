@@ -176,7 +176,7 @@ public:
 	}
 	~VCOMPointer()
 	{
-		if (Allocator)
+		if (Allocator != nullptr)
 		{
 			for (auto Iterator = Allocator->AllocatorMemory.begin(); Iterator != Allocator->AllocatorMemory.end();
 				 ++Iterator)
@@ -187,7 +187,7 @@ public:
 
 					if (Object)
 					{
-						Object->Release();
+		 				Object->Release();
 
 						Object = NULL;
 					}
