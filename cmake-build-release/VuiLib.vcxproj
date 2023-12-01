@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6FA536C2-DC5E-3D97-9ED1-6017C71ED1D9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>VuiLib</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Z:\VuiLib-CLion\cmake-build-release\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VuiLib.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VuiLib</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Z:\VuiLib-CLion\cmake-build-release\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VuiLib.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VuiLib</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Z:\VuiLib-CLion\cmake-build-release\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">VuiLib.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">VuiLib</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Z:\VuiLib-CLion\cmake-build-release\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">VuiLib.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">VuiLib</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /w</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4715;4189</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;UNICODE;_UNICODE;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;UNICODE;_UNICODE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>Z:/VuiLib-CLion/cmake-build-release/Debug/VuiLib.lib</ImportLibrary>
+      <ProgramDataBaseFile>Z:/VuiLib-CLion/cmake-build-release/Debug/VuiLib.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /w</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4715;4189</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>Z:/VuiLib-CLion/cmake-build-release/Release/VuiLib.lib</ImportLibrary>
+      <ProgramDataBaseFile>Z:/VuiLib-CLion/cmake-build-release/Release/VuiLib.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /w</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4715;4189</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>Z:/VuiLib-CLion/cmake-build-release/MinSizeRel/VuiLib.lib</ImportLibrary>
+      <ProgramDataBaseFile>Z:/VuiLib-CLion/cmake-build-release/MinSizeRel/VuiLib.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /w</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4715;4189</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>Z:\VuiLib-CLion\base-in-dev\vlib\inc;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\base;Z:\VuiLib-CLion\base-in-dev\vlib\inc\kernel\mem;Z:\VuiLib-CLion\include;Z:\VuiLib-CLion\include\core;Z:\VuiLib-CLion\include\core\animation;Z:\VuiLib-CLion\include\core\control;Z:\VuiLib-CLion\include\core\object;Z:\VuiLib-CLion\include\core\render;Z:\VuiLib-CLion\include\core\signal;Z:\VuiLib-CLion\include\core\stl-ex;Z:\VuiLib-CLion\include\core\uibasic;Z:\VuiLib-CLion\include\core\visual;Z:\VuiLib-CLion\include\core\widget;Z:\VuiLib-CLion\include\debug;Z:\VuiLib-CLion\include\fmt;Z:\VuiLib-CLion\include\kits;Z:\VuiLib-CLion\include\vml;Z:\VuiLib-CLion\include\vss;Z:\VuiLib-CLion\include\win32base;Z:\VuiLib-CLion\src\core\signal;Z:\VuiLib-CLion\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>Z:/VuiLib-CLion/cmake-build-release/RelWithDebInfo/VuiLib.lib</ImportLibrary>
+      <ProgramDataBaseFile>Z:/VuiLib-CLion/cmake-build-release/RelWithDebInfo/VuiLib.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="Z:\VuiLib-CLion\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule Z:/VuiLib-CLion/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\bin\cmake.exe" -SZ:/VuiLib-CLion -BZ:/VuiLib-CLion/cmake-build-release --check-stamp-file Z:/VuiLib-CLion/cmake-build-release/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompilerABI.c;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCXXCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeRCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule Z:/VuiLib-CLion/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\bin\cmake.exe" -SZ:/VuiLib-CLion -BZ:/VuiLib-CLion/cmake-build-release --check-stamp-file Z:/VuiLib-CLion/cmake-build-release/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompilerABI.c;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCXXCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeRCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule Z:/VuiLib-CLion/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\bin\cmake.exe" -SZ:/VuiLib-CLion -BZ:/VuiLib-CLion/cmake-build-release --check-stamp-file Z:/VuiLib-CLion/cmake-build-release/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompilerABI.c;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCXXCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeRCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule Z:/VuiLib-CLion/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\bin\cmake.exe" -SZ:/VuiLib-CLion -BZ:/VuiLib-CLion/cmake-build-release --check-stamp-file Z:/VuiLib-CLion/cmake-build-release/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCCompilerABI.c;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-C-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\16836\AppData\Local\Programs\CLion Nova\bin\cmake\win\x64\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeCXXCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeRCCompiler.cmake;Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\3.27.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Z:\VuiLib-CLion\cmake-build-release\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\animation\vanimation.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\animation\vanimationcurve.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vabstractbutton.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vblurlabel.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vcanvas.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vdragcontrolbase.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vdropdown.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\veditor.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\veditorhighlighter.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vfakecaption.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\viconbutton.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vimagelabel.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vlayout.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vlineeditor.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vpushbutton.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vradiobutton.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vscrollbar.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vscroller.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vswitchgroup.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vtextlabel.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vtitlebar.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\control\vviewlabel.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\object\vapplication.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\object\vuiobject.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vbrush.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vcolor.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vdirectxfactory.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vimage.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vpainter.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vpainterdevice.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vrenderbasic.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\render\vwrite.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\signal\vsignal.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\stl-ex\vstring.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\uibasic\vnativeicon.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\uibasic\vsmarttimer.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\uibasic\vtimer.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\uibasic\vuiinterpolator.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\uibasic\vuitheme.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\visual\veffect.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\visual\vvisual.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\widget\vmessage.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\widget\vprivatewidget.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\widget\vwidget.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\vbasiccore.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\core\vcontrol.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\debug\vdebug.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\fmt\vfmt.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\seal.info.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\seal.lexical.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\seal.lexical.token.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\vallocator.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\vchainif.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\vcolorhelper.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\kits\vparserhelper.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vml\vml.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vml\vmlbuilder.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vml\vmlparser.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vml\vmlvariable.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vml\vmlwidget.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vss\vssbuilder.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\vss\vssparser.h" />
+    <ClInclude Include="Z:\VuiLib-CLion\include\win32base\vwin32base.h" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\animation\vanimation.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\animation\vanimationcurve.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vabstractbutton.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vblurlabel.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vcanvas.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vdragcontrolbase.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vdropdown.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\veditor.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\veditorhighlighter.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vfakecaption.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\viconbutton.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vimagelabel.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vlayout.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vlineeditor.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vpushbutton.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vradiobutton.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vscrollbar.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vscroller.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vswitchgroup.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vtextlabel.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vtitlebar.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\control\vviewlabel.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\fmt\vfmt.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\object\vapplication.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\object\vuiobject.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vbrush.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vcolor.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vdirectxfactory.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vimage.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vpainter.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vpainterdevice.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vrenderbasic.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\render\vwrite.cc" />
+    <ClInclude Include="Z:\VuiLib-CLion\src\core\signal\vbasiccore.h" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\signal\vsignal.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\stl-ex\vstring.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\uibasic\vnativeicon.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\uibasic\vsmarttimer.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\uibasic\vtimer.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\uibasic\vuiinterpolator.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\uibasic\vuitheme.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\visual\veffect.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\visual\vvisual.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\widget\vmessage.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\widget\vprivatewidget.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\widget\vwidget.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\core\vbasiccore.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\debug\vdebug.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\seal.info.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\seal.lexical.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\seal.lexical.token.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\vallocator.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\vchainif.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\vcolorhelper.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\kits\vparserhelper.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vml\vml.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vml\vmlbuilder.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vml\vmlparser.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vml\vmlvariable.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vml\vmlwidget.cpp" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vss\vssbuilder.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\vss\vssparser.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\src\win32base\vwin32base.cc" />
+    <ClCompile Include="Z:\VuiLib-CLion\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Z:\VuiLib-CLion\cmake-build-release\ZERO_CHECK.vcxproj">
+      <Project>{8DF0A8C9-AE34-364C-8B2E-E8F59EF6560F}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

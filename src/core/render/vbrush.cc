@@ -15,7 +15,7 @@ VPenBrush::VPenBrush(const VColor &Color, const VRenderHandle &RenderHandle, con
 }
 VPenBrush::~VPenBrush() {
 	Brush.Object->Release();
-	Brush.Object = NULL;
+	Brush.Object = nullptr;
 }
 ID2D1SolidColorBrush *VPenBrush::GetDxBrush() const {
 	return Brush.Get();
@@ -25,7 +25,7 @@ ID2D1StrokeStyle *VPenBrush::GetStrokeStyle() const {
 }
 void VPenBrush::SetStrokeStyle(ID2D1StrokeStyle *Style) {
 	StrokeStyle.~VCOMPointer();
-	StrokeStyle = Style;
+	StrokeStyle.Object = Style;
 }
 float VPenBrush::GetThickness() const {
 	return Thickness;

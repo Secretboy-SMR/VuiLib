@@ -138,8 +138,13 @@ public:
 template <class COMObjectType>
 class VCOMPointer {
 public:
+	VCOMPointer() {
+		Object	  = NULL;
+		Allocator = nullptr;
+	}
 	VCOMPointer(const VCOMPointer<COMObjectType> &Pointer, VAllocator *TargetAllocator) {
-		Object = Pointer.Object;
+		Object	  = Pointer.Object;
+		Allocator = nullptr;
 
 		if (Allocator) {
 			Allocator->AllocatorMemory.push_back({new VCOMDeleter, (void *)this});
@@ -160,7 +165,7 @@ public:
 		Object = Ptr;
 	}
 	~VCOMPointer() {
-		if (Allocator != nullptr) {
+		if (Allocator != nullptr && !Allocator->AllocatorMemory.empty()) {
 			for (auto Iterator = Allocator->AllocatorMemory.begin(); Iterator != Allocator->AllocatorMemory.end();
 				 ++Iterator) {
 				if ((void *)(*Iterator).Pointer == (void *)this) {

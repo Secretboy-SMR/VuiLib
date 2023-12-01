@@ -65,10 +65,15 @@ VImage::VImage(const VString &FilePath, const VRenderHandle &RenderHandle) : Dir
 	VDXObjectSafeFree(&IWICFrame);
 	VDXObjectSafeFree(&IWICConverter);
 }
-VImage::VImage(ID2D1Bitmap *IBitmap) : DirectXBitmap(IBitmap) {
+VImage::VImage(ID2D1Bitmap *IBitmap) : DirectXBitmap() {
+	DirectXBitmap.Object = IBitmap;
 }
 VImage::~VImage() {
-	VDXObjectSafeFree(&DirectXBitmap.Object);
+	if (DirectXBitmap.Allocator != nullptr) {
+		DirectXBitmap.~VCOMPointer();
+	} else {
+		VDXObjectSafeFree(&DirectXBitmap.Object);
+	}
 }
 
 int VImage::GetWidth() const {
